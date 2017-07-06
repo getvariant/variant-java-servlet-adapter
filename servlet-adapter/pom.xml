@@ -72,7 +72,7 @@
 			       <reuseForks>false</reuseForks>
 			       <systemPropertyVariables>
                       <variant.version>${variant.version}</variant.version>
-                      <variant.server.project.dir>../variant/SERVER</variant.server.project.dir>
+                      <variant.server.project.dir>../../variant/SERVER</variant.server.project.dir>
                 </systemPropertyVariables>
 <!--                <excludedGroups>com.variant.client.servlet.test.Remote</excludedGroups> -->
                </configuration>
