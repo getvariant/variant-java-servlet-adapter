@@ -115,5 +115,10 @@ public class ServletSessionImpl implements ServletSession {
 		bareSession.triggerEvent(event);
 	}
 
+	@Override
+	public void addExpirationListener(ExpirationListener listener) {
+		bareSession.addExpirationListener(listener);
+	}
+
 
 }

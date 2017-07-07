@@ -1,5 +1,7 @@
 package com.variant.client.servlet.impl;
 
+import java.util.LinkedHashMap;
+
 import javax.servlet.http.HttpServletRequest;
 
 import com.typesafe.config.Config;
@@ -7,7 +9,6 @@ import com.variant.client.ClientException;
 import com.variant.client.Connection;
 import com.variant.client.Session;
 import com.variant.client.VariantClient;
-import com.variant.client.impl.SessionImpl;
 import com.variant.client.servlet.ServletConnection;
 import com.variant.client.servlet.ServletSession;
 import com.variant.client.servlet.ServletVariantClient;
@@ -22,9 +23,11 @@ import com.variant.core.schema.Schema;
 
 public class ServletConnectionImpl implements ServletConnection {
 
-	private static final String ATTR_NAME = "variant-wrap-session";
 	private final ServletVariantClient wrapClient;
 	private final Connection bareConnection;
+	
+	// Keep session wrappers in a map keyed by session ID. Expired sessions remove themselves.
+	private final LinkedHashMap<String, ServletSessionImpl> sessionMap = new LinkedHashMap<String, ServletSessionImpl>();
 	
 	/**
 	 * Wrap the bare session, but only if we haven't already. We do this
@@ -35,17 +38,22 @@ public class ServletConnectionImpl implements ServletConnection {
 	 * @param bareSsn
 	 * @return
 	 */
-	private ServletSessionImpl wrap(Session bareSsn) {
+	private ServletSessionImpl wrap(final Session bareSsn) {
 		
 		if (bareSsn == null) return null;
-		SessionImpl bareSsnImpl = (SessionImpl) bareSsn;  // Hack alert. Cliend code doesn't know about impl. Bug 
 		
 		// If this bare session has already been wrapped, don't re-wrap.
-		ServletSessionImpl result = (ServletSessionImpl) bareSsnImpl.getLocalAttribute(ATTR_NAME);
+		ServletSessionImpl result = sessionMap.get(bareSsn.getId());
 		if (result == null) {
-			// Not yet been wrapped.
+			// Not yet been wrapped.  Add the expiration listener to ensure removal from sessionMap.
 			result = new ServletSessionImpl(this, bareSsn);
-			bareSsnImpl.setLocalAttribute(ATTR_NAME, result);
+			result.addExpirationListener(new Session.ExpirationListener() {
+				
+				@Override public void exec() {
+					sessionMap.remove(bareSsn.getId());
+				}
+			});
+			sessionMap.put(bareSsn.getId(), result);
 		}
 		return result;
 
