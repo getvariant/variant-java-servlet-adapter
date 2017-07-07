@@ -38,11 +38,11 @@ PetClinic :: a Spring Framework demonstration
     <%@ page import="com.variant.client.StateRequest" %>
     <%@ page import="com.variant.client.Session" %>
     <%@ page import="com.variant.client.servlet.VariantFilter" %>
+    <%@ page import="com.variant.client.servlet.demo.PetclinicVariantFilter" %>
     <%
-        // If we're on an instrumented page VariantFilter has put the current state request in http request.
-        StateRequest varRequest = (StateRequest)request.getAttribute(VariantFilter.VARIANT_REQUEST_ATTRIBUTE_NAME);
-        if (varRequest != null) {
-           Session varSession = varRequest.getSession();
+        // If we're on an instrumented page PetclinicVariantFilter has put current Variant session in HTTP request.
+        Session varSession = (Session) request.getAttribute(VariantFilter.VARIANT_SESSION_ATTR_NAME);
+        if (varSession != null) {
     %>
 
 	    <script>

@@ -16,6 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.variant.client.ClientException;
+import com.variant.client.Session;
+import com.variant.client.StateRequest;
 import com.variant.client.StateSelectorByRequestPath;
 import com.variant.client.servlet.util.VariantWebUtils;
 import com.variant.core.StateRequestStatus;
@@ -126,10 +128,35 @@ public class VariantFilter implements Filter {
 	private Schema schema;
 	
 	//---------------------------------------------------------------------------------------------//
+	//  Variant related lifecycle methods, which client code may re-implement to add functionality //
+	//---------------------------------------------------------------------------------------------//
+
+	
+	protected void stateInstrumented(ServletRequest request, ServletResponse response, State state) {
+		if (LOG.isDebugEnabled()) {
+			HttpServletRequest httpRequest = (HttpServletRequest) request;
+			LOG.debug("Path [" + VariantWebUtils.requestUrl(httpRequest) + "] is instrumented");
+		}
+	}
+	
+	protected void sessionObtained(ServletRequest request, ServletResponse response, Session session) {
+		if (LOG.isDebugEnabled()) {
+			LOG.debug("Variant session [" + session.getId() + "] obtained");
+		}
+	}
+
+	protected void sessionTargeted(ServletRequest request, ServletResponse response, StateRequest stateRequest) {
+		if (LOG.isDebugEnabled()) {
+			LOG.debug("Variant session [" + stateRequest.getSession().getId() + "] targeted for state [" + stateRequest.getState() + "]");
+		}
+	}
+
+	//---------------------------------------------------------------------------------------------//
 	//                                          PUBLIC                                             //
 	//---------------------------------------------------------------------------------------------//
 
-	public static final String VARIANT_REQUEST_ATTRIBUTE_NAME = "variant-state-request";
+	public static final String VARIANT_SESSION_ATTR_NAME = "variant-session";
+
 	/**
 	 * Initialize the Variant servlet adapter and parse the experiment schema.
 	 * @see Filter#init(FilterConfig)
@@ -173,16 +200,18 @@ public class VariantFilter implements Filter {
 			
 			if (state == null) {
 				// Variant doesn't know about this path.
-				if (LOG.isTraceEnabled()) {
-					LOG.trace("Path [" + url + "] is not instrumented");
-				}
+				if (LOG.isTraceEnabled()) LOG.trace("Path [" + url + "] is not instrumented");
 			}
 			else {
-				// This path is instrumented by Variant.
+
+				// Path instrumented by Variant.
+				stateInstrumented(request, response, state);
 				variantSsn = connection.getOrCreateSession(httpRequest);
-		        variantSsn.setAttribute("user-agent", httpRequest.getHeader("User-Agent"));
+				request.setAttribute(VARIANT_SESSION_ATTR_NAME, variantSsn);
+				sessionObtained(request, response, variantSsn);				
 				stateRequest = variantSsn.targetForState(state);
-				httpRequest.setAttribute(VARIANT_REQUEST_ATTRIBUTE_NAME, stateRequest);
+				sessionTargeted(request, response, stateRequest);				
+
 				resolvedPath = stateRequest.getResolvedParameters().get("path");
 				isForwarding = !resolvedPath.equals(state.getParameter("path"));
 				
@@ -246,4 +275,5 @@ public class VariantFilter implements Filter {
 		catch (Throwable e) {}
 	}
 
+	
 }
