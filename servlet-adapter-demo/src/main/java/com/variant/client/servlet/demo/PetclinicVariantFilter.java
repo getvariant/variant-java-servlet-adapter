@@ -23,9 +23,10 @@ import com.variant.client.servlet.VariantFilter;
 public class PetclinicVariantFilter extends VariantFilter {
 	
 	/**
-	 * Whenever the servlet adapter obtains a foreground session, save the User-Agent header
-	 * from the incoming request. This will be used by the server side user hooks in order
-	 * to disqualify or target user sessions based on what Web browser they are coming from.
+	 * Whenever the base {@link VariantFilter} obtains a foreground session, the User-Agent header
+	 * from the incoming request is saved as a session attribute. This will be used by the server 
+	 * side user hooks in order to disqualify or target user sessions based on what Web browser they
+	 * are coming from.
 	 * 
 	 */
 	@Override
