@@ -49,14 +49,14 @@ PetClinic :: a Spring Framework demonstration
 	 		variant.boot({
 	   			url:"<%=varSession.getConfig().getString("server.url")%>",
 	   			sid:"<%=varSession.getId()%>",
-               cid:"<%=varSession.getConnection().getId()%>",
+				cid:"<%=varSession.getConnection().getId()%>",
 	   			success: function(data, textStatus) {
 	   				console.log("POST returned status '" + textStatus + "' and body '" + data + "'");}
 			});
 	   
 			$(document).ready(function() {   
 	   			$(':submit').click(function() {
-	      		new variant.Event("CLICK", $(this).html()).send();   
+	   			new variant.Event("CLICK", $(this).html()).send();   
 	  		 });
 		});
 	    </script>
