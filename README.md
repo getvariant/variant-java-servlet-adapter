@@ -11,5 +11,6 @@ Variant servlet adapter for the Java client contains the following three compone
 * Implementations of all environment-dependent in terms of servlet API objects. 
 * [Servlet adapter wrapper API](https://github.com/getvariant/variant-java-servlet-adapter/tree/master/servlet-adapter) around the bare Java client replaces environment contingent method signatures with equivalent ones expressed in terms of the Servlet API classes.
 
-[Documentation](http://www.getvariant.com/docs/0-7/clients/variant-java-client/#section-3) | [Javadoc](https://getvariant.github.io/variant-java-servlet-adapter/)
+[__Documentation__](http://www.getvariant.com/docs/0-7/clients/variant-java-client/#section-3) | [__Javadoc__](https://getvariant.github.io/variant-java-servlet-adapter/)
+
 Updated on 19 July 2017 for release 1.0.0.
