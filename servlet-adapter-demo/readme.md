@@ -6,24 +6,8 @@
 
 __Variant demo application__ is built with the popular [Pet Clinic webapp](https://github.com/spring-projects/spring-petclinic), available from the Sprinig MVC Web framework. This doesn't mean that your application must also use Spring MVC — we're using it for demonstration purposes only, as it provides the opportunity to demonstrate both Variant's [bare Java client](http://getvariant.com/docs/0-7/clients/variant-java-client/#section-2) as well as the [servlet adapter](/servlet-adapter).
 
-∎ Clone the demo application to your local system:
-```shell
-% git clone https://github.com/getvariant/variant-java-servlet-adapter.git
-```
-
-∎ Chane to the demo application directory:
-```shell
-% cd servlet-adapter-demo
-```
-
-∎ With the server already running (see <a href="#section-2.1">Section 2.1 Installing and Running Variant Server</a> for details), start the demo application:
-```shell
-% mvn tomcat7:run
-```
-
-Out-of-the-box, the demo application is looking for Variant server at the URL `http://localhost:5377/variant`. If your server is running elsewhere, you must update the <span class="variant-code">server.url</span> property in the Variant client configuration file `src/main/resources/variant.conf` and restart the demo application.
-
-The demo application is accessible at `http://localhost:9966/petclinic/`.
+1. [Install Variant Software](http://www.getvariant.com/docs/0-7/installation-and-demo/#section-2) and start Variant experiment server.
+2. Follow [these instructions](http://www.getvariant.com/docs/0-7/installation-and-demo/#section-4) to deploy this demo application.
 
 
 Updated on 19 July 2017.
