@@ -1,9 +1,10 @@
-# Servlet Adapter for Variant Java Client
-## Variant Demo Application
+# Variant Demo Application
 ### Release 1.0.0
 #### Requires: Java 7 or later, Java Servlet API 2.4 or later, Variant Client 0.7 + Variant Servlet Adapter
 
-[__Variant demo application__](http://www.getvariant.com/docs/0-7/installation-and-demo/#section-3) is built with the popular [Pet Clinic webapp](href="https://github.com/spring-projects/spring-petclinic), available from the Sprinig MVC Web framework. This doesn't mean that your application must also use Spring MVC — we're using it for demonstration purposes only, as it provides the opportunity to demonstrate both Variant's [bare Java client](/docs/0-7/clients/variant-java-client/#section-2) as well as the [servlet adapter](servlet-adapter/readme.md).
+[__Documentation__](http://www.getvariant.com/docs/0-7/installation-and-demo/#section-3)
+
+__Variant demo application__ is built with the popular [Pet Clinic webapp](https://github.com/spring-projects/spring-petclinic), available from the Sprinig MVC Web framework. This doesn't mean that your application must also use Spring MVC — we're using it for demonstration purposes only, as it provides the opportunity to demonstrate both Variant's [bare Java client](http://getvariant.com/docs/0-7/clients/variant-java-client/#section-2) as well as the [servlet adapter](/servlet-adapter).
 
 ∎ Clone the demo application to your local system:
 ```shell
@@ -22,5 +23,7 @@
 
 Out-of-the-box, the demo application is looking for Variant server at the URL `http://localhost:5377/variant`. If your server is running elsewhere, you must update the <span class="variant-code">server.url</span> property in the Variant client configuration file `src/main/resources/variant.conf` and restart the demo application.
 
-The demo application is accessible at (http://localhost:9966/petclinic/).
+The demo application is accessible at `http://localhost:9966/petclinic/`.
+
+
 Updated on 19 July 2017.
