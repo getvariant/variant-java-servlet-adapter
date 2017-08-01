@@ -40,8 +40,8 @@ This will inflate the following artifacts:
 
 | File        | Description           | 
 | ------------- | ------------- | 
-| variant-java-client-`<release`>.jar | Variant Java client, a.k.a. the bare Java client. The servlet adapter runs on top of it. | 
-| variant-core-`<release`>.jar | Dependent Variant core library. Contains objects shared between the client and the server code bases. | 
+| `variant-java-client-<release>.jar` | Variant Java client, a.k.a. the bare Java client. The servlet adapter runs on top of it. | 
+| `variant-core-<release>.jar` | Dependent Variant core library. Contains objects shared between the client and the server code bases. | 
 | variant.conf | Sample client configuration file containing all default settings. To override any of the defaults, change their values in this file and place it on the host application's classpath. |
 
 2. Install the two JARs above into your local repository:
