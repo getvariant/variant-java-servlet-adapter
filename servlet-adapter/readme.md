@@ -25,15 +25,17 @@ Variant servlet adapter for the Java client contains the following three compone
 2. Unpack the software archive:
 
 ```shell
-% unzip /path/to/variant-java-&lt;release&gt;.zip
+% unzip /path/to/variant-java-<release>.zip
 ```
 
 This will inflate the following artifacts:
 | File        | Description         |
-| ------------- |-------------|
-|variant-java-client-&lt;release&gt;.jar|The "bare" Java client. Any JVM application can use it. Must be present on the host application's classpath. Refer to the <a href="/docs/0-7/clients/variant-java-client/">Variant Java Client User Guide</a> for more information.|
-|variant-core-&lt;release&gt;.jar|Dependent Variant core library. Must be present on the host application's classpath.|
-|variant.conf|Sample configuration file containing all default configuration settings. To override any of the defaults, change their values in this file and place it on the host application's classpath.|
+| ------------- | ------------- |
+| one | two |
+
+| variant-java-client-<release>.jar | The "bare" Java client. Any JVM application can use it. Must be present on the host application's classpath. Refer to the <a href="/docs/0-7/clients/variant-java-client/">Variant Java Client User Guide</a> for more information. |
+| variant-core-&lt;release&gt;.jar|Dependent Variant core library. Must be present on the host application's classpath. |
+| variant.conf|Sample configuration file containing all default configuration settings. To override any of the defaults, change their values in this file and place it on the host application's classpath. |
 
 Install the two JARs above into your local repository:
 
