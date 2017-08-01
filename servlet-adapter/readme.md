@@ -27,26 +27,20 @@ Variant servlet adapter for the Java client contains the following three compone
 ```shell
 % unzip /path/to/variant-java-<release>.zip
 ```
-
 This will inflate the following artifacts:
-| File        | Description         |
-| ------------- | ------------- |
-| one | two |
 
-| variant-java-client-<release>.jar | The "bare" Java client. Any JVM application can use it. Must be present on the host application's classpath. Refer to the <a href="/docs/0-7/clients/variant-java-client/">Variant Java Client User Guide</a> for more information. |
-| variant-core-&lt;release&gt;.jar|Dependent Variant core library. Must be present on the host application's classpath. |
-| variant.conf|Sample configuration file containing all default configuration settings. To override any of the defaults, change their values in this file and place it on the host application's classpath. |
+| File        | Description           | 
+| ------------- | ------------- | 
+| variant-java-client-<release>.jar | Variant Java client, a.k.a. the bare Java client. The servlet adapter runs on top of it. | 
+| variant-core-<release>.jar | Dependent Variant core library. Contains objects shared between the client and the server code bases. | 
+| variant.conf | Sample client configuration file containing all default settings. To override any of the defaults, change their values in this file and place it on the host application's classpath. |
 
-Install the two JARs above into your local repository:
+2. Install the two JARs above into your local repository:
 
 ```shell
-% mvn install:install-file -Dfile=/path/to/variant-java-client-&lt;release&gt;.jar -DgroupId=com.variant \
-                -DartifactId=java-client -Dversion=&lt;release&gt; -Dpackaging=jar
-```
+% mvn install:install-file -Dfile=/path/to/variant-java-client-<release>.jar -DgroupId=com.variant -DartifactId=java-client -Dversion=<release> -Dpackaging=jar
 
-```
-% mvn install:install-file -Dfile=/path/to/variant-core-&lt;release&gt;.jar -DgroupId=com.variant \
-                -DartifactId=variant-core -Dversion=&lt;release&gt; -Dpackaging=jar
+% mvn install:install-file -Dfile=/path/to/variant-core-<release>.jar -DgroupId=com.variant -DartifactId=variant-core -Dversion=<release> -Dpackaging=jar
 ```
 
 Replace &lt;release&gt; with the particular version number you're installing, e.g. "0.7.1".
