@@ -3,7 +3,7 @@
 ### Release 1.0.0
 #### Requires: Java 7 or later, Java Servlet API 2.4 or later, Variant Client 0.7
 
-[__Documentation__](http://www.getvariant.com/docs/0-7/clients/variant-java-client/#section-3) | [__Javadoc__](https://getvariant.github.io/variant-java-servlet-adapter/)
+[__Download__](https://github.com/getvariant/variant-java-servlet-adapter/blob/master/java-client-servlet-adapter-1.0.0.jar) | [__Documentation__](http://www.getvariant.com/docs/0-7/clients/variant-java-client/#section-3) | [__Javadoc__](https://getvariant.github.io/variant-java-servlet-adapter/)
 
 ## 1. Introduction
 
@@ -16,7 +16,7 @@ Variant servlet adapter for the Java client contains the following three compone
 * Implementations of all environment-dependent in terms of servlet API objects. 
 * [Servlet adapter wrapper API](https://github.com/getvariant/variant-java-servlet-adapter/tree/master/servlet-adapter) around the bare Java client replaces environment contingent method signatures with equivalent ones expressed in terms of the Servlet API classes.
 
-## 2. Get Pre-built JAR File
+## 2. Download Pre-built JAR File
 
 1. Download the pre-built file [/variant-java-servlet-adapter/java-client-servlet-adapter-1.0.0.jar](https://github.com/getvariant/variant-java-servlet-adapter/blob/master/java-client-servlet-adapter-1.0.0.jar).
 
@@ -25,7 +25,7 @@ Variant servlet adapter for the Java client contains the following three compone
 % mvn install:install-file -Dfile=/path/to/java-client-servlet-adapter-1.0.0.jar -DgroupId=com.variant -DartifactId=java-client-servlet-adapter -Dversion=1.0.0 -Dpackaging=jar
 ```
 
-## 3. Building Build Your Own
+## 3. Building From Source
 
 ### 3.1 Install Variant Java Client
 
