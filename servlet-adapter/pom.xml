@@ -30,6 +30,26 @@
          <version>[0.7,)</version>
       </dependency>
 
+      <!-- Variant Bare Java Client and transitives -->        
+      <dependency>
+         <groupId>com.variant</groupId>
+         <artifactId>java-client</artifactId>
+         <version>[0.7,)</version>
+      </dependency>
+
+       <dependency>
+          <groupId>org.apache.httpcomponents</groupId>
+          <artifactId>httpclient</artifactId>
+          <version>4.5.1</version>
+        </dependency>        
+
+      <!-- Variant Core -->        
+      <dependency>
+         <groupId>com.variant</groupId>
+         <artifactId>variant-core</artifactId>
+         <version>[0.7,)</version>
+      </dependency>
+
       <!-- Mockito -->	
       <dependency>
          <groupId>org.mockito</groupId>
@@ -73,8 +93,11 @@
 			       <systemPropertyVariables>
                       <variant.version>${variant.version}</variant.version>
                       <variant.server.project.dir>../../variant/SERVER</variant.server.project.dir>
-                </systemPropertyVariables>
-<!--                <excludedGroups>com.variant.client.servlet.test.Remote</excludedGroups> -->
+                   </systemPropertyVariables>
+                   <!-- Exclude the test that requires a server. Bug #87. -->
+                   <excludes>
+                      <exclude>**/ServletSessionTest.java</exclude>
+                   </excludes>               
                </configuration>
             </plugin>
             
