@@ -1,5 +1,5 @@
 # Servlet Adapter for Variant Java Client
-## Wrapper API around Variant Java Client suitable for host application written on top of the Servlet API.
+## Wrapper API for Variant Java Client, suitable for host application written on top of the Servlet API.
 ### Release 1.0.0
 #### Requires: Java 7 or later, Java Servlet API 2.4 or later, Variant Client 0.7
 
