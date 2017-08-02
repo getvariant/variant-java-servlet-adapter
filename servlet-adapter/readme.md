@@ -29,13 +29,63 @@ Note that these libraries in turn have the following transitive dependencies:
 
 Download these dependent libraries and add them to your host application classpath.
 
-## 3. Download Pre-built JAR File
+## 3. Installation With Maven
 
-1. Download the pre-built file [/variant-java-servlet-adapter/blob/master/lib/java-client-servlet-adapter-1.0.0.jar](https://github.com/getvariant/variant-java-servlet-adapter/blob/master/lib/java-client-servlet-adapter-1.0.0.jar).
+1. The pre-bult JAR and its proprietary transitive dependencies an be found in this repository in the [/lib](https://github.com/getvariant/variant-java-servlet-adapter/tree/master/lib) directory. Download these JAR files.
 
-2. If your host applciation uses Maven, install the file in your local Maven repository:
+2. Add the downloaded files to your corporate Maven repository or to your local repository (replacing `<release>` with the particular version number you're installing, e.g. `0.7.1`):
+
 ```shell
+% mvn install:install-file -Dfile=/path/to/variant-java-client-<release>.jar -DgroupId=com.variant -DartifactId=java-client -Dversion=<release> -Dpackaging=jar
+
+% mvn install:install-file -Dfile=/path/to/variant-core-<release>.jar -DgroupId=com.variant -DartifactId=variant-core -Dversion=<release> -Dpackaging=jar
+
 % mvn install:install-file -Dfile=/path/to/java-client-servlet-adapter-1.0.0.jar -DgroupId=com.variant -DartifactId=java-client-servlet-adapter -Dversion=1.0.0 -Dpackaging=jar
+```
+3. Add the following dependency definitions to your host application's `pom.xml` file:
+
+```
+<dependency>
+   <groupId>com.variant</groupId>
+   <artifactId>java-client-servlet-adapter</artifactId>
+   <version>1.0</version>
+</dependency>
+
+<dependency>
+   <groupId>com.variant</groupId>
+   <artifactId>java-client</artifactId>
+   <version>[0.7,)</version>
+</dependency>
+
+<dependency>
+   <groupId>com.variant</groupId>
+   <artifactId>variant-core</artifactId>
+   <version>[0.7,)</version>
+</dependency>
+
+<dependency>
+   <groupId>org.apache.httpcomponents</groupId>
+   <artifactId>httpclient</artifactId>
+   <version>4.5.1</version>
+</dependency>
+
+<dependency>
+   <groupId>com.typesafe</groupId>
+   <artifactId>config</artifactId>
+   <version>1.2.1</version>
+</dependency>
+
+<dependency>
+   <groupId>org.apache.commons</groupId>
+   <artifactId>commons-lang3</artifactId>
+   <version>3.4</version>
+</dependency>
+
+<dependency>
+   <groupId>org.slf4j</groupId>
+   <artifactId>slf4j-api</artifactId>
+   <version>1.7.12</version>
+</dependency>
 ```
 
 ## 4. Building From Source
@@ -57,15 +107,13 @@ This will inflate the following artifacts:
 | `variant-core-<release>.jar` | Dependent Variant core library. Contains objects shared between the client and the server code bases. | 
 | variant.conf | Sample client configuration file containing all default settings. To override any of the defaults, change their values in this file and place it on the host application's classpath. |
 
-2. Install the two JARs above into your local repository:
+2. Install the two JARs above into your local repository (replacing `<release>` with the particular version number you're installing, e.g. `0.7.1`):
 
 ```shell
 % mvn install:install-file -Dfile=/path/to/variant-java-client-<release>.jar -DgroupId=com.variant -DartifactId=java-client -Dversion=<release> -Dpackaging=jar
 
 % mvn install:install-file -Dfile=/path/to/variant-core-<release>.jar -DgroupId=com.variant -DartifactId=variant-core -Dversion=<release> -Dpackaging=jar
 ```
-
-Replace `<release`> with the particular version number you're installing, e.g. "0.7.1".
 
 Variant Java client has a small set of external transitive dependencies, which are not included in the distribution:
 
