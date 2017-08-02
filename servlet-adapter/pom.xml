@@ -23,7 +23,7 @@
     
     <dependencies>
  
-      <!-- Variant Bare Java Client and transitives -->        
+      <!-- Variant Bare Java Client and transitives -->
       <dependency>
          <groupId>com.variant</groupId>
          <artifactId>java-client</artifactId>
@@ -32,7 +32,7 @@
 
       <dependency>
          <groupId>com.variant</groupId>
-         <artifactId>java-client</artifactId>
+         <artifactId>variant-core</artifactId>
          <version>[0.7,)</version>
       </dependency>
 
@@ -41,12 +41,6 @@
           <artifactId>httpclient</artifactId>
           <version>4.5.1</version>
         </dependency>        
-
-      <dependency>
-         <groupId>com.variant</groupId>
-         <artifactId>variant-core</artifactId>
-         <version>[0.7,)</version>
-      </dependency>
 
       <dependency>
          <groupId>com.typesafe</groupId>
@@ -62,7 +56,7 @@
 
       <dependency>
          <groupId>org.slf4j</groupId>
-	 <artifactId>slf4j-api</artifactId>
+	     <artifactId>slf4j-api</artifactId>
          <version>1.7.12</version>
       </dependency>
 
