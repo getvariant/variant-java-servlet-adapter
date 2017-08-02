@@ -3,7 +3,7 @@
 ### Release 1.0.0
 #### Requires: Java 7 or later, Java Servlet API 2.4 or later, Variant Client 0.7
 
-[__Download__](https://github.com/getvariant/variant-java-servlet-adapter/blob/master/java-client-servlet-adapter-1.0.0.jar) | [__Documentation__](http://www.getvariant.com/docs/0-7/clients/variant-java-client/#section-3) | [__Javadoc__](https://getvariant.github.io/variant-java-servlet-adapter/)
+[__Download__](https://github.com/getvariant/variant-java-servlet-adapter/blob/master/lib/java-client-servlet-adapter-1.0.0.jar) | [__Documentation__](http://www.getvariant.com/docs/0-7/clients/variant-java-client/#section-3) | [__Javadoc__](https://getvariant.github.io/variant-java-servlet-adapter/)
 
 ## 1. Introduction
 
@@ -16,18 +16,31 @@ Variant servlet adapter for the Java client contains the following three compone
 * Implementations of all environment-dependent in terms of servlet API objects. 
 * [Servlet adapter wrapper API](https://github.com/getvariant/variant-java-servlet-adapter/tree/master/servlet-adapter) around the bare Java client replaces environment contingent method signatures with equivalent ones expressed in terms of the Servlet API classes.
 
-## 2. Download Pre-built JAR File
+## 2. Classpath Installation
 
-1. Download the pre-built file [/variant-java-servlet-adapter/java-client-servlet-adapter-1.0.0.jar](https://github.com/getvariant/variant-java-servlet-adapter/blob/master/java-client-servlet-adapter-1.0.0.jar).
+The servlet adapter JAR file and its two transitive dependencies can be found in this repository in the [/lib](https://github.com/getvariant/variant-java-servlet-adapter/tree/master/lib) directory. Add all three JAR files on your host application's classpath.
+
+Note that these libraries in turn have the following transitive dependencies:
+
+1. Apache Commons [Lang (3.4+)](https://commons.apache.org/proper/commons-lang/") and [IO (2.4+)](https://commons.apache.org/proper/commons-io/) libraries. 
+2. Apache Components [HTTP Client (4.5+)](https://hc.apache.org/httpcomponents-client-4.5.x/index.html) library. 
+2. [Simple Logging Facade for Java (1.7+)](https://www.slf4j.org/) library. 
+2. [Typesafe Config (1.2+)](https://github.com/typesafehub/config) library. 
+
+Download these dependent libraries and add them to your host application classpath.
+
+## 3. Download Pre-built JAR File
+
+1. Download the pre-built file [/variant-java-servlet-adapter/blob/master/lib/java-client-servlet-adapter-1.0.0.jar](https://github.com/getvariant/variant-java-servlet-adapter/blob/master/lib/java-client-servlet-adapter-1.0.0.jar).
 
 2. If your host applciation uses Maven, install the file in your local Maven repository:
 ```shell
 % mvn install:install-file -Dfile=/path/to/java-client-servlet-adapter-1.0.0.jar -DgroupId=com.variant -DartifactId=java-client-servlet-adapter -Dversion=1.0.0 -Dpackaging=jar
 ```
 
-## 3. Building From Source
+## 4. Building From Source
 
-### 3.1 Install Variant Java Client
+### 4.1 Install Variant Java Client
 
 1. [Download Variant Java client software](http://www.getvariant.com/downloads).
 
@@ -56,7 +69,7 @@ Replace `<release`> with the particular version number you're installing, e.g. "
 
 Variant Java client has a small set of external transitive dependencies, which are not included in the distribution:
 
-### 3.2 Build the Servlet Adapter
+### 4.2 Build the Servlet Adapter
 ```shell
 % mvn clean package
 ```
