@@ -58,6 +58,51 @@
 	</dependencyManagement>
 
 	<dependencies>
+		
+        <!-- Variant Java Servlet adapter and its transitive dependencies -->        
+        <dependency>
+           <groupId>com.variant</groupId>
+           <artifactId>java-client</artifactId>
+           <version>[0.7,)</version>
+        </dependency>
+
+      <dependency>
+         <groupId>com.variant</groupId>
+         <artifactId>variant-core</artifactId>
+         <version>[0.7,)</version>
+      </dependency>
+
+       <dependency>
+          <groupId>org.apache.httpcomponents</groupId>
+          <artifactId>httpclient</artifactId>
+          <version>4.5.1</version>
+        </dependency>        
+
+      <dependency>
+         <groupId>com.typesafe</groupId>
+         <artifactId>config</artifactId>
+         <version>1.2.1</version>
+      </dependency>
+
+      <dependency>
+         <groupId>org.apache.commons</groupId>
+	 <artifactId>commons-lang3</artifactId>
+	 <version>3.4</version>
+      </dependency>
+
+      <dependency>
+         <groupId>org.slf4j</groupId>
+	     <artifactId>slf4j-api</artifactId>
+         <version>1.7.12</version>
+      </dependency>
+
+      <dependency>
+         <groupId>org.apache.commons</groupId>
+         <artifactId>commons-collections4</artifactId>
+         <version>4.0</version>
+      </dependency> 
+      <!-- End of Variant dependencies -->		
+
 		<dependency>
 			<groupId>org.jadira.usertype</groupId>
 			<artifactId>usertype.core</artifactId>
@@ -262,15 +307,6 @@
 			<artifactId>datatables-export-itext</artifactId>
 			<version>${dandelion.version}</version>
 		</dependency>
-		
-		<!-- Variant and its dependencies -->        
-		<dependency>
-			<groupId>com.variant</groupId>
-			<artifactId>java-client-servlet-adapter</artifactId>
-			<version>[1.0,)</version>
-		</dependency>
-		    
-        <!-- End of Variant dependencies -->		
 		
 	</dependencies>
 
