@@ -16,10 +16,14 @@ __Variant demo application__ is built with the popular [Pet Clinic webapp](https
 ```
 Note, that Variant server comes pre-configured to run the demo application out-of-the-box. The `/schemata` directory contains the demo experiment schema file `petclinic-schema.json`, and the `/ext` directory contains the `server-extensions-demo-<release>.jar` file, containing the user hooks, required to run the Pet Clinic demo application.
 
-## 2. Clone This Repository
+## 2. Deploy the Demo Appliction
+
+1. Clone This Repository:
 ```
 % git clone https://github.com/getvariant/variant-java-servlet-adapter.git
 ```
+2. Install Maven dependencies
+
 Variant Demo application is built on top of the [servlet adapter](/servlet-adapter). It is included in this repository's `/lib` directory and must be installed in your local Maven repository. Assuming `/lib` to be your current directory:
 
 ```
@@ -30,7 +34,7 @@ Variant Demo application is built on top of the [servlet adapter](/servlet-adapt
 % mvn install:install-file -Dfile=java-client-servlet-adapter-1.0.0.jar -DgroupId=com.variant -DartifactId=java-client-servlet-adapter -Dversion=1.0.0 -Dpackaging=jar
 ```
 
-## 3. Deploy the Demo Application
+3. Deploy the Demo Application
 
 Out-of-the-box, the demo application looks for Variant server at the default URL `http://localhost:5377/variant`. If your server is running elsewhere, you must update the `server.url` property in the Variant client configuration file [variant-java-servlet-adapter/servlet-adapter-demo/src/main/resources/variant.conf](https://github.com/getvariant/variant-java-servlet-adapter/blob/master/servlet-adapter-demo/src/main/resources/variant.conf).
 
