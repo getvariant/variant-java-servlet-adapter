@@ -14,11 +14,18 @@ __Variant demo application__ is built with the popular [Pet Clinic webapp](https
 ```
 % git clone https://github.com/getvariant/variant-java-servlet-adapter.git
 ```
+Out-of-the-box, the demo application looks for Variant server at the default URL `http://localhost:5377/variant`. If your server is running elsewhere, you must update the `server.url` property in the Variant client configuration file [variant-java-servlet-adapter/servlet-adapter-demo/src/main/resources/variant.conf](https://github.com/getvariant/variant-java-servlet-adapter/blob/master/servlet-adapter-demo/src/main/resources/variant.conf).
 
 ∎ Change to the demo application directory:
 ```
 % cd servlet-adapter-demo
 ```
+∎ start the demo application:
+```
+% mvn tomcat7:run
+```
+
+The demo application is accessible at <span class="variant-code">http://localhost:9966/petclinic/</span>.
 
 ## 2. Running
 
@@ -29,20 +36,9 @@ __Variant demo application__ is built with the popular [Pet Clinic webapp](https
 % /path/to/server/bin/variant.sh start
 ```
 
-Out-of-the-box, the demo application looks for Variant server at the default URL `http://localhost:5377/variant`. If your server is running elsewhere, you must update the `server.url` property in the Variant client configuration file `src/main/resources/variant.conf`.
+## 3 Running the Demo Experiment
 
- start the demo application:
-```
-% mvn tomcat7:run
-```
-
-
-The demo application is accessible at <span class="variant-code">http://localhost:9966/petclinic/</span>.
-
-<a name="section-4" class="variant-header-offset"></a>
-<h1><span class="variant-underlined">4<span class="indent"></span>Running the Demo Experiment</span></h1>
-
-The demo experiment is instrumented on the New Owner page. You navigate to it from the home page by clicking "Find Owners", followed by "New Owner". The original page, that the demo application comes with, looks like this:
+The demo experiment is instrumented on the `New Owner` page. You navigate to it from the home page by clicking "Find Owners", followed by "New Owner". The original page, that the demo application comes with, looks like this:
 
 <a href="http://www.getvariant.com/wp-content/uploads/2015/11/outOfTheBox.png"><img class="alignnone wp-image-519 size-large" src="http://www.getvariant.com/wp-content/uploads/2015/11/outOfTheBox-1024x892.png" alt="outOfTheBox" width="610" height="531" /></a>
 
