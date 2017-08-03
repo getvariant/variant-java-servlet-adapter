@@ -42,7 +42,7 @@ Out-of-the-box, the demo application looks for Variant server at the default URL
 ```
 % cd servlet-adapter-demo
 ```
-2. Start the demo application:
+5. Start the demo application:
 ```
 % mvn tomcat7:run
 ```
