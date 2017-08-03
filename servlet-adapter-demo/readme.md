@@ -8,9 +8,9 @@ __Variant demo application__ is built with the popular [Pet Clinic webapp](https
 
 ## 1. Start Variant Server
 
-∎ If you haven't done so yet, [download and install](http://www.getvariant.com/docs/0-7/experiment-server/reference/#section-1) Variant Experiment Server.
+1.1 If you haven't done so yet, [download and install](http://www.getvariant.com/docs/0-7/experiment-server/reference/#section-1) Variant Experiment Server.
 
-∎ Start Variant server:
+1.2 Start Variant server:
 ```
 % /path/to/server/bin/variant.sh start
 ```
