@@ -65,6 +65,7 @@
            <artifactId>java-client-servlet-adapter</artifactId>
            <version>1.0</version>
         </dependency>
+		
         <dependency>
            <groupId>com.variant</groupId>
            <artifactId>java-client</artifactId>
