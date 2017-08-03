@@ -34,15 +34,15 @@ Variant Demo application is built on top of the [servlet adapter](/servlet-adapt
 % mvn install:install-file -Dfile=java-client-servlet-adapter-1.0.0.jar -DgroupId=com.variant -DartifactId=java-client-servlet-adapter -Dversion=1.0.0 -Dpackaging=jar
 ```
 
-3. Deploy the Demo Application
+2. Deploy the Demo Application
 
 Out-of-the-box, the demo application looks for Variant server at the default URL `http://localhost:5377/variant`. If your server is running elsewhere, you must update the `server.url` property in the Variant client configuration file [variant-java-servlet-adapter/servlet-adapter-demo/src/main/resources/variant.conf](https://github.com/getvariant/variant-java-servlet-adapter/blob/master/servlet-adapter-demo/src/main/resources/variant.conf).
 
-∎ Change to the demo application directory:
+2. Change to the demo application directory:
 ```
 % cd servlet-adapter-demo
 ```
-∎ start the demo application:
+2. Start the demo application:
 ```
 % mvn tomcat7:run
 ```
