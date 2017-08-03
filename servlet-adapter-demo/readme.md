@@ -2,7 +2,7 @@
 
 # Variant Demo Application
 ### Release 1.0.0
-#### Requires: Java 7 or later, Java Servlet API 2.4 or later, Variant Client 0.7 + Variant Servlet Adapter
+#### Requires: Java 7 or later, Java Servlet API 2.4 or later, Maven
 
 __Variant demo application__ is built with the popular [Pet Clinic webapp](https://github.com/spring-projects/spring-petclinic), available from the Sprinig MVC Web framework. This doesn't mean that your application must also use Spring MVC — we're using it for demonstration purposes only, as it provides the opportunity to demonstrate both Variant's [bare Java client](http://getvariant.com/docs/0-7/clients/variant-java-client/#section-2) as well as the [servlet adapter](/servlet-adapter).
 
@@ -16,12 +16,25 @@ __Variant demo application__ is built with the popular [Pet Clinic webapp](https
 ```
 Note, that Variant server comes pre-configured to run the demo application out-of-the-box. The `/schemata` directory contains the demo experiment schema file `petclinic-schema.json`, and the `/ext` directory contains the `server-extensions-demo-<release>.jar` file, containing the user hooks, required to run the Pet Clinic demo application.
 
-## 2. Deploy the Demo Application
-
-∎ Clone this repository to your local system:
+## 2. Clone this repository to your local system:
 ```
 % git clone https://github.com/getvariant/variant-java-servlet-adapter.git
 ```
+
+## 3. Install the Servlet Adapter and Dependent Libraries
+
+Variant Demo application is built on top of the [servlet adapter](/servlet-adapter). It is included in this repository's `/lib` directory and must be installed in your local Maven repository. Assuming `/lib` to be your current directory:
+
+```
+% mvn install:install-file -Dfile=variant-java-client-<release>.jar -DgroupId=com.variant -DartifactId=java-client -Dversion=<release> -Dpackaging=jar
+
+% mvn install:install-file -Dfile=variant-core-<release>.jar -DgroupId=com.variant -DartifactId=variant-core -Dversion=<release> -Dpackaging=jar
+
+% mvn install:install-file -Dfile=java-client-servlet-adapter-1.0.0.jar -DgroupId=com.variant -DartifactId=java-client-servlet-adapter -Dversion=1.0.0 -Dpackaging=jar
+```
+
+## 4. Deploy the Demo Application
+
 Out-of-the-box, the demo application looks for Variant server at the default URL `http://localhost:5377/variant`. If your server is running elsewhere, you must update the `server.url` property in the Variant client configuration file [variant-java-servlet-adapter/servlet-adapter-demo/src/main/resources/variant.conf](https://github.com/getvariant/variant-java-servlet-adapter/blob/master/servlet-adapter-demo/src/main/resources/variant.conf).
 
 ∎ Change to the demo application directory:
