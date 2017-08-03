@@ -1,3 +1,5 @@
+![Variant Logo](https://drive.google.com/open?id=0ByuN0K9dNE9fcUQzalZtcktWcE0)
+
 # Servlet Adapter for Variant Java Client And Related Objects.
 
 ### Table of Contents:
