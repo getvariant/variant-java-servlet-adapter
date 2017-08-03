@@ -1,6 +1,9 @@
+![Variant Logo](http://www.getvariant.com/wp-content/uploads/2016/07/VariantLogoSquare-100.png)
+
 # Servlet Adapter for Variant Java Client
 ## Wrapper API for Variant Java Client, suitable for host application written on top of the Servlet API.
 ### Release 1.0.0
+
 #### Requires: Java 7 or later, Java Servlet API 2.4 or later, Variant Client 0.7
 
 [__Download__](https://github.com/getvariant/variant-java-servlet-adapter/blob/master/lib/java-client-servlet-adapter-1.0.0.jar) | [__Documentation__](http://www.getvariant.com/docs/0-7/clients/variant-java-client/#section-3) | [__Javadoc__](https://getvariant.github.io/variant-java-servlet-adapter/)
