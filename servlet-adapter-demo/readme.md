@@ -6,7 +6,17 @@
 
 __Variant demo application__ is built with the popular [Pet Clinic webapp](https://github.com/spring-projects/spring-petclinic), available from the Sprinig MVC Web framework. This doesn't mean that your application must also use Spring MVC — we're using it for demonstration purposes only, as it provides the opportunity to demonstrate both Variant's [bare Java client](http://getvariant.com/docs/0-7/clients/variant-java-client/#section-2) as well as the [servlet adapter](/servlet-adapter).
 
-## 1. Installation
+## 1. Start Variant Server
+
+∎ If you haven't done so yet, [download and install](http://www.getvariant.com/docs/0-7/experiment-server/reference/#section-1) Variant Experiment Server.
+
+∎ Start Variant server:
+```
+% /path/to/server/bin/variant.sh start
+```
+Note, that Variant server comes pre-configured to run the demo application out-of-the-box. The `/schemata` directory contains the demo experiment schema file `petclinic-schema.json`, and the `/ext` directory contains the `server-extensions-demo-<release>.jar` file, containing the user hooks, required to run the Pet Clinic demo application.
+
+## 2. Deploy the Demo Application
 
 ∎ Clone this repository to your local system:
 ```
@@ -25,16 +35,7 @@ Out-of-the-box, the demo application looks for Variant server at the default URL
 
 The demo application is accessible at <span class="variant-code">http://localhost:9966/petclinic/</span>.
 
-## 2. Running
-
-∎ If you haven't done so yet, [download and install](http://www.getvariant.com/docs/0-7/experiment-server/reference/#section-1) Variant Experiment Server.
-
-∎ Start Variant server:
-```
-% /path/to/server/bin/variant.sh start
-```
-
-## 3 Running the Demo Experiment
+## 3 Run the Demo Experiment
 
 The demo experiment is instrumented on the `New Owner` page. You navigate to it from the home page by clicking "Find Owners", followed by "New Owner". The original page, that the demo application comes with, looks like this:
 
