@@ -1,4 +1,4 @@
-![Variant Logo](https://github.com/getvariant/variant/blob/release/0.7.1/DOC/logo/VariantLogoSquare-100.png)
+![Variant Logo](http://www.getvariant.com/wp-content/uploads/2016/07/VariantLogoSquare-100.png)
 
 # Servlet Adapter for Variant Java Client And Related Objects.
 
