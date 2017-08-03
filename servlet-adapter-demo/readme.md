@@ -45,6 +45,8 @@ Out-of-the-box, the demo application looks for Variant server at the default URL
 
 If it all went well, you will see the following console output:
 ```
+INFO  2017-08-03 16:46:42 VariantConfigLoader - Found config resource [/variant.conf] as [/private/tmp/demo/variant-java-servlet-adapter/servlet-adapter-demo/target/classes/variant.conf]
+INFO  2017-08-03 16:46:43 VariantFilter - Connected to schema [petclinic]
 ```
 The demo application  accessible at <span class="variant-code">http://localhost:9966/petclinic/</span>.
 
