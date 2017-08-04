@@ -16,6 +16,14 @@ __Variant demo application__ is built with the popular [Pet Clinic webapp](https
 ```
 Note, that Variant server comes pre-configured to run the demo application out-of-the-box. The `/schemata` directory contains the demo experiment schema file `petclinic-schema.json`, and the `/ext` directory contains the `server-extensions-demo-<release>.jar` file, containing the user hooks, required to run the Pet Clinic demo application.
 
+If all went well, the server console output should look something like this:
+```
+[info] c.v.c.u.VariantConfigLoader - Found config resource [/variant.conf] as [/private/tmp/demo/variant-server-0.7.1/conf/variant.conf]
+[info] c.v.s.s.SchemaDeployerFromFS - Deployed schema [petclinic], ID [1CC06C031F2D3F85]:
+   NewOwnerTest:[outOfTheBox (control), tosCheckbox, tosAndMailCheckbox] (ON)
+[info] c.v.s.b.VariantServerImpl - Variant Experiment Server release 0.7.1 bootstrapped on :5377/variant in 00:00.084.[/crayon]
+```
+
 ## 2. Deploy the Demo Appliction
 
 1. Clone This Repository:
@@ -47,7 +55,7 @@ Out-of-the-box, the demo application looks for Variant server at the default URL
 % mvn tomcat7:run
 ```
 
-If it all went well, you will see the following console output:
+If all went well, you will see the following console output:
 ```
 INFO  2017-08-03 16:46:42 VariantConfigLoader - Found config resource [/variant.conf] as [/private/tmp/demo/variant-java-servlet-adapter/servlet-adapter-demo/target/classes/variant.conf]
 INFO  2017-08-03 16:46:43 VariantFilter - Connected to schema [petclinic]
