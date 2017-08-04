@@ -35,9 +35,9 @@ If all went well, the server console output should look something like this:
 Variant Demo application is built on top of the [servlet adapter](/servlet-adapter). It is included in this repository's `/lib` directory and must be installed in your local Maven repository. Assuming `/lib` to be your current directory:
 
 ```
-% mvn install:install-file -Dfile=variant-java-client-<release>.jar -DgroupId=com.variant -DartifactId=java-client -Dversion=<release> -Dpackaging=jar
+% mvn install:install-file -Dfile=variant-java-client-0.7.1.jar -DgroupId=com.variant -DartifactId=java-client -Dversion=0.7.1 -Dpackaging=jar
 
-% mvn install:install-file -Dfile=variant-core-<release>.jar -DgroupId=com.variant -DartifactId=variant-core -Dversion=<release> -Dpackaging=jar
+% mvn install:install-file -Dfile=variant-core-0.7.1.jar -DgroupId=com.variant -DartifactId=variant-core -Dversion=0.7.1 -Dpackaging=jar
 
 % mvn install:install-file -Dfile=java-client-servlet-adapter-1.0.0.jar -DgroupId=com.variant -DartifactId=java-client-servlet-adapter -Dversion=1.0.0 -Dpackaging=jar
 ```
