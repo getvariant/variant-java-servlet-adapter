@@ -52,7 +52,7 @@ If it all went well, you will see the following console output:
 INFO  2017-08-03 16:46:42 VariantConfigLoader - Found config resource [/variant.conf] as [/private/tmp/demo/variant-java-servlet-adapter/servlet-adapter-demo/target/classes/variant.conf]
 INFO  2017-08-03 16:46:43 VariantFilter - Connected to schema [petclinic]
 ```
-The demo application  accessible at <span class="variant-code">http://localhost:9966/petclinic/</span>.
+The demo application is accessible at <span class="variant-code">http://localhost:9966/petclinic/</span>.
 
 ## 3 Run the Demo Experiment
 
@@ -60,56 +60,53 @@ The demo experiment is instrumented on the `New Owner` page. You navigate to it 
 
 <a href="http://www.getvariant.com/wp-content/uploads/2015/11/outOfTheBox.png"><img class="alignnone wp-image-519 size-large" src="http://www.getvariant.com/wp-content/uploads/2015/11/outOfTheBox-1024x892.png" alt="outOfTheBox" width="610" height="531" /></a>
 
-The demo experiment introduces two new variations of this page: <span class="variant-code">tosCheckBox</span> and <span class="variant-code">tos&amp;mailCheckbox</span> as illustrated below.
+The demo experiment introduces two new variations of this page: `tosCheckBox` and `tos&amp;mailCheckbox` as illustrated below.
 
 <img class="alignnone size-large wp-image-517" src="http://www.getvariant.com/wp-content/uploads/2015/11/tosCheckbox-1024x954.png" alt="tosCheckbox" width="610" height="568" />
 
-The <span class="variant-code">tosCheckBox</span> variant adds to the control experience the ToS (terms of service) check box, presumably, on insistence of the legal department.
+The `tosCheckBox` variant adds to the control experience the ToS (terms of service) check box, presumably, on insistence of the legal department.
 
 <img class="alignnone size-large wp-image-518" src="http://www.getvariant.com/wp-content/uploads/2015/11/tosmailCheckbox-1024x1000.png" alt="tos&amp;mailCheckbox" width="610" height="596" />
 
-The <span class="variant-code">tos&amp;mailCheckbox</span> variant adds the email list opt-in check box in addition to the ToS checkbox. 
+The `tos&amp;mailCheckbox` variant adds the email list opt-in check box in addition to the ToS checkbox. 
 
 The metric we're after in this experiment is the next page conversion rate, i.e. the ratio of visitors who completed the form and ended up on the Owner Information page to those who came to the New Owner page. 
 
-In order to demonstrate the power of <a href="/docs/0-7/experiment-server/server-user-guide/#section-8">Variant Server's Extension API</a>, the demo application is configured with two user hooks: <span class="variant-code"><a href="https://github.com/getvariant/variant-server-extapi/blob/master/server-extapi-demo/src/main/java/com/variant/server/ext/demo/FirefoxDisqualHook.java" target="_blank">FirefoxDisqualifier&nbsp;<i class="fa fa-external-link"></i></a></span> and <span class="variant-code"><a href="https://github.com/getvariant/variant-server-extapi/blob/master/server-extapi-demo/src/main/java/com/variant/server/ext/demo/ChromeTargetingHook.java" target="_blank">ChromeTargeter&nbsp;<i class="fa fa-external-link"></i></a></span>. The former disqualifies all traffic coming from a Firefox browser, and the latter targets all traffic coming from a Chrome browser to the control experience. 
+In order to demonstrate the power of <a href="/docs/0-7/experiment-server/server-user-guide/#section-8">Variant Server's Extension API</a>, the demo application is configured with two user hooks: <a href="https://github.com/getvariant/variant-server-extapi/blob/master/server-extapi-demo/src/main/java/com/variant/server/ext/demo/FirefoxDisqualHook.java" target="_blank">FirefoxDisqualifier</a> and <a href="https://github.com/getvariant/variant-server-extapi/blob/master/server-extapi-demo/src/main/java/com/variant/server/ext/demo/ChromeTargetingHook.java" target="_blank">ChromeTargeter</a>. The former disqualifies all traffic coming from a Firefox browser, and the latter targets all traffic coming from a Chrome browser to the control experience. 
 
 If you visit the Petclinic site using a Firefox browser, your experience will be equivalent to there being no experiment at all: you will always see the existing experience and your visit to the New Owner page will not trigger Variant events. Similarly, if you use a Chrome browser, you will always see the existing experience. However, when you touch instrumented pages Variant will generate and log experiment related events. 
 
 Although this behavior may seem contrived, it demonstrates how easy it is to inject experiment qualification or targeting semantics into your Variant server.
 
-If you navigate to the New Owner page in any other browser, you may land on either of the three variants. Once there, you will notice the <span class="variant-code">STATE-VISIT</span> event in the server log after a short delay due to the asynchronous nature of the server event writer:
+If you navigate to the New Owner page in any other browser, you may land on either of the three variants. Once there, you will notice the `STATE-VISIT` event in the server log after a short delay due to the asynchronous nature of the server event writer:
 
-[crayon]
+```
 [info] c.v.s.e.EventFlusherAppLogger - {event_name:'$STATE_VISIT', created_on:'1500325855912', event_value:'newOwner', session_id:'55D817210864DB27', event_experiences:[{test_name:'NewOwnerTest', experience_name:'tosCheckbox', is_control:false}], event_params:[{key:'PATH', value:'/owners/new/variant/newOwnerTest.tosCheckbox'}, {key:'$REQ_STATUS', value:'OK'}]}
 [info] c.v.s.e.EventWriter$FlusherThread - Flushed 1 event(s) in 00:00:00.002
-[/crayon]
+```
 
-The <span class="variant-code">STATE-VISIT</span> event is automatically generated by Variant each time a user session requests a state&mdash;which is to say a web page, in the case of traditional Web applications,&mdash;that is instrumented by a live Variant test. User code has access to these events and can add application specific parameters which may aid at experiment analysis time.
+`STATE-VISIT` event is automatically generated by Variant each time a user session requests a state—which is to say a web page, in the case of traditional Web applications,—that is instrumented by a live Variant test. User code has access to these events and can add application specific parameters which may aid at experiment analysis time.
 
 Out-of-the-box, Variant server's event writer is configured to flush event to the server log file. Likely, you will opt for an event flusher that writes events to some more manageable persistent storage. Variant Server comes with event flushers for H2 and PostgreSQL relational databases, which you can <a href="/docs/0-7/experiment-server/reference/#section-3">configure to match your environment</a>. It is also easy to configure Variant server to use a custom event flusher.
 
-If you happen to return to the New Owner page, you will always see the same experience &mdash; the feature known as targeting stability. The Pet Clinic demo application comes pre-configured with the HTTP cookie based implementation. If you want to let Variant re-target your session, simply remove both <span class="variant-code">variant-target</span> and <span class="variant-code">variant-ssnid</span> cookies from your browser.
+If you happen to return to the New Owner page, you will always see the same experience &mdash; the feature known as targeting stability. The Pet Clinic demo application comes pre-configured with the HTTP cookie based implementation. If you want to let Variant re-target your session, simply remove both `variant-target` and `variant-ssnid` cookies from your browser.
 
 <a name="section-5" class="variant-header-offset"></a>
 <h1><span class="variant-underlined">5<span class="indent"></span>Discussion</span></h1>
 
 In this section we describe in detail the steps involved in creating and executing the demo test you just ran in the previous section.
 
-<a name="section-5.1" class="variant-header-offset"></a>
-<h2><span class="variant-underlined">5.1. Experience Implementation</span></h2>
+## 4. Discussion
 
 The very first task in creating a new online experiment is to implement the variant experiences that will be compared to the existing code path. To accomplish this, we did the following:
 
-<span class="tombstone">∎</span> Created controller mappings in the class <span class="variant-code"><a href="https://github.com/getvariant/variant-java-servlet-adapter/blob/master/servlet-adapter-demo/src/main/java/org/springframework/samples/petclinic/web/OwnerController.java#L79-L117" target="_blank">OwnerController.java&nbsp;<i class="fa fa-external-link"></i></a></span> for the new resource paths <span class="variant-code">/owners/new/variant/newOwnerTest.tosCheckbox</span> and <span class="variant-code">/owners/new/variant/newOwnerTest.tosAndMailCheckbox</span> &mdash; the entry points into the new experiences. Whenever Variant targets a session for a non-control variant of the <span class="variant-code">newOwner</span> page, it will forward the current HTTP request to that path. Otherwise, the request will proceed to the control page at the originally requested path <span class="variant-code">/owners/new/</span>.
+1. Created controller mappings in the class <a href="https://github.com/getvariant/variant-java-servlet-adapter/blob/master/servlet-adapter-demo/src/main/java/org/springframework/samples/petclinic/web/OwnerController.java#L79-L117" target="_blank">OwnerController.java</a> for the new resource paths `/owners/new/variant/newOwnerTest.tosCheckbox` and `/owners/new/variant/newOwnerTest.tosAndMailCheckbox` — the entry points into the new experiences. Whenever Variant targets a session for a non-control variant of the `newOwner` page, it will forward the current HTTP request to that path. Otherwise, the request will proceed to the control page at the originally requested path `/owners/new/`.
 
-<span class="tombstone">∎</span> Created two new JSP pages <span class="variant-code"><a href="https://github.com/getvariant/variant-java-servlet-adapter/blob/master/servlet-adapter-demo/src/main/webapp/WEB-INF/jsp/owners/createOrUpdateOwnerForm__newOwnerTest.tosCheckbox.jsp" target="_blank">createOrUpdateOwnerForm__newOwnerTest.tosCheckbox.jsp&nbsp;<i class="fa fa-external-link"></i></a></span> and <span class="variant-code"><a href="https://github.com/getvariant/variant-java-servlet-adapter/blob/master/servlet-adapter-demo/src/main/webapp/WEB-INF/jsp/owners/createOrUpdateOwnerForm__newOwnerTest.tosAndMailCheckbox.jsp"  target="_blank">createOrUpdateOwnerForm__newOwnerTest.tosAndMailCheckbox.jsp&nbsp;<i class="fa fa-external-link"></i></a></span>, implementing the two new variants of the new owner page.
+2. Created two new JSP pages <a href="https://github.com/getvariant/variant-java-servlet-adapter/blob/master/servlet-adapter-demo/src/main/webapp/WEB-INF/jsp/owners/createOrUpdateOwnerForm__newOwnerTest.tosCheckbox.jsp" target="_blank">createOrUpdateOwnerForm__newOwnerTest.tosCheckbox.jsp</a> and <a href="https://github.com/getvariant/variant-java-servlet-adapter/blob/master/servlet-adapter-demo/src/main/webapp/WEB-INF/jsp/owners/createOrUpdateOwnerForm__newOwnerTest.tosAndMailCheckbox.jsp"  target="_blank">createOrUpdateOwnerForm__newOwnerTest.tosAndMailCheckbox.jsp</a>, implementing the two new variants of the new owner page.
 
-<a name="section-5.2" class="variant-header-offset"></a>
-<h2><span class="variant-underlined">5.2. Experiment Instrumentation</span></h2>
 
-<span class="tombstone">∎</span> The first step in instrumenting any Variant experiment is to develop its experiment schema. Variant server comes with the schema <span class="variant-code">petclnic-schema.json</span> already in the <span class="variant-code">/schemata</span> directory:
-[crayon lang="javascript" line="1"]
+3. Created the experiment schema. 
+```
 //
 // Variant Java client + Servlet adapter demo application.
 // Demonstrates instrumentation of a basic Variant experiment.
@@ -195,7 +192,8 @@ The very first task in creating a new online experiment is to implement the vari
       }                                                     
    ]                                                         
 }                                                  
-[/crayon]
+```
+Note, that Variant server comes out-of-the-boxwith this schema already in the `schemata` directory.
 
 The two states (lines 14-30) correspond to the two consecutive pages in the experiment: <span class="variant-code">newOwner</span> and <span class="variant-code">ownerDetail</span>. The sole experiment <span class="variant-code">NewOwnerTest</span> has three experiences (lines 35-49) with equal weights, i.e. roughly equal number of users sessions will be targeted to each of the experiences. The test is instrumented on both pages, although the <span class="variant-code">ownerDetail</span> page is defined as non-variant (lines 68-71), which means that visitors will see the same page regardless of the targeted experience. The <span class="variant-code">newOwner</span> page, however, has two variants: one for each non-control experience (lines 53-66).
 
