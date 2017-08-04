@@ -66,17 +66,21 @@ The demo application is accessible at <span class="variant-code">http://localhos
 
 The demo experiment is instrumented on the `New Owner` page. You navigate to it from the home page by clicking "Find Owners", followed by "New Owner". The original page, that the demo application comes with, looks like this:
 
-<a href="http://www.getvariant.com/wp-content/uploads/2015/11/outOfTheBox.png"><img class="alignnone wp-image-519 size-large" src="http://www.getvariant.com/wp-content/uploads/2015/11/outOfTheBox-1024x892.png" alt="outOfTheBox" width="610" height="531" /></a>
+| <img class="alignnone wp-image-519 size-large" src="http://www.getvariant.com/wp-content/uploads/2015/11/outOfTheBox-1024x892.png" alt="outOfTheBox" width="610" height="531" /> |
+| ------------- |
+| __Fig. 1. The orignal New Owner page.__ | 
+
 
 The demo experiment introduces two new variations of this page called `tosCheckBox` and `tos&mailCheckbox`, as illustrated below.
 
-<img class="alignnone size-large wp-image-517" src="http://www.getvariant.com/wp-content/uploads/2015/11/tosCheckbox-1024x954.png" alt="tosCheckbox" width="610" height="568" />
+| <img class="alignnone size-large wp-image-517" src="http://www.getvariant.com/wp-content/uploads/2015/11/tosCheckbox-1024x954.png" alt="tosCheckbox" width="610" height="568" /> | 
+| ------------- | 
+| __Fig. 2. The `tosCheckBox` variant adds to the control experience the ToS (terms of service) check box, presumably, on insistence of the legal department.__ |
 
-The `tosCheckBox` variant adds to the control experience the ToS (terms of service) check box, presumably, on insistence of the legal department.
-
-<img class="alignnone size-large wp-image-518" src="http://www.getvariant.com/wp-content/uploads/2015/11/tosmailCheckbox-1024x1000.png" alt="tos&mailCheckbox" width="610" height="596" />
-
-The `tos&mailCheckbox` variant adds the email list opt-in check box in addition to the ToS checkbox. 
+| <img class="alignnone size-large wp-image-518" src="http://www.getvariant.com/wp-content/uploads/2015/11/tosmailCheckbox-1024x1000.png" alt="tos&mailCheckbox" width="610" height="596" /> | 
+| ------------- |
+| __Fig. 3. The `tos&mailCheckbox` variant adds the email list opt-in check box in addition to the ToS checkbox.__ | 
+ 
 
 The metric we're after in this experiment is the next page conversion rate, i.e. the ratio of visitors who completed the form and ended up on the Owner Information page to those who came to the New Owner page. 
 
