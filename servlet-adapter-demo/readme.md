@@ -107,12 +107,11 @@ If you happen to return to the New Owner page, you will always see the same expe
 
 ## 4. Discussion
 
-The very first task in creating a new online experiment is to implement the variant experiences that will be compared to the existing code path. To accomplish this, we did the following:
+Any online experiment starts with the implementation of variant experiences that will be compared to the existing code path. To accomplish this, we did the following:
 
 1. Created controller mappings in the class <a href="https://github.com/getvariant/variant-java-servlet-adapter/blob/master/servlet-adapter-demo/src/main/java/org/springframework/samples/petclinic/web/OwnerController.java#L79-L117" target="_blank">OwnerController.java</a> for the new resource paths `/owners/new/variant/newOwnerTest.tosCheckbox` and `/owners/new/variant/newOwnerTest.tosAndMailCheckbox` — the entry points into the new experiences. Whenever Variant targets a session for a non-control variant of the `newOwner` page, it will forward the current HTTP request to that path. Otherwise, the request will proceed to the control page at the originally requested path `/owners/new/`.
 
-2. Created two new JSP pages <a href="https://github.com/getvariant/variant-java-servlet-adapter/blob/master/servlet-adapter-demo/src/main/webapp/WEB-INF/jsp/owners/createOrUpdateOwnerForm__newOwnerTest.tosCheckbox.jsp" target="_blank">createOrUpdateOwnerForm__newOwnerTest.tosCheckbox.jsp</a> and <a href="https://github.com/getvariant/variant-java-servlet-adapter/blob/master/servlet-adapter-demo/src/main/webapp/WEB-INF/jsp/owners/createOrUpdateOwnerForm__newOwnerTest.tosAndMailCheckbox.jsp"  target="_blank">createOrUpdateOwnerForm__newOwnerTest.tosAndMailCheckbox.jsp</a>, implementing the two new variants of the new owner page.
-
+2. Created two new JSP pages [`createOrUpdateOwnerForm__newOwnerTest.tosCheckbox.jsp`](https://github.com/getvariant/variant-java-servlet-adapter/blob/master/servlet-adapter-demo/src/main/webapp/WEB-INF/jsp/owners/createOrUpdateOwnerForm__newOwnerTest.tosCheckbox.jsp) and  [`createOrUpdateOwnerForm__newOwnerTest.tosAndMailCheckbox.jsp`](https://github.com/getvariant/variant-java-servlet-adapter/blob/master/servlet-adapter-demo/src/main/webapp/WEB-INF/jsp/owners/createOrUpdateOwnerForm__newOwnerTest.tosAndMailCheckbox.jsp), implementing the two new variants of the new owner page.
 
 3. Created the experiment schema. 
 ```
