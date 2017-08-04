@@ -54,7 +54,7 @@ INFO  2017-08-03 16:46:43 VariantFilter - Connected to schema [petclinic]
 ```
 The demo application is accessible at <span class="variant-code">http://localhost:9966/petclinic/</span>.
 
-## 3 Run the Demo Experiment
+## 3. Run the Demo Experiment
 
 The demo experiment is instrumented on the `New Owner` page. You navigate to it from the home page by clicking "Find Owners", followed by "New Owner". The original page, that the demo application comes with, looks like this:
 
@@ -116,7 +116,7 @@ The very first task in creating a new online experiment is to implement the vari
 // Copyright © 2015-2016 Variant, Inc. All Rights Reserved.
 
 {
-   'meta':{
+   'meta':{                                                                                 // 10
       'name':'petclinic',
       'comment':'Experiment schema for the Pet Clinic demo application'
    },
@@ -126,7 +126,7 @@ The very first task in creating a new online experiment is to implement the vari
        'name':'newOwner',                                     
        'parameters': {
            'path':'/petclinic/owners/new'
-        }                                                    
+        }                                                                                   // 20
      },                                                    
      {  
        // The Owner Detail page. Note that owner ID is in the path,
@@ -136,7 +136,7 @@ The very first task in creating a new online experiment is to implement the vari
            'path':'/petclinic/owners/~\\d+/'
         }                                                    
      }                                                     
-   ],                                                        
+   ],                                                                                       // 30
    'tests':[                                                 
       {                                                      
          'name':'NewOwnerTest',
@@ -146,7 +146,7 @@ The very first task in creating a new online experiment is to implement the vari
                'name':'outOfTheBox',                                   
                'weight':1,                                  
                'isControl':true                              
-            },                                               
+            },                                                                              // 40
             {                                                
                'name':'tosCheckbox',                                   
                'weight':1                                   
@@ -156,7 +156,7 @@ The very first task in creating a new online experiment is to implement the vari
                'weight':1                                   
             }                                               
          ],                                                  
-         'onStates':[                                         
+         'onStates':[                                                                       // 50
             {                                                
                'stateRef':'newOwner',                    
                'variants':[                                  
@@ -166,7 +166,7 @@ The very first task in creating a new online experiment is to implement the vari
                         'path':'/owners/new/variant/newOwnerTest.tosCheckbox'         
                      }                                          
                   },                                         
-                  {                                          
+                  {                                                                         // 60
                      'experienceRef': 'tosAndMailCheckbox',                   
                    'parameters': {
                         'path':'/owners/new/variant/newOwnerTest.tosAndMailCheckbox'         
@@ -176,7 +176,7 @@ The very first task in creating a new online experiment is to implement the vari
             },
             {                                                
                'stateRef':'ownerDetail',                            
-               'isNonvariant': true
+               'isNonvariant': true                                                         // 70
             }                                                
          ],
          'hooks':[
@@ -186,7 +186,7 @@ The very first task in creating a new online experiment is to implement the vari
             },
             {
                'name':'ChromeTargeter',
-               'class':'com.variant.server.ext.demo.ChromeTargetingHook'
+               'class':'com.variant.server.ext.demo.ChromeTargetingHook'                    // 80
             }
          ]
       }                                                     
