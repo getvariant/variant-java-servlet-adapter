@@ -68,7 +68,7 @@ The demo experiment is instrumented on the `New Owner` page. You navigate to it 
 
 <a href="http://www.getvariant.com/wp-content/uploads/2015/11/outOfTheBox.png"><img class="alignnone wp-image-519 size-large" src="http://www.getvariant.com/wp-content/uploads/2015/11/outOfTheBox-1024x892.png" alt="outOfTheBox" width="610" height="531" /></a>
 
-The demo experiment introduces two new variations of this page: `tosCheckBox` and `tos&amp;mailCheckbox` as illustrated below.
+The demo experiment introduces two new variations of this page called `tosCheckBox` and `tos&amp;mailCheckbox`, as illustrated below.
 
 <img class="alignnone size-large wp-image-517" src="http://www.getvariant.com/wp-content/uploads/2015/11/tosCheckbox-1024x954.png" alt="tosCheckbox" width="610" height="568" />
 
