@@ -209,7 +209,7 @@ The two states (lines 14-30) correspond to the two consecutive pages in the expe
 
 5. Created [FirefoxDisqualifier](https://github.com/getvariant/variant-server-extapi/blob/master/server-extapi-demo/src/main/java/com/variant/server/ext/demo/FirefoxDisqualHook.java) and [ChromeTargeter](https://github.com/getvariant/variant-server-extapi/blob/master/server-extapi-demo/src/main/java/com/variant/server/ext/demo/ChromeTargetingHook.java) user hooks. Out-of-the-box, Variant server comes with the `/ext/server-extensions-demo-0.7.1.jar` JAR file, containing class files for these hooks. See [Variant Experiment Server Reference](http://www.getvariant.com/docs/0-7/experiment-server/reference/#section-4) for details on how to develop for the server extensions API. 
 
-<span class="tombstone">∎</span> Instrumented the submit button on the <span class="variant-code">newOwner</span> page to send a custom <span class="variant-code">CLICK</span> event to the server when the button is pressed by editing the <span class="variant-code"><a href="https://github.com/getvariant/variant-java-servlet-adapter/blob/master/servlet-adapter-demo/src/main/webapp/WEB-INF/jsp/fragments/staticFiles.jsp#L32-L68" target="_blank">staticFiles.jsp&nbsp;<i class="fa fa-external-link"></i></a></span> file.
+6. Instrumented the submit button on the `newOwner` page to send a custom `CLICK` event to the server when the button is pressed by editing the [`staticFiles.jsp`](https://github.com/getvariant/variant-java-servlet-adapter/blob/master/servlet-adapter-demo/src/main/webapp/WEB-INF/jsp/fragments/staticFiles.jsp#L32-L68) file.
 
 
 
