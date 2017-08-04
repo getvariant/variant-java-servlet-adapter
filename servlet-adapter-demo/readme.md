@@ -105,11 +105,6 @@ Out-of-the-box, Variant server's event writer is configured to flush event to th
 
 If you happen to return to the New Owner page, you will always see the same experience &mdash; the feature known as targeting stability. The Pet Clinic demo application comes pre-configured with the HTTP cookie based implementation. If you want to let Variant re-target your session, simply remove both `variant-target` and `variant-ssnid` cookies from your browser.
 
-<a name="section-5" class="variant-header-offset"></a>
-<h1><span class="variant-underlined">5<span class="indent"></span>Discussion</span></h1>
-
-In this section we describe in detail the steps involved in creating and executing the demo test you just ran in the previous section.
-
 ## 4. Discussion
 
 The very first task in creating a new online experiment is to implement the variant experiences that will be compared to the existing code path. To accomplish this, we did the following:
