@@ -76,7 +76,7 @@ The demo experiment introduces two new variations of this page called `tosCheckB
 
 | <img src="http://www.getvariant.com/wp-content/uploads/2015/11/tosCheckbox-1024x954.png" alt="tosCheckbox" width="610" height="568" /> | 
 | ------------- | 
-| __Fig. 2. The `tosCheckBox` variant adds to the control experience<br>the ToS (terms of service) check box, presumably, on insistence of the legal department.__ |
+| __Fig. 2. The `tosCheckBox` variant adds to the control experience<br>the terms of service. check box.__ |
 
 <br>
 
