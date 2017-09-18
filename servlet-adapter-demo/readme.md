@@ -6,6 +6,8 @@
 
 __Variant demo application__ is built with the popular [Pet Clinic webapp](https://github.com/spring-projects/spring-petclinic), available from the Sprinig MVC Web framework. This doesn't mean that your application must also use Spring MVC — we're using it for demonstration purposes only, as it provides the opportunity to demonstrate both Variant's [bare Java client](http://getvariant.com/docs/0-7/clients/variant-java-client/#section-2) as well as the [servlet adapter](/servlet-adapter).
 
+Problems? Open an issue in this repository or email <help@getvariant.com>
+
 ## 1. Start Variant Server
 
 1. If you haven't done so yet, [download and install](http://www.getvariant.com/docs/0-7/experiment-server/reference/#section-1) Variant Experiment Server.
@@ -212,6 +214,6 @@ The two states (lines 14-30) correspond to the two consecutive pages in the expe
 6. Instrumented the submit button on the `newOwner` page to send a custom `CLICK` event to the server when the button is pressed by editing the [`staticFiles.jsp`](https://github.com/getvariant/variant-java-servlet-adapter/blob/master/servlet-adapter-demo/src/main/webapp/WEB-INF/jsp/fragments/staticFiles.jsp#L32-L68) file.
 
 
+Problems? Open an issue in this repository or email <help@getvariant.com>
 
-
-Updated on 19 July 2017.
+Updated on 17 September 2017.
