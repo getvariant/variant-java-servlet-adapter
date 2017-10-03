@@ -27,13 +27,13 @@
       <dependency>
          <groupId>com.variant</groupId>
          <artifactId>java-client</artifactId>
-         <version>[0.7,)</version>
+         <version>[0.8,)</version>
       </dependency>
 
       <dependency>
          <groupId>com.variant</groupId>
          <artifactId>variant-core</artifactId>
-         <version>[0.7,)</version>
+         <version>[0.8,)</version>
       </dependency>
 
        <dependency>
