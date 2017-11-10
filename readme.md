@@ -4,7 +4,7 @@
 ## Wrapper API for Variant Java Client, suitable for host application written on top of the Servlet API.
 ### Release 1.0.0
 
-#### Requires: Java 7 or later, Java Servlet API 2.4 or later, Variant Client 0.7
+#### Requires: Variant Client 0.8.x, Java Servlet API 2.4 or later, Java 7 or later.
 
 [__Download__](https://github.com/getvariant/variant-java-servlet-adapter/blob/master/lib/java-client-servlet-adapter-1.0.0.jar) | [__Documentation__](http://www.getvariant.com/docs/0-7/clients/variant-java-client/#section-3) | [__Javadoc__](https://getvariant.github.io/variant-java-servlet-adapter/)
 
@@ -16,8 +16,7 @@ The servlet adapter wraps the bare Java client with a higher level client librar
 
 Variant servlet adapter for the Java client contains the following three components:
 * [VariantFilter](https://getvariant.github.io/variant-java-servlet-adapter/com/variant/client/servlet/VariantFilter.html) bootstraps the underlying Variant client and implements all the core functionality a simple Variant experiment will require. Integrates with the host application as a servlet filter.
-* Implementations of all environment-dependent in terms of servlet API objects. 
-* [Servlet adapter wrapper API](https://github.com/getvariant/variant-java-servlet-adapter/tree/master/servlet-adapter) around the bare Java client replaces environment contingent method signatures with equivalent ones expressed in terms of the Servlet API classes.
+* Re-implementations of all environment-dependent classes in terms of servlet API objects. 
 
 ## 2. Classpath Installation
 
@@ -32,7 +31,7 @@ Note that these libraries in turn have the following transitive dependencies:
 
 Download these dependent libraries and add them to your host application classpath.
 
-## 3. Installation With Maven
+## 3. Building from Sources with Maven
 
 1. The pre-bult JAR and its proprietary transitive dependencies an be found in this repository in the [/lib](https://github.com/getvariant/variant-java-servlet-adapter/tree/master/lib) directory. Download these JAR files.
 
