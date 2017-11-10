@@ -14,9 +14,10 @@ Many Java Web applications are written on top of the Servlet API, either directl
 
 The servlet adapter wraps the bare Java client with a higher level client library, which re-writes environment-dependent function signatures in terms of familiar servlet objects, like <span class="variant-code">HttpServletRequest</span>. The servlet adapter preserves 100% of the bare client’s functionality and comes with out-of-the-box implementations of all [environment-dependent classes](http://www.getvariant.com/docs/0-8/clients/variant-java-client/#section-2.4).
 
-Variant servlet adapter for the Java client contains the following two components:
+Variant servlet adapter for the Java client contains the following three components:
 * [VariantFilter](https://getvariant.github.io/variant-java-servlet-adapter/com/variant/client/servlet/VariantFilter.html) bootstraps the underlying Variant client and implements all the core functionality a simple Variant experiment will require. Integrates with the host application as a servlet filter.
 * Re-implementations of all environment-dependent classes in terms of servlet API objects. 
+* Updated [configuration file](https://github.com/getvariant/variant-java-servlet-adapter/blob/master/src/main/resources/variant.conf).
 
 ## 2. Classpath Installation
 
@@ -90,45 +91,29 @@ Download these dependent libraries and add them to your host application classpa
 </dependency>
 ```
 
-## 4. Building From Source
+## 4. Building From Source with Maven
 
-### 4.1 Install Variant Java Client
-
-1. [Download Variant Java client software](http://www.getvariant.com/downloads).
-
-2. Unpack the software archive:
-
-```shell
-% unzip /path/to/variant-java-<release>.zip
-```
-This will inflate the following artifacts:
+1. This project depends on the following transitive dependencies, found in the [/lib](https://github.com/getvariant/variant-java-servlet-adapter/tree/master/lib) directory.
 
 | File        | Description           | 
 | ------------- | ------------- | 
 | `variant-java-client-<release>.jar` | Variant Java client, a.k.a. the bare Java client. The servlet adapter runs on top of it. | 
 | `variant-core-<release>.jar` | Dependent Variant core library. Contains objects shared between the client and the server code bases. | 
-| variant.conf | Sample client configuration file containing all default settings. To override any of the defaults, change their values in this file and place it on the host application's classpath. |
 
-2. Install the two JARs above into your local repository (replacing `<release>` with the particular version number you're installing, e.g. `0.7.1`):
+2. Download these JAR files to your local system and add them to your corporate Maven repository or to your local repository:
 
 ```shell
-% mvn install:install-file -Dfile=/path/to/variant-java-client-<release>.jar -DgroupId=com.variant -DartifactId=java-client -Dversion=<release> -Dpackaging=jar
+% mvn install:install-file -Dfile=/path/to/variant-java-client-0.8.0.jar -DgroupId=com.variant -DartifactId=java-client -Dversion=<release> -Dpackaging=jar
 
-% mvn install:install-file -Dfile=/path/to/variant-core-<release>.jar -DgroupId=com.variant -DartifactId=variant-core -Dversion=<release> -Dpackaging=jar
+% mvn install:install-file -Dfile=/path/to/variant-core-0.8.0.jar -DgroupId=com.variant -DartifactId=variant-core -Dversion=<release> -Dpackaging=jar
 ```
-
-Variant Java client has a small set of external transitive dependencies, which are not included in the distribution:
-
-### 4.2 Build the Servlet Adapter
+3. Build the Servlet Adapter
 ```shell
 % mvn clean package
 ```
-this will create the `java-client-servlet-adapter-<release>.jar` file in the 'target' directory. You must place it on your host application's runtime classpath.
+this will create the `java-client-servlet-adapter-0.8.0.jar` file in the 'target' directory. You must place it on your host application's runtime classpath.
 
-Alternatively, if your host applciation uses Maven, install the file in your local Maven repository:
-```shell
-% mvn clean install
-```
+## 5 Configuration
+Your applicaiton must use [this config file](https://github.com/getvariant/variant-java-servlet-adapter/blob/master/src/main/resources/variant.conf). See [Variant Java Client User Guide](http://www.getvariant.com/docs/0-8/clients/variant-java-client/#section-2.2) for details.
 
 
-Updated on 19 July 2017 for release 1.0.0.
