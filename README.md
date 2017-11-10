@@ -31,20 +31,20 @@ Note that these libraries in turn have the following transitive dependencies:
 
 Download these dependent libraries and add them to your host application classpath.
 
-## 3. Building from Sources with Maven
+## 3. Adding Servlet Adapter to your Maven Build
 
 1. The pre-bult JAR and its proprietary transitive dependencies an be found in this repository in the [/lib](https://github.com/getvariant/variant-java-servlet-adapter/tree/master/lib) directory. Download these JAR files.
 
-2. Add the downloaded files to your corporate Maven repository or to your local repository (replacing `<release>` with the particular version number you're installing, e.g. `0.7.1`):
+2. Add the downloaded files to your corporate Maven repository or to your local repository:
 
 ```shell
-% mvn install:install-file -Dfile=/path/to/variant-java-client-<release>.jar -DgroupId=com.variant -DartifactId=java-client -Dversion=<release> -Dpackaging=jar
+% mvn install:install-file -Dfile=/path/to/variant-java-client-0.8.0.jar -DgroupId=com.variant -DartifactId=java-client -Dversion=<release> -Dpackaging=jar
 
-% mvn install:install-file -Dfile=/path/to/variant-core-<release>.jar -DgroupId=com.variant -DartifactId=variant-core -Dversion=<release> -Dpackaging=jar
+% mvn install:install-file -Dfile=/path/to/variant-core-0.8.0.jar -DgroupId=com.variant -DartifactId=variant-core -Dversion=<release> -Dpackaging=jar
 
 % mvn install:install-file -Dfile=/path/to/java-client-servlet-adapter-1.0.0.jar -DgroupId=com.variant -DartifactId=java-client-servlet-adapter -Dversion=1.0.0 -Dpackaging=jar
 ```
-3. Add the following dependency definitions to your host application's `pom.xml` file:
+3. Add the following dependencies to your host application's `pom.xml` file (copied from this project's [pom.xml](https://github.com/getvariant/variant-java-servlet-adapter/blob/master/pom.xml)
 
 ```
 <dependency>
@@ -56,13 +56,13 @@ Download these dependent libraries and add them to your host application classpa
 <dependency>
    <groupId>com.variant</groupId>
    <artifactId>java-client</artifactId>
-   <version>[0.7,)</version>
+   <version>[0.8,)</version>
 </dependency>
 
 <dependency>
    <groupId>com.variant</groupId>
    <artifactId>variant-core</artifactId>
-   <version>[0.7,)</version>
+   <version>[0.8,)</version>
 </dependency>
 
 <dependency>
