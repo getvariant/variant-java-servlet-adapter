@@ -4,7 +4,11 @@
 ## Wrapper API for Variant Java Client, suitable for host application written on top of the Servlet API. Enables integration with Variant Experiment Server.
 ### Release 1.0.0
 
-#### Requires: Variant Java Client 0.8.x, Variant Experiment Server 0.8.x, Java Servlet API 2.4 or later, Java 7 or later.
+#### Requires: 
+* Variant Java Client 0.8.x 
+* Variant Experiment Server 0.8.x 
+* Java Servlet API 2.4 or later 
+* Java 7 or later.
 
 [__Download__](https://github.com/getvariant/variant-java-servlet-adapter/tree/master/lib) | [__Docs__](http://www.getvariant.com/docs/0-8/clients/variant-java-client/#section-3) | [__Javadoc__](https://getvariant.github.io/variant-java-servlet-adapter/)
 
