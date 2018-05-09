@@ -45,9 +45,9 @@ __2. Install private dependencies:__
 Add the downloaded files to your corporate Maven repository or to your local repository:
 
 ```shell
-% mvn install:install-file -Dfile=/path/to/variant-java-client-0.8.0.jar -DgroupId=com.variant -DartifactId=java-client -Dversion=<release> -Dpackaging=jar
+% mvn install:install-file -Dfile=/path/to/variant-java-client-0.8.1.jar -DgroupId=com.variant -DartifactId=java-client -Dversion=<release> -Dpackaging=jar
 
-% mvn install:install-file -Dfile=/path/to/variant-core-0.8.0.jar -DgroupId=com.variant -DartifactId=variant-core -Dversion=<release> -Dpackaging=jar
+% mvn install:install-file -Dfile=/path/to/variant-core-0.8.1.jar -DgroupId=com.variant -DartifactId=variant-core -Dversion=<release> -Dpackaging=jar
 
 % mvn install:install-file -Dfile=/path/to/java-client-servlet-adapter-1.0.0.jar -DgroupId=com.variant -DartifactId=java-client-servlet-adapter -Dversion=1.0.0 -Dpackaging=jar
 ```
@@ -112,21 +112,21 @@ This project depends on the following transitive dependencies, found in the [/li
 
 | File        | Description           | 
 | ------------- | ------------- | 
-| `variant-java-client-0.8.0.jar` | Variant Java client, a.k.a. the bare Java client. The servlet adapter runs on top of it. | 
-| `variant-core-0.8.0.jar` | Dependent Variant core library. Contains objects shared between the client and the server code bases. | 
+| `variant-java-client-0.8.1.jar` | Variant Java client, a.k.a. the bare Java client. The servlet adapter runs on top of it. | 
+| `variant-core-0.8.1.jar` | Dependent Variant core library. Contains objects shared between the client and the server code bases. | 
 
 Add these libraries to your corporate Maven repository or to your local repository:
 
 ```shell
-% mvn install:install-file -Dfile=/path/to/variant-java-client-0.8.0.jar -DgroupId=com.variant -DartifactId=java-client -Dversion=<release> -Dpackaging=jar
+% mvn install:install-file -Dfile=/path/to/variant-java-client-0.8.1.jar -DgroupId=com.variant -DartifactId=java-client -Dversion=<release> -Dpackaging=jar
 
-% mvn install:install-file -Dfile=/path/to/variant-core-0.8.0.jar -DgroupId=com.variant -DartifactId=variant-core -Dversion=<release> -Dpackaging=jar
+% mvn install:install-file -Dfile=/path/to/variant-core-0.8.1.jar -DgroupId=com.variant -DartifactId=variant-core -Dversion=<release> -Dpackaging=jar
 ```
 __3. Build the Servlet Adapter__
 ```shell
 % mvn clean package
 ```
-this will create the `java-client-servlet-adapter-0.8.0.jar` file in the `/target` directory. You must place it on your host application's runtime classpath.
+this will create the `java-client-servlet-adapter-0.8.1.jar` file in the `/target` directory. You must place it on your host application's runtime classpath.
 
 ## 5 Configuration
 Your applicaiton must use the [config file, which comes with this project](https://github.com/getvariant/variant-java-servlet-adapter/blob/master/src/main/resources/variant.conf). See [Variant Java Client User Guide](http://www.getvariant.com/docs/0-8/clients/variant-java-client/#section-2.2) for details.

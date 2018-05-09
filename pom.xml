@@ -18,7 +18,7 @@
     <name>Variant Java Client Servlet Adapter</name>
     <packaging>jar</packaging>
     <groupId>com.variant</groupId>
-    <version>0.8.0</version>
+    <version>0.8.1</version>
     
     
     <dependencies>
