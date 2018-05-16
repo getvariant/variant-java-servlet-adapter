@@ -1,0 +1,100 @@
+//
+// Variant Java client + Servlet adapter demo application.
+// Demonstrates instrumentation of a basic Variant experiment.
+// See https://github.com/getvariant/variant-java-servlet-adapter/tree/master/servlet-adapter-demo
+// for details.
+//
+// Copyright © 2015-2017 Variant, Inc. All Rights Reserved.
+
+{
+   'meta':{
+      'name':'petclinic',
+      'comment':'Experiment schema for the Pet Clinic demo application'
+   },
+   'states':[                                                
+     { 
+       // The New Owner page used to add owner at /petclinic/owners/new 
+       'name':'newOwner',
+       'parameters': [
+            {
+               'name':'path',
+               'value':'/petclinic/owners/new'
+            }
+        ]
+     },                                                    
+     {  
+       // The Owner Detail page. Note that owner ID is in the path,
+        // so we have to use regular expression to match.
+       'name':'ownerDetail',          
+       'parameters': [
+            {
+               'name':'path',
+               'value':'/petclinic/owners/~\\d+/'
+            }
+        ]
+     }                                                     
+   ],                                                        
+   'tests':[                                                 
+      {                                                      
+         'name':'NewOwnerTest',
+         'isOn': true,                                     
+         'experiences':[                                     
+            {                                                
+               'name':'outOfTheBox',                                   
+               'weight':1,                                  
+               'isControl':true                              
+            },                                               
+            {                                                
+               'name':'tosCheckbox',                                   
+               'weight':1                                   
+            },                                               
+            {                                                
+               'name':'tosAndMailCheckbox',                                   
+               'weight':1                                   
+            }                                               
+         ],                                                  
+         'onStates':[                                         
+            {                                                
+               'stateRef':'newOwner',                    
+               'variants':[                                  
+                  {                                          
+                     'experienceRef': 'tosCheckbox',                   
+                     'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/owners/new/variant/newOwnerTest.tosCheckbox'
+                        }
+                     ]
+                  },                                         
+                  {                                          
+                     'experienceRef': 'tosAndMailCheckbox',                   
+                     'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/owners/new/variant/newOwnerTest.tosAndMailCheckbox'
+                        }
+                     ]
+                  }                                          
+               ]                                             
+            },
+            {                                                
+               'stateRef':'ownerDetail',                            
+               'isNonvariant': true
+            }                                                
+         ],
+         'hooks':[
+            {
+               // Disqualifies all Firefox traffic.
+               'name':'FirefoxDisqualifier',
+               'class':'com.variant.server.ext.demo.FirefoxDisqualHook'
+            },
+            {
+               // Assigns all Chrome traffic to the control experience
+               'name':'ChromeTargeter',
+               'class':'com.variant.server.ext.demo.ChromeTargetingHook'
+            }
+         ]
+      }                                                     
+   ]                                                         
+}                         
+      

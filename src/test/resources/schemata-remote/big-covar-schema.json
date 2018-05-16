@@ -1,0 +1,1368 @@
+//
+// All Tests:
+// Tests States
+//       1 2 3 4 5
+// test1   + + - -
+// test2 - + + +  
+// test3 - + - + 
+// test4 + +   - -
+// test5 + + - + -
+// test6 + - +   -
+// blank: not instrumented, -: nonvariant, +: has variants.
+// 
+// T1, T2, T3(T2), T4(T1), T5(T2,T4), T6(T1,T2,T4,T5)
+ 
+ 
+{                                                                                
+   'meta':{
+      'name':'big_covar_schema',
+      'comment':'Schema for big tests'
+   },
+   'states':[                                                             
+     {  'name':'state1',
+        'parameters': [
+            {
+               'name':'path',
+               'value':'/path/to/state1'
+            }
+        ]
+     },                                                                  
+     {  'NAME':'state2',                                                  
+        'parameters': [
+            {
+               'name':'path',
+               'value':'/path/to/state2'
+            }
+        ]
+     },                                                                  
+     {  'nAmE':'state3',                                                  
+        'parameters': [
+            {
+               'name':'path',
+               'value':'/path/to/state3'
+            }
+        ]
+     },                                                                  
+     {  'name':'state4',                                                  
+        'parameters': [
+            {
+               'name':'path',
+               'value':'/path/to/state4'
+            }
+        ]
+     },
+     {  'name':'state5',                                                  
+        'parameters': [
+            {
+               'name':'path',
+               'value':'/path/to/state5'
+            }
+        ]
+     }                                                                   
+  ],                                                                     
+  'tests':[  
+     // TEST 1 Comment.                                                            
+     {                                                                   
+        'name':'test1',/// Another comment                                                  
+        'experiences':[                                                  
+           {                                                             
+              'name':'A',                                                
+              'weight':10,                                               
+              'isControl':true                                           
+           },                                                            
+           {                                                             
+              'name':'B',                                                
+              'weight':20                                                
+           },                                                            
+           {                                                             
+              'name':'C',                                                
+              'weight':30                                                
+           }                                                             
+        ],                                                               
+        'onStates':[                                                      
+           {                                                             
+              'stateRef':'state2',                                         
+              'variants':[                                               
+                 {                                                       
+                    'experienceRef':'B',
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state2/test1.B'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'C',                                 
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state2/test1.C'
+                        }
+                    ]
+                 }                                                       
+              ]                                                          
+           },                                                            
+           {                                                             
+              'stateRef':'state3',                                         
+              'variants':[                                               
+                 {                                                       
+                    'experienceRef':'B',                                 
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state3/test1.B'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'C',                                 
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state3/test1.C'
+                        }
+                    ]
+                 }                                                       
+              ]                                                          
+           }, 
+           {                                                             
+              'stateRef':'state4',                                         
+              'isNonvariant':true                                         
+           },                                                            
+           {                                                             
+              'stateRef':'state5',                                         
+              'isNonvariant':true                                         
+           }                                                             
+        ]                                                                
+     },                                                                  
+     {                                                                   
+        'name':'test2',                                                  
+        'experiences':[                                                  
+           {                                                             
+              'name':'A',                                                
+              'weight':10,                                               
+              'isControl':true                                           
+           },                                                            
+           {                                                             
+              'name':'B',                                                
+              'weight':20                                                
+           },                                                            
+           {                                                             
+              'name':'C',                                                
+              'weight':30                                                
+           }                                                             
+        ],                                                               
+        'onStates':[                                                      
+           {                                                             
+              'stateRef':'state1',                                         
+              'isNonvariant':true                                         
+           },                                                            
+           {                                                             
+              'stateRef':'state2',                                         
+              'variants':[                                               
+                 {                                                       
+                    'experienceRef':'B',                                 
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state2/test2.B'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'C',                                 
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state2/test2.C'
+                        }
+                    ]
+                 }                                                       
+              ]                                                          
+           },                                                            
+           {                                                             
+              'stateRef':'state3',                                         
+              'variants':[                                               
+                 {                                                       
+                    'experienceRef':'B',                                 
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state3/test2.B'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'C',                                 
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state3/test2.C'
+                        }
+                    ]
+                 }                                                       
+              ]                                                          
+           },                                                            
+           {                                                             
+              'stateRef':'state4',                                         
+              'variants':[                                               
+                 {                                                       
+                    'experienceRef':'B',                                 
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state4/test2.B'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'C',                                 
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state4/test2.C'
+                        }
+                    ]
+                 }                                                       
+              ]                                                          
+           }                                                             
+        ]                                                                
+     },                                                                  
+     {                                                                   
+        'name':'test3',
+        'covariantTestRefs': ['test2'],                                                  
+        'experiences':[                                                  
+           {                                                             
+              'name':'A',                                                
+              'weight':10,                                               
+              'isControl':true                                           
+           },                                                            
+           {                                                             
+              'name':'B',                                                
+              'weight':20                                                
+           },                                                            
+           {                                                             
+              'name':'C',                                                
+              'weight':30                                                
+           }                                                             
+        ],                                                               
+        'onStates':[                                                      
+           {                                                             
+              'stateRef':'state1',                                         
+              'isNonvariant':true                                         
+           },                                                            
+           {                                                             
+              'stateRef':'state2',                                         
+              'variants':[                                               
+                 {                                                       
+                    'experienceRef':'B',                                 
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state2/test3.B'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'C',                                 
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state2/test3.C'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'B',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test2',                            
+                          'experienceRef': 'B'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state2/test2.B+test3.B'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'B',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test2',                            
+                          'experienceRef': 'C'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state2/test2.C+test3.B'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'C',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test2',                            
+                          'experienceRef': 'B'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state2/test2.B+test3.C'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'C',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test2',                            
+                          'experienceRef': 'C'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state2/test2.C+test3.C'
+                        }
+                    ]
+                 }                                                      
+              ]                                                          
+           },                                                            
+           {                                                             
+              'stateRef':'state3',                                         
+              'isNonvariant':true                                               
+           },                                                            
+           {                                                             
+              'stateRef':'state4',                                         
+              'variants':[                                               
+                 {                                                       
+                    'experienceRef':'B',                                 
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state4/test3.B'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'C',                                 
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state4/test3.C'
+                        }
+                    ]
+                 },
+                 {                                                       
+                    'experienceRef':'B',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test2',                            
+                          'experienceRef': 'B'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state4/test2.B+test3.B'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'B',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test2',                            
+                          'experienceRef': 'C'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state4/test2.C+test3.B'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'C',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test2',                            
+                          'experienceRef': 'B'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state4/test2.B+test3.C'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'C',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test2',                            
+                          'experienceRef': 'C'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state4/test2.C+test3.C'
+                        }
+                    ]
+                 }                                                      
+              ]                                                          
+           }                                                             
+        ]                                                                
+     },                                                                  
+     {                                                                   
+        'name':'test4',                                                  
+        'covariantTestRefs': ['test1'],                                  
+        'experiences':[                                                  
+           {                                                             
+              'name':'A',                                                
+              'weight':10,                                               
+              'isControl':true                                           
+           },                                                            
+           {                                                             
+              'name':'B',                                                
+              'weight':20                                                
+           },                                                            
+           {                                                             
+              'name':'C',                                                
+              'weight':30                                                
+           }                                                             
+        ],                                                               
+        'onStates':[                                                      
+           {                                                             
+              'stateRef':'state1',                                         
+              'variants':[                                               
+                 {                                                       
+                    'experienceRef':'B',                                 
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state1/test4.B'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'C',                                 
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state1/test4.C'
+                        }
+                    ]
+                 }                                                       
+              ]                                                          
+           },                                                            
+           {                                                             
+              'stateRef':'state2',                                         
+              'variants':[                                               
+                 {                                                       
+                    'experienceRef':'B',                                 
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state2/test4.B'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'C',                                 
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state2/test4.C'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'B',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test1',                            
+                          'experienceRef': 'B'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state2/test1.B+test4.B'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'B',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test1',                            
+                          'experienceRef': 'C'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state2/test1.C+test4.B'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'C',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test1',                            
+                          'experienceRef': 'B'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state2/test1.B+test4.C'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'C',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test1',                            
+                          'experienceRef': 'C'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state2/test1.C+test4.C'
+                        }
+                    ]
+                 }                                                       
+              ]                                                          
+           },                                                            
+           {                                                             
+              'stateRef':'state4',                                         
+              'isNonvariant':true                                         
+           },                                                            
+           {                                                             
+              'stateRef':'state5',                                         
+              'isNonvariant':true                                         
+           }                                                             
+        ]                                                                
+     },                                                                  
+     {                                                                   
+        'name':'test5',                                                  
+        'covariantTestRefs': ['test2', 'test4'],                         
+        'experiences':[                                                  
+           {                                                             
+              'name':'A',                                                
+              'weight':10,                                               
+              'isControl':true                                           
+           },                                                            
+           {                                                             
+              'name':'B',                                                
+              'weight':20                                                
+           },                                                            
+           {                                                             
+              'name':'C',                                                
+              'weight':30                                                
+           }                                                             
+        ],                                                               
+        'onStates':[                                                      
+           {                                                             
+              'stateRef':'state1',                                         
+              'variants':[                                               
+                 {                                                       
+                    'experienceRef':'B',                                 
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state1/test5.B'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'C',                                 
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state1/test5.C'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'B',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test4',                            
+                          'experienceRef': 'B'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state1/test4.B+test5.B'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'B',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test4',                            
+                          'experienceRef': 'C'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state1/test4.C+test5.B'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'C',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test4',                            
+                          'experienceRef': 'B'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state1/test4.B+test5.B'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'C',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test4',                            
+                          'experienceRef': 'C'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state1/test4.C+test5.C'
+                        }
+                    ]
+                 }                                                       
+              ]                                                          
+           },
+           {                                                             
+              'stateRef':'state2',                                         
+              'variants':[                                               
+                 {                                                       
+                    'experienceRef':'B',                                 
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state2/test5.B'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'C',                                 
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state2/test5.C'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'B',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test2',                            
+                          'experienceRef': 'B'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state2/test2.B+test5.B'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'B',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test2',                            
+                          'experienceRef': 'C'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state2/test2.C+test5.B'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'C',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test2',                            
+                          'experienceRef': 'B'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state2/test2.B+test5.C'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'C',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test2',                            
+                          'experienceRef': 'C'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state2/test2.C+test5.C'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'B',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test4',                            
+                          'experienceRef': 'B'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state2/test4.B+test5.B'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'B',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test4',                            
+                          'experienceRef': 'C'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state2/test4.C+test5.B'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'C',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test4',                            
+                          'experienceRef': 'B'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state2/test4.B+test5.C'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'C',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test4',                            
+                          'experienceRef': 'C'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state2/test4.C+test5.C'
+                        }
+                    ]
+                 }                                                      
+              ]                                                          
+           },                                                            
+           {                                                             
+              'stateRef':'state3',                                         
+              'isNonvariant':true                                         
+           },                                                            
+           {                                                             
+              'stateRef':'state4',                                         
+              'variants':[                                               
+                 {                                                       
+                    'experienceRef':'B',                                 
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state4/test5.B'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'C',                                 
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state4/test5.C'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'B',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test2',                            
+                          'experienceRef': 'B'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state4/test2.B+test5.B'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'B',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test2',                            
+                          'experienceRef': 'C'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state4/test2.C+test5.B'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'C',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test2',                            
+                          'experienceRef': 'B'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state4/test2.B+test5.C'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'C',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test2',                            
+                          'experienceRef': 'C'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state4/test2.C+test5.C'
+                        }
+                    ]
+                 }                                                       
+              ]                                                          
+           },                                                            
+           {                                                             
+              'stateRef':'state5',                                         
+              'isNonvariant':true                                         
+           }                                                             
+        ]                                                                
+     },                                                                  
+     {                                                                   
+        'name':'test6',                                                  
+        'covariantTestRefs': ['test2', 'test4', 'test1', 'test5'],       
+        'experiences':[                                                  
+           {                                                             
+              'name':'A',                                                
+              'weight':10,                                               
+              'isControl':true                                           
+           },                                                            
+           {                                                             
+              'name':'B',                                                
+              'weight':20                                                
+           },                                                            
+           {                                                             
+              'name':'C',                                                
+              'weight':30                                                
+           }                                                             
+        ],                                                               
+        'onStates':[                                                      
+           {                                                             
+              'stateRef':'state1',                                         
+              'variants':[                                               
+                 {                                                       
+                    'experienceRef':'B',                                 
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state1/test6.B'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'C',                                 
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state1/test6.C'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'B',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test4',                            
+                          'experienceRef': 'B'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state1/test4.B+test6.B'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'B',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test4',                            
+                          'experienceRef': 'C'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state1/test4.C+test6.B'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'C',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test4',                            
+                          'experienceRef': 'B'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state1/test4.B+test6.C'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'C',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test4',                            
+                          'experienceRef': 'C'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state1/test4.C+test6.C'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'B',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test5',                            
+                          'experienceRef': 'B'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state1/test5.B+test6.B'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'B',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test5',                            
+                          'experienceRef': 'C'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state1/test5.C+test6.B'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'C',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test5',                            
+                          'experienceRef': 'B'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state1/test5.B+test6.C'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'C',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test5',                            
+                          'experienceRef': 'C'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state1/test5.C+test6.C'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'B',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test4',                            
+                          'experienceRef': 'B'                           
+                       },                                                
+                       {                                                 
+                          'testRef': 'test5',                            
+                          'experienceRef': 'B'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state1/test4.B+test5.B+test6.B'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'B',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test4',                            
+                          'experienceRef': 'B'                           
+                       },                                                
+                       {                                                 
+                          'testRef': 'test5',                            
+                          'experienceRef': 'C'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state1/test4.B+test5.C+test6.B'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'B',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test4',                            
+                          'experienceRef': 'C'                           
+                       },                                                
+                       {                                                 
+                          'testRef': 'test5',                            
+                          'experienceRef': 'B'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state1/test4.C+test5.B+test6.B'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'B',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test4',                            
+                          'experienceRef': 'C'                           
+                       },                                                
+                       {                                                 
+                          'testRef': 'test5',                            
+                          'experienceRef': 'C'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state1/test4.C+test5.C+test6.B'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'C',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test4',                            
+                          'experienceRef': 'B'                           
+                       },                                                
+                       {                                                 
+                          'testRef': 'test5',                            
+                          'experienceRef': 'B'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state1/test4.B+test5.B+test6.C'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'C',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test4',                            
+                          'experienceRef': 'B'                           
+                       },                                                
+                       {                                                 
+                          'testRef': 'test5',                            
+                          'experienceRef': 'C'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state1/test4.B+test5.C+test6.C'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'C',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test4',                            
+                          'experienceRef': 'C'                           
+                       },                                                
+                       {                                                 
+                          'testRef': 'test5',                            
+                          'experienceRef': 'B'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state1/test4.C+test5.B+test6.C'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'C',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test4',                            
+                          'experienceRef': 'C'                           
+                       },                                                
+                       {                                                 
+                          'testRef': 'test5',                            
+                          'experienceRef': 'C'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state1/test4.C+test5.C+test6.C'
+                        }
+                    ]
+                 }                                                       
+              ]                                                          
+           },                                                            
+           {                                                             
+              'stateRef':'state2',                                         
+              'isNonvariant':true                                         
+           },                                                            
+           {                                                             
+              'stateRef':'state3',                                         
+              'variants':[                                               
+                 {                                                       
+                    'experienceRef':'B',                                 
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state3/test6.B'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'C',                                 
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state3/test6.C'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'B',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test1',                            
+                          'experienceRef': 'B'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state3/test1.B+test6.B'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'B',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test1',                            
+                          'experienceRef': 'C'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state3/test1.C+test6.B'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'C',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test1',                            
+                          'experienceRef': 'B'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state3/test1.B+test6.C'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'C',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test1',                            
+                          'experienceRef': 'C'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state3/test1.C+test6.C'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'B',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test2',                            
+                          'experienceRef': 'B'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state3/test2.B+test6.B'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'B',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test2',                            
+                          'experienceRef': 'C'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state3/test2.C+test6.B'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'C',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test2',                            
+                          'experienceRef': 'B'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state3/test2.B+test6.C'
+                        }
+                    ]
+                 },                                                      
+                 {                                                       
+                    'experienceRef':'C',                                 
+                    'covariantExperienceRefs': [                         
+                       {                                                 
+                          'testRef': 'test2',                            
+                          'experienceRef': 'C'                           
+                       }                                                 
+                     ],                                                  
+                    'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/path/to/state3/test2.C+test6.C'
+                        }
+                    ]
+                 }
+              ]                                                          
+           },                                                            
+           {                                                             
+              'stateRef':'state5',                                         
+              'isNonvariant':true                                         
+           }                                                             
+        ]                                                                
+     }                                                                   
+  ]                                                                      
+} 

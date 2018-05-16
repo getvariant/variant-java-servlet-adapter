@@ -1,6 +1,5 @@
 package com.variant.client.servlet.impl;
 
-import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 
@@ -87,11 +86,6 @@ public class ServletStateRequestImpl implements ServletStateRequest {
 	@Override
 	public boolean isCommitted() {
 		return bareRequest.isCommitted();
-	}
-
-	@Override
-	public Date getCreateDate() {
-		return bareRequest.getCreateDate();
 	}
 
 	@Override

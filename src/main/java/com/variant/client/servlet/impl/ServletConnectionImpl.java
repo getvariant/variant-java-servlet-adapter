@@ -4,14 +4,17 @@ import java.util.LinkedHashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.typesafe.config.Config;
 import com.variant.client.ClientException;
 import com.variant.client.Connection;
 import com.variant.client.Session;
 import com.variant.client.VariantClient;
+import com.variant.client.lifecycle.LifecycleEvent;
+import com.variant.client.lifecycle.LifecycleHook;
+import com.variant.client.lifecycle.SessionExpired;
 import com.variant.client.servlet.ServletConnection;
 import com.variant.client.servlet.ServletSession;
 import com.variant.client.servlet.ServletVariantClient;
+import com.variant.core.ConnectionStatus;
 import com.variant.core.schema.Schema;
 
 /**
@@ -47,16 +50,9 @@ public class ServletConnectionImpl implements ServletConnection {
 		if (result == null) {
 			// Not yet been wrapped.  Add the expiration listener to ensure removal from sessionMap.
 			result = new ServletSessionImpl(this, bareSsn);
-			result.addExpirationListener(new Session.ExpirationListener() {
-				
-				@Override public void exec() {
-					sessionMap.remove(bareSsn.getId());
-				}
-			});
 			sessionMap.put(bareSsn.getId(), result);
 		}
 		return result;
-
 	}
 	
 	/**
@@ -64,6 +60,21 @@ public class ServletConnectionImpl implements ServletConnection {
 	public ServletConnectionImpl(ServletVariantClient wrapClient, Connection bareConnection) {
 		this.wrapClient = wrapClient;
 		this.bareConnection = bareConnection;
+		
+		// All sessions created by this connection will self-clean on expiration.
+		addLifecycleHook(
+				new LifecycleHook<SessionExpired>() {
+					
+					@Override
+					public Class<SessionExpired> getLifecycleEventClass() {
+						return SessionExpired.class;
+					}
+
+					@Override
+					public void post(SessionExpired event) throws Exception {
+						sessionMap.remove(event.getSession().getId());
+					}
+				});
 	}
 	
 	@Override
@@ -79,11 +90,6 @@ public class ServletConnectionImpl implements ServletConnection {
 	@Override
 	public VariantClient getClient() {
 		return wrapClient;
-	}
-
-	@Override
-	public Config getConfig() {
-		return wrapClient.getConfig();
 	}
 
 	@Override
@@ -119,8 +125,13 @@ public class ServletConnectionImpl implements ServletConnection {
 	}
 
 	@Override
-	public Status getStatus() {
+	public ConnectionStatus getStatus() {
 		return bareConnection.getStatus();
+	}
+
+	@Override
+	public void addLifecycleHook(LifecycleHook<? extends LifecycleEvent> hook) {
+		bareConnection.addLifecycleHook(hook);
 	}
 	
 }

@@ -1,9 +1,10 @@
 package com.variant.client.servlet.test;
 
 
+import static com.variant.core.ConnectionStatus.CLOSED_BY_CLIENT;
+import static com.variant.core.ConnectionStatus.OPEN;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -12,22 +13,21 @@ import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.variant.client.Connection.Status;
 import com.variant.client.ConnectionClosedException;
 import com.variant.client.Session;
 import com.variant.client.StateRequest;
 import com.variant.client.mock.HttpServletResponseMock;
-import com.variant.client.servlet.SessionIdTrackerHttpCookie;
-import com.variant.client.servlet.TargetingTrackerHttpCookie;
-import com.variant.client.servlet.ServletVariantClient;
 import com.variant.client.servlet.ServletConnection;
 import com.variant.client.servlet.ServletSession;
 import com.variant.client.servlet.ServletStateRequest;
+import com.variant.client.servlet.ServletVariantClient;
+import com.variant.client.servlet.SessionIdTrackerHttpCookie;
+import com.variant.client.servlet.TargetingTrackerHttpCookie;
 import com.variant.core.schema.Schema;
 import com.variant.core.schema.State;
 import com.variant.core.schema.Test;
+import com.variant.core.util.CollectionsUtils;
 import com.variant.core.util.Tuples.Pair;
-import com.variant.core.util.VariantCollectionsUtils;
 
 public class ServletSessionTest extends ServletClientBaseTest {
 
@@ -44,7 +44,7 @@ public class ServletSessionTest extends ServletClientBaseTest {
 	public void getSessionNoTrackerTest() throws Exception {
 		
 		final ServletConnection conn = servletClient.getConnection("big_covar_schema");
-		assertEquals(ServletConnection.Status.OPEN, conn.getStatus());
+		assertEquals(OPEN, conn.getStatus());
 		
 		// Servlet signatures
 		final HttpServletRequest httpReq = mockHttpServletRequest();
@@ -82,7 +82,7 @@ public class ServletSessionTest extends ServletClientBaseTest {
 		}.assertThrown();
 		
 		conn.close();
-		assertEquals(Status.CLOSED_BY_CLIENT,conn.getStatus());
+		assertEquals(CLOSED_BY_CLIENT,conn.getStatus());
 	}
 	
 	/**
@@ -95,7 +95,7 @@ public class ServletSessionTest extends ServletClientBaseTest {
 	public void getSessionWithTrackerTest() throws Exception {
 
 		final ServletConnection conn = servletClient.getConnection("big_covar_schema");
-		assertEquals(ServletConnection.Status.OPEN, conn.getStatus());
+		assertEquals(OPEN, conn.getStatus());
 
 		// Servlet signatures
 		String sid = newSid();
@@ -137,11 +137,14 @@ public class ServletSessionTest extends ServletClientBaseTest {
 		assertEquals(ssn1, ssn2);
 
 		conn.close();
-		assertEquals(Status.CLOSED_BY_CLIENT,conn.getStatus());
+		assertEquals(CLOSED_BY_CLIENT,conn.getStatus());
 
-		//
-		conn.close();
-		assertEquals(Status.CLOSED_BY_CLIENT,conn.getStatus());
+		new ServletClientExceptionIntercepter() {
+			@Override public void toRun() { 
+				conn.close();
+			}
+		}.assertThrown(ConnectionClosedException.class);
+		assertEquals(CLOSED_BY_CLIENT,conn.getStatus());
 
 	}
 	
@@ -154,7 +157,7 @@ public class ServletSessionTest extends ServletClientBaseTest {
 	public void fullStateRequestNoIdTracker() throws Exception {
 		
 		final ServletConnection conn = servletClient.getConnection("big_covar_schema");
-		assertEquals(ServletConnection.Status.OPEN, conn.getStatus());
+		assertEquals(OPEN, conn.getStatus());
 		
 		Schema schema = conn.getSchema();
 		assertNotNull(schema);
@@ -179,10 +182,10 @@ public class ServletSessionTest extends ServletClientBaseTest {
 		assertEquals(state1, varReq.getState());
 		assertEquals(varReq, ssn2.getStateRequest());
 		assertEqualAsSets(
-				VariantCollectionsUtils.pairsToMap(new Pair<State,Integer>(state1, 1)), 
+				CollectionsUtils.pairsToMap(new Pair<State,Integer>(state1, 1)), 
 				ssn2.getTraversedStates());
 		
-		Collection<Test> expectedTests = VariantCollectionsUtils.list(
+		Collection<Test> expectedTests = CollectionsUtils.list(
 				schema.getTest("test2"), 
 				schema.getTest("test3"), 
 				schema.getTest("test4"), 
@@ -204,7 +207,7 @@ public class ServletSessionTest extends ServletClientBaseTest {
 		
 		// The session shouldn't have changed after commit.
 		assertEqualAsSets(
-				VariantCollectionsUtils.pairsToMap(new Pair<State,Integer>(state1, 1)), 
+				CollectionsUtils.pairsToMap(new Pair<State,Integer>(state1, 1)), 
 				ssn2.getTraversedStates());
 
 		assertEqualAsSets(expectedTests, ssn2.getTraversedTests());
@@ -215,7 +218,7 @@ public class ServletSessionTest extends ServletClientBaseTest {
 		assertTrue(varReq.isCommitted());
 		assertEquals(ssn3, ssn2);
 		assertEqualAsSets(
-				VariantCollectionsUtils.pairsToMap(new Pair<State,Integer>(state1, 1)), 
+				CollectionsUtils.pairsToMap(new Pair<State,Integer>(state1, 1)), 
 				ssn2.getTraversedStates());
 
 		assertEqualAsSets(expectedTests, ssn3.getTraversedTests());		
@@ -224,7 +227,7 @@ public class ServletSessionTest extends ServletClientBaseTest {
 		assertFalse(varReq.commit(httpResp));
 		
 		conn.close();
-		assertEquals(Status.CLOSED_BY_CLIENT,conn.getStatus());
+		assertEquals(CLOSED_BY_CLIENT,conn.getStatus());
 	}
 	
 	/**
@@ -236,7 +239,7 @@ public class ServletSessionTest extends ServletClientBaseTest {
 	public void fullStateRequestWithIdTracker() throws Exception {
 		
 		final ServletConnection conn = servletClient.getConnection("big_covar_schema");
-		assertEquals(ServletConnection.Status.OPEN, conn.getStatus());
+		assertEquals(OPEN, conn.getStatus());
 		
 		Schema schema = conn.getSchema();
 		assertNotNull(schema);
@@ -260,10 +263,10 @@ public class ServletSessionTest extends ServletClientBaseTest {
 		StateRequest varReq = ssn1.targetForState(state2);
 		assertEquals(ssn1, varReq.getSession());
 		assertEqualAsSets(
-				VariantCollectionsUtils.pairsToMap(new Pair<State,Integer>(state2, 1)), 
+				CollectionsUtils.pairsToMap(new Pair<State,Integer>(state2, 1)), 
 				ssn1.getTraversedStates());
 		
-		Collection<Test> expectedTests = VariantCollectionsUtils.list(
+		Collection<Test> expectedTests = CollectionsUtils.list(
 				schema.getTest("test1"), 
 				schema.getTest("test2"), 
 				schema.getTest("test3"), 
@@ -281,12 +284,12 @@ public class ServletSessionTest extends ServletClientBaseTest {
 		assertEquals(ssn2, varReq.getSession());
 		assertEquals(ssn2.getStateRequest(), varReq);
 		assertEqualAsSets(
-				VariantCollectionsUtils.pairsToMap(new Pair<State,Integer>(state2, 1)), 
+				CollectionsUtils.pairsToMap(new Pair<State,Integer>(state2, 1)), 
 				ssn1.getTraversedStates());
 		assertEqualAsSets(expectedTests, ssn1.getTraversedTests());
 		
 		conn.close();
-		assertEquals(Status.CLOSED_BY_CLIENT,conn.getStatus());
+		assertEquals(CLOSED_BY_CLIENT,conn.getStatus());
 	}
 	
 	/**
@@ -298,7 +301,7 @@ public class ServletSessionTest extends ServletClientBaseTest {
 	public void cookieForgedTest() throws Exception {
 		
 		final ServletConnection conn = servletClient.getConnection("big_covar_schema");
-		assertEquals(ServletConnection.Status.OPEN, conn.getStatus());
+		assertEquals(OPEN, conn.getStatus());
 		
 		Schema schema = conn.getSchema();
 		assertNotNull(schema);
@@ -337,7 +340,7 @@ public class ServletSessionTest extends ServletClientBaseTest {
 		assertEquals(sid2, ssn2.getId());
 		
 		conn.close();
-		assertEquals(Status.CLOSED_BY_CLIENT,conn.getStatus());
+		assertEquals(CLOSED_BY_CLIENT,conn.getStatus());
 	}
 	
 	/**
@@ -346,7 +349,7 @@ public class ServletSessionTest extends ServletClientBaseTest {
 	public void connClosedTest() throws Exception {
 		
 		final ServletConnection conn = servletClient.getConnection("big_covar_schema");
-		assertEquals(ServletConnection.Status.OPEN, conn.getStatus());
+		assertEquals(OPEN, conn.getStatus());
 
 		Schema schema = conn.getSchema();
 		assertNotNull(schema);
@@ -367,7 +370,7 @@ public class ServletSessionTest extends ServletClientBaseTest {
 		assertNotNull(ssn2);
 
 		conn.close();
-		assertEquals(Status.CLOSED_BY_CLIENT,conn.getStatus());
+		assertEquals(CLOSED_BY_CLIENT,conn.getStatus());
 		
 		new ServletClientExceptionIntercepter() {
 			@Override public void toRun() { 
