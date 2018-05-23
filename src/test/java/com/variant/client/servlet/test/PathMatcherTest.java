@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import com.variant.client.StateSelectorByRequestPath;
+import com.variant.client.servlet.StateSelectorByRequestPath;
 
 public class PathMatcherTest {
 
