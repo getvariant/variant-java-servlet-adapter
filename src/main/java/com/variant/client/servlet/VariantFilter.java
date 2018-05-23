@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.variant.client.ClientException;
+import com.variant.client.ConnectionClosedException;
 import com.variant.client.Session;
 import com.variant.client.StateRequest;
 import com.variant.client.StateSelectorByRequestPath;
@@ -128,23 +129,46 @@ public class VariantFilter implements Filter {
 	private Schema schema;
 	
 	//---------------------------------------------------------------------------------------------//
-	//  Variant related lifecycle methods, which client code may re-implement to add functionality //
+	//  Variant related life-cycle methods, which client code may re-implement to add functionality //
 	//---------------------------------------------------------------------------------------------//
 
-	
+	/**
+	 * Subclasses may override with custom logic to be carried out whenever a state is determined to 
+	 * be instrumented by the current schema.
+	 * 
+	 * @param request
+	 * @param response
+	 * @param state
+	 */
 	protected void stateInstrumented(ServletRequest request, ServletResponse response, State state) {
 		if (LOG.isDebugEnabled()) {
 			HttpServletRequest httpRequest = (HttpServletRequest) request;
 			LOG.debug("Path [" + VariantWebUtils.requestUrl(httpRequest) + "] is instrumented");
 		}
 	}
-	
+
+	/**
+	 * Subclasses may override with custom logic to be carried out whenever a session is obtained from
+	 * the server.
+	 * 
+	 * @param request
+	 * @param response
+	 * @param session
+	 */
 	protected void sessionObtained(ServletRequest request, ServletResponse response, Session session) {
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Variant session [" + session.getId() + "] obtained");
 		}
 	}
 
+	/**
+	 * Subclasses may override with custom logic to be carried out whenever a session is targeted for a
+	 * particular state.
+	 * 
+	 * @param request
+	 * @param response
+	 * @param stateRequest
+	 */
 	protected void sessionTargeted(ServletRequest request, ServletResponse response, StateRequest stateRequest) {
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Variant session [" + stateRequest.getSession().getId() + "] targeted for state [" + stateRequest.getState() + "]");
@@ -155,12 +179,12 @@ public class VariantFilter implements Filter {
 	//                                          PUBLIC                                             //
 	//---------------------------------------------------------------------------------------------//
 
-	public static final String VARIANT_SESSION_ATTR_NAME = "variant-session";
+	public static final String VARIANT_REQUEST_ATTR_NAME = "variant-state-request";
 
 	/**
 	 * Initialize the Variant servlet adapter and parse the experiment schema.
 	 * @see Filter#init(FilterConfig)
-	 * @since 1.0
+	 * @since 0.5
 	 */
 	@Override
 	public void init(FilterConfig config) throws ServletException {
@@ -207,10 +231,10 @@ public class VariantFilter implements Filter {
 				// Path instrumented by Variant.
 				stateInstrumented(request, response, state);
 				variantSsn = connection.getOrCreateSession(httpRequest);
-				request.setAttribute(VARIANT_SESSION_ATTR_NAME, variantSsn);
 				sessionObtained(request, response, variantSsn);				
 				stateRequest = variantSsn.targetForState(state);
-				sessionTargeted(request, response, stateRequest);				
+				sessionTargeted(request, response, stateRequest);
+				request.setAttribute(VARIANT_REQUEST_ATTR_NAME, stateRequest);
 
 				resolvedPath = stateRequest.getResolvedParameters().get("path");
 				isForwarding = !resolvedPath.equals(state.getParameters().get("path"));
@@ -229,6 +253,13 @@ public class VariantFilter implements Filter {
 				}
 				
 			}
+		}
+		catch (ConnectionClosedException cle) {
+			if (LOG.isDebugEnabled()) {
+				LOG.debug("Connection closed by server. Attempting to reconnect...");
+			}
+			connection = client.getConnection(schema.getName());
+			LOG.info("Reconnected to schema [" + schema.getName() + "]");
 		}
 		catch (Throwable t) {
 			LOG.error("Unhandled exception in Variant for path [" + VariantWebUtils.requestUrl(httpRequest) + "]", t);

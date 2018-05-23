@@ -346,7 +346,7 @@ public class ServletSessionTest extends ServletClientBaseTest {
 	/**
 	 */
 	@org.junit.Test
-	public void connClosedTest() throws Exception {
+	public void connClosedByClientTest() throws Exception {
 		
 		final ServletConnection conn = servletClient.getConnection("big_covar_schema");
 		assertEquals(OPEN, conn.getStatus());

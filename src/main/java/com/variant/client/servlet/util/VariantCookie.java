@@ -29,9 +29,12 @@ public abstract class VariantCookie {
 	 */
 	protected VariantCookie(String name, HttpServletRequest request) {
 		this.name = name;
-		for (Cookie c: request.getCookies()) {
-			if (c.getName().equals(name)) {
-				this.value = c.getValue();
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null) {
+			for (Cookie c: cookies) {
+				if (c.getName().equals(name)) {
+					this.value = c.getValue();
+				}
 			}
 		}
 	}
@@ -57,10 +60,12 @@ public abstract class VariantCookie {
 	 * @param response
 	 */
 	public void send(HttpServletResponse response) {
-		Cookie cookie = new Cookie(name, value);
-		cookie.setPath("/");
-		cookie.setHttpOnly(false);  // We want varaint.js to have access.
-		cookie.setMaxAge(getMaxAge());
-		response.addCookie(cookie);
+		if (value != null && value.length() > 0) {
+			Cookie cookie = new Cookie(name, value);
+			cookie.setPath("/");
+			cookie.setHttpOnly(false);  // We want varaint.js to have access.
+			cookie.setMaxAge(getMaxAge());
+			response.addCookie(cookie);
+		}
 	}
 }
