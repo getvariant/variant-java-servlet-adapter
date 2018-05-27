@@ -12,13 +12,14 @@
 	<properties>
     	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>	
     	<tomcat.version>7.0.59</tomcat.version>
+        <variant.version>0.9.0</variant.version>
     </properties>
 
     <artifactId>variant-java-client-servlet-adapter</artifactId>
     <name>Variant Java Client Servlet Adapter</name>
     <packaging>jar</packaging>
     <groupId>com.variant</groupId>
-    <version>0.8.1</version>
+    <version>${variant.version}</version>
     
     
     <dependencies>
@@ -27,13 +28,13 @@
       <dependency>
          <groupId>com.variant</groupId>
          <artifactId>variant-java-client</artifactId>
-         <version>[0.8,)</version>
+         <version>${variant.version}</version>
       </dependency>
 
       <dependency>
          <groupId>com.variant</groupId>
          <artifactId>variant-core</artifactId>
-         <version>[0.8,)</version>
+         <version>${variant.version}</version>
       </dependency>
 
        <dependency>

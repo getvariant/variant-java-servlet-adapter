@@ -19,7 +19,6 @@ import com.variant.client.ClientException;
 import com.variant.client.ConnectionClosedException;
 import com.variant.client.Session;
 import com.variant.client.StateRequest;
-import com.variant.client.StateSelectorByRequestPath;
 import com.variant.client.servlet.util.VariantWebUtils;
 import com.variant.core.StateRequestStatus;
 import com.variant.core.VariantEvent;
