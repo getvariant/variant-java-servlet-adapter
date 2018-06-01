@@ -8,9 +8,10 @@ import com.variant.client.ClientException;
 import com.variant.client.Connection;
 import com.variant.client.Session;
 import com.variant.client.VariantClient;
-import com.variant.client.lifecycle.LifecycleEvent;
+import com.variant.client.lifecycle.ClientLifecycleEvent;
 import com.variant.client.lifecycle.LifecycleHook;
-import com.variant.client.lifecycle.SessionExpired;
+import com.variant.client.lifecycle.SessionExpiredLifecycleEvent;
+import com.variant.client.SessionExpiredException;
 import com.variant.client.servlet.ServletConnection;
 import com.variant.client.servlet.ServletSession;
 import com.variant.client.servlet.ServletVariantClient;
@@ -63,15 +64,15 @@ public class ServletConnectionImpl implements ServletConnection {
 		
 		// All sessions created by this connection will self-clean on expiration.
 		addLifecycleHook(
-				new LifecycleHook<SessionExpired>() {
+				new LifecycleHook<SessionExpiredLifecycleEvent>() {
 					
 					@Override
-					public Class<SessionExpired> getLifecycleEventClass() {
-						return SessionExpired.class;
+					public Class<SessionExpiredLifecycleEvent> getLifecycleEventClass() {
+						return SessionExpiredLifecycleEvent.class;
 					}
 
 					@Override
-					public void post(SessionExpired event) throws Exception {
+					public void post(SessionExpiredLifecycleEvent event) throws Exception {
 						sessionMap.remove(event.getSession().getId());
 					}
 				});
@@ -130,7 +131,7 @@ public class ServletConnectionImpl implements ServletConnection {
 	}
 
 	@Override
-	public void addLifecycleHook(LifecycleHook<? extends LifecycleEvent> hook) {
+	public void addLifecycleHook(LifecycleHook<? extends ClientLifecycleEvent> hook) {
 		bareConnection.addLifecycleHook(hook);
 	}
 	

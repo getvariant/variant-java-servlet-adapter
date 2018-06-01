@@ -1,6 +1,6 @@
 package com.variant.client.servlet;
 
-import java.util.Collection;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -80,7 +80,7 @@ public class TargetingTrackerHttpCookie extends TargetingTrackerString implement
 
 	// @since 1.0
 	@Override
-	public Collection<Entry> get() {
+	public Set<Entry> get() {
 		String input = cookie.getValue();
 		// If the targeting cookie existed and returned a value, the superclass will parse it.
 		return input == null ? null : fromString(cookie.getValue());
@@ -88,7 +88,7 @@ public class TargetingTrackerHttpCookie extends TargetingTrackerString implement
 
 	// @since 1.0
 	@Override
-	public void set(Collection<Entry> entries) {
+	public void set(Set<Entry> entries) {
 		cookie.setValue(toString(entries));
 	}
 

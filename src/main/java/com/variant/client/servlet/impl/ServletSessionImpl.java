@@ -9,7 +9,7 @@ import com.variant.client.ClientException;
 import com.variant.client.Connection;
 import com.variant.client.Session;
 import com.variant.client.StateRequest;
-import com.variant.client.lifecycle.LifecycleEvent;
+import com.variant.client.lifecycle.ClientLifecycleEvent;
 import com.variant.client.lifecycle.LifecycleHook;
 import com.variant.client.servlet.ServletSession;
 import com.variant.client.servlet.ServletStateRequest;
@@ -118,7 +118,7 @@ public class ServletSessionImpl implements ServletSession {
 	}
 
 	@Override
-	public void addLifecycleHook(LifecycleHook<? extends LifecycleEvent> hook) {
+	public void addLifecycleHook(LifecycleHook<? extends ClientLifecycleEvent> hook) {
 		bareSession.addLifecycleHook(hook);
 	}
 
