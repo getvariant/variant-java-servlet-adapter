@@ -1,4 +1,4 @@
-package com.variant.client.servlet;
+package com.variant.client.servlet.util;
 
 import java.util.regex.Pattern;
 
