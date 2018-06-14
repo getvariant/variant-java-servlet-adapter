@@ -29,8 +29,7 @@ The servlet adapter JAR file and its two transitive dependencies can be found in
 
 Note that these libraries in turn have the following transitive dependencies:
 
-1. Apache Commons [Lang (3.4+)](https://commons.apache.org/proper/commons-lang/) and [IO (2.4+)](https://commons.apache.org/proper/commons-io/) libraries. 
-2. Apache Components [HTTP Client (4.5+)](https://hc.apache.org/httpcomponents-client-4.5.x/index.html) library. 
+1. Apache [HTTP Client (4.5+)](https://hc.apache.org/httpcomponents-client-4.5.x/index.html) library. 
 2. [Simple Logging Facade for Java (1.7+)](https://www.slf4j.org/) library. 
 2. [Typesafe Config (1.2+)](https://github.com/typesafehub/config) library. 
 
