@@ -21,15 +21,22 @@ import com.variant.client.servlet.impl.ServletClientImpl;
 public interface ServletVariantClient extends VariantClient {
 	
 	/**
-	 * @since 1.0
+	 * Connect to the given variation schema on the server.
+	 * 
+	 * @param schema The name of the schema, which should be deployed on the server.
+	 *        
+	 * @return An instance of the {@link ServletConnection} type, or <code>null</null> if the
+	 * requested schema was not found on the server.
+	 * 
+	 * @since 0.7
 	 */
 	@Override
 	public ServletConnection getConnection(String schema);
 
 	/**
 	 * Factory class: call <code>getInstance()</code> to obtain a new instance of {@link ServletVariantClient}.
-	 * @author Igor Urisman
-	 * @since 1.0
+	 *
+	 * @since 1.7
 	 */
 	public static class Factory {
 		

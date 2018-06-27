@@ -1,6 +1,7 @@
 package com.variant.client.servlet.impl;
 
 import com.typesafe.config.Config;
+import com.variant.client.Connection;
 import com.variant.client.VariantClient;
 import com.variant.client.servlet.ServletVariantClient;
 import com.variant.client.servlet.ServletConnection;
@@ -50,7 +51,8 @@ public class ServletClientImpl implements ServletVariantClient {
 
 	@Override
 	public ServletConnection getConnection(String url) {
-		return new ServletConnectionImpl(this, bareClient.getConnection(url));
+		Connection bareConnection = bareClient.getConnection(url);
+		return bareConnection == null ? null : new ServletConnectionImpl(this, bareConnection);
 	}
 
 	//---------------------------------------------------------------------------------------------//
