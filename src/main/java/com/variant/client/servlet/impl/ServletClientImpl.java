@@ -50,8 +50,8 @@ public class ServletClientImpl implements ServletVariantClient {
 	}
 
 	@Override
-	public ServletConnection getConnection(String url) {
-		Connection bareConnection = bareClient.getConnection(url);
+	public ServletConnection connectTo(String url) {
+		Connection bareConnection = bareClient.connectTo(url);
 		return bareConnection == null ? null : new ServletConnectionImpl(this, bareConnection);
 	}
 

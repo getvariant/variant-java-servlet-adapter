@@ -15,15 +15,13 @@ import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.variant.client.ClientException;
-import com.variant.client.ConnectionClosedException;
 import com.variant.client.Session;
 import com.variant.client.StateRequest;
+import com.variant.client.VariantException;
 import com.variant.client.servlet.util.StateSelectorByRequestPath;
 import com.variant.client.servlet.util.VariantWebUtils;
 import com.variant.core.StateRequestStatus;
 import com.variant.core.VariantEvent;
-import com.variant.core.schema.Schema;
 import com.variant.core.schema.State;
 
 /**
@@ -123,13 +121,14 @@ import com.variant.core.schema.State;
 public class VariantFilter implements Filter {
 
 	private static final Logger LOG = LoggerFactory.getLogger(VariantFilter.class);
+
+	private static final ServletVariantClient client = ServletVariantClient.Factory.getInstance();
 	
-	private ServletVariantClient client;
-	private ServletConnection connection;
-	private Schema schema;
+	private String schemaName = null;
+	private ServletConnection connection = null;
 	
 	//---------------------------------------------------------------------------------------------//
-	//  Variant related life-cycle methods, which client code may re-implement to add functionality //
+	// Variant related life-cycle methods, which client code may re-implement to add functionality //
 	//---------------------------------------------------------------------------------------------//
 
 	/**
@@ -188,15 +187,22 @@ public class VariantFilter implements Filter {
 	 */
 	@Override
 	public void init(FilterConfig config) throws ServletException {
-		client = ServletVariantClient.Factory.getInstance();
-		String schemaName = config.getInitParameter("schema");
+		
+		schemaName = config.getInitParameter("schema");
+		
 		if (schemaName == null) 
-			throw new ClientException.User("Filter init parameter [schema] must be specified");
-		connection = client.getConnection(schemaName);
-		schema = connection.getSchema();
-		LOG.info("Connected to schema [" + schemaName + "]");
+			throw new ServletVariantException("Filter init parameter [schema] must be specified");
+		else {
+			try {
+				connection = client.connectTo(schemaName);
+				LOG.info("Connected to Variant schema [" + schemaName + "]");
+			}
+			catch (VariantException e) {
+				LOG.error("Variant error " + e.getMessage());
+			}
+		}
 	}
-
+	
 	/**
 	 * Identify the state, target and commit the state request.
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
@@ -218,9 +224,18 @@ public class VariantFilter implements Filter {
 		
 		try {
 
+			// If we're not connected, try to reconnect.
+			if (connection == null) {
+				connection = client.connectTo(schemaName);
+				LOG.info("Connected to Variant schema [" + schemaName + "]");
+			}
+
+			// Get Variant session.
+			variantSsn = connection.getOrCreateSession(httpRequest);
+			
 			// Is this request's URI mapped in Variant?
 			String url = VariantWebUtils.requestUrl(httpRequest);
-			State state = StateSelectorByRequestPath.select(schema, url);
+			State state = StateSelectorByRequestPath.select(variantSsn.getSchema(), url);
 			
 			if (state == null) {
 				// Variant doesn't know about this path.
@@ -228,9 +243,8 @@ public class VariantFilter implements Filter {
 			}
 			else {
 
-				// Path instrumented by Variant.
+				// Path instrumented by Variant and we have variant session. 
 				stateInstrumented(request, response, state);
-				variantSsn = connection.getOrCreateSession(httpRequest);
 				sessionObtained(request, response, variantSsn);				
 				stateRequest = variantSsn.targetForState(state);
 				sessionTargeted(request, response, stateRequest);
@@ -254,20 +268,21 @@ public class VariantFilter implements Filter {
 				
 			}
 		}
-		catch (ConnectionClosedException cle) {
-			if (LOG.isDebugEnabled()) {
-				LOG.debug("Connection closed by server. Attempting to reconnect...");
-			}
-			connection = client.getConnection(schema.getName());
-			LOG.info("Reconnected to schema [" + schema.getName() + "]");
+		catch (VariantException e) {
+
+			LOG.error("Variant exception for path [" +  VariantWebUtils.requestUrl(httpRequest) + "] : " + e.getMessage());
+			
+			isForwarding = false;
+			if (stateRequest != null) stateRequest.setStatus(StateRequestStatus.FAIL);
 		}
 		catch (Throwable t) {
+			
 			LOG.error("Unhandled exception in Variant for path [" + VariantWebUtils.requestUrl(httpRequest) + "]", t);
 			isForwarding = false;
-			if (stateRequest != null) {
-				stateRequest.setStatus(StateRequestStatus.FAIL);
-			}
+			if (stateRequest != null) stateRequest.setStatus(StateRequestStatus.FAIL);
+
 		}
+		
 		if (isForwarding) {
 			request.getRequestDispatcher(resolvedPath).forward(request, response);
 		}				
@@ -280,6 +295,11 @@ public class VariantFilter implements Filter {
 				// Add some extra info to the state visited event(s)
 				VariantEvent sve = stateRequest.getStateVisitedEvent();
 				if (sve != null) sve.getParameterMap().put("HTTP_STATUS", Integer.toString(httpResponse.getStatus()));
+			}
+			catch (VariantException e) {
+				LOG.error("Variant exception for path [" + VariantWebUtils.requestUrl(httpRequest) + "] : " + e.getMessage());
+				
+				stateRequest.setStatus(StateRequestStatus.FAIL);
 			}
 			catch (Throwable t) {
 				LOG.error("Unhandled exception in Variant for path [" + 
@@ -300,10 +320,7 @@ public class VariantFilter implements Filter {
 	 */
 	@Override
 	public void destroy() {
-		try {
-			connection.close();
-		}
-		catch (Throwable e) {}
+		// Anything ?
 	}
 
 	

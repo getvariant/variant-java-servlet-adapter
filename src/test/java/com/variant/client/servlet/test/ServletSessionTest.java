@@ -1,8 +1,6 @@
 package com.variant.client.servlet.test;
 
 
-import static com.variant.core.ConnectionStatus.CLOSED_BY_CLIENT;
-import static com.variant.core.ConnectionStatus.OPEN;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -13,7 +11,6 @@ import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.variant.client.ConnectionClosedException;
 import com.variant.client.Session;
 import com.variant.client.StateRequest;
 import com.variant.client.mock.HttpServletResponseMock;
@@ -43,8 +40,8 @@ public class ServletSessionTest extends ServletClientBaseTest {
 	@org.junit.Test
 	public void getSessionNoTrackerTest() throws Exception {
 		
-		final ServletConnection conn = servletClient.getConnection("big_covar_schema");
-		assertEquals(OPEN, conn.getStatus());
+		final ServletConnection conn = servletClient.connectTo("big_covar_schema");
+		assertNotNull(conn);
 		
 		// Servlet signatures
 		final HttpServletRequest httpReq = mockHttpServletRequest();
@@ -81,8 +78,6 @@ public class ServletSessionTest extends ServletClientBaseTest {
 			}
 		}.assertThrown();
 		
-		conn.close();
-		assertEquals(CLOSED_BY_CLIENT,conn.getStatus());
 	}
 	
 	/**
@@ -94,8 +89,7 @@ public class ServletSessionTest extends ServletClientBaseTest {
 	@org.junit.Test
 	public void getSessionWithTrackerTest() throws Exception {
 
-		final ServletConnection conn = servletClient.getConnection("big_covar_schema");
-		assertEquals(OPEN, conn.getStatus());
+		final ServletConnection conn = servletClient.connectTo("big_covar_schema");
 
 		// Servlet signatures
 		String sid = newSid();
@@ -136,16 +130,6 @@ public class ServletSessionTest extends ServletClientBaseTest {
 		assertNotNull(ssn2);
 		assertEquals(ssn1, ssn2);
 
-		conn.close();
-		assertEquals(CLOSED_BY_CLIENT,conn.getStatus());
-
-		new ServletClientExceptionIntercepter() {
-			@Override public void toRun() { 
-				conn.close();
-			}
-		}.assertThrown(ConnectionClosedException.class);
-		assertEquals(CLOSED_BY_CLIENT,conn.getStatus());
-
 	}
 	
 	/**
@@ -156,11 +140,7 @@ public class ServletSessionTest extends ServletClientBaseTest {
 	@org.junit.Test
 	public void fullStateRequestNoIdTracker() throws Exception {
 		
-		final ServletConnection conn = servletClient.getConnection("big_covar_schema");
-		assertEquals(OPEN, conn.getStatus());
-		
-		Schema schema = conn.getSchema();
-		assertNotNull(schema);
+		final ServletConnection conn = servletClient.connectTo("big_covar_schema");
 		
 		HttpServletRequest httpReq = mockHttpServletRequest();
 		HttpServletResponseMock httpResp = mockHttpServletResponse();
@@ -177,6 +157,7 @@ public class ServletSessionTest extends ServletClientBaseTest {
 		ServletSession ssn2 = conn.getOrCreateSession(httpReq);
 		assertNotEquals(ssn1, ssn2);  // getSession is not idempotent, until committed.  
 		
+		Schema schema = ssn2.getSchema();
 		State state1 = schema.getState("state1");		
 		ServletStateRequest varReq = ssn2.targetForState(state1);
 		assertEquals(state1, varReq.getState());
@@ -226,8 +207,6 @@ public class ServletSessionTest extends ServletClientBaseTest {
 		// should be a no-op.
 		assertFalse(varReq.commit(httpResp));
 		
-		conn.close();
-		assertEquals(CLOSED_BY_CLIENT,conn.getStatus());
 	}
 	
 	/**
@@ -238,11 +217,7 @@ public class ServletSessionTest extends ServletClientBaseTest {
 	@org.junit.Test
 	public void fullStateRequestWithIdTracker() throws Exception {
 		
-		final ServletConnection conn = servletClient.getConnection("big_covar_schema");
-		assertEquals(OPEN, conn.getStatus());
-		
-		Schema schema = conn.getSchema();
-		assertNotNull(schema);
+		final ServletConnection conn = servletClient.connectTo("big_covar_schema");
 
 		String sid = newSid();
 		HttpServletRequest httpReq = mockHttpServletRequest(sid);
@@ -259,6 +234,7 @@ public class ServletSessionTest extends ServletClientBaseTest {
 		assertEquals(0, ssn1.getTraversedTests().size());
 		assertEquals(0, httpResp.getCookies().length);  // We didn't drop the ssnid cookie, because there was one in request.
 		
+		Schema schema = ssn1.getSchema();
 		State state2 = schema.getState("state2");		
 		StateRequest varReq = ssn1.targetForState(state2);
 		assertEquals(ssn1, varReq.getSession());
@@ -288,8 +264,6 @@ public class ServletSessionTest extends ServletClientBaseTest {
 				ssn1.getTraversedStates());
 		assertEqualAsSets(expectedTests, ssn1.getTraversedTests());
 		
-		conn.close();
-		assertEquals(CLOSED_BY_CLIENT,conn.getStatus());
 	}
 	
 	/**
@@ -300,19 +274,16 @@ public class ServletSessionTest extends ServletClientBaseTest {
 	@org.junit.Test
 	public void cookieForgedTest() throws Exception {
 		
-		final ServletConnection conn = servletClient.getConnection("big_covar_schema");
-		assertEquals(OPEN, conn.getStatus());
-		
-		Schema schema = conn.getSchema();
-		assertNotNull(schema);
+		final ServletConnection conn = servletClient.connectTo("big_covar_schema");
 
-		State state3 = schema.getState("state3");
-		assertNotNull(state3);
 		
 		// Request 1: new session.
 		HttpServletRequest httpReq = mockHttpServletRequest();
 		ServletSession ssn1 = conn.getOrCreateSession(httpReq);
 		assertNotNull(ssn1);
+		Schema schema = ssn1.getSchema();
+		State state3 = schema.getState("state3");
+		assertNotNull(state3);
 		String sid1 = ssn1.getId();
 		ServletStateRequest req = ssn1.targetForState(state3);
 		HttpServletResponseMock resp = mockHttpServletResponse();
@@ -339,8 +310,6 @@ public class ServletSessionTest extends ServletClientBaseTest {
 		assertNotNull(ssn2);
 		assertEquals(sid2, ssn2.getId());
 		
-		conn.close();
-		assertEquals(CLOSED_BY_CLIENT,conn.getStatus());
 	}
 	
 	/**
@@ -348,41 +317,20 @@ public class ServletSessionTest extends ServletClientBaseTest {
 	@org.junit.Test
 	public void connClosedByClientTest() throws Exception {
 		
-		final ServletConnection conn = servletClient.getConnection("big_covar_schema");
-		assertEquals(OPEN, conn.getStatus());
+		final ServletConnection conn = servletClient.connectTo("big_covar_schema");
 
-		Schema schema = conn.getSchema();
-		assertNotNull(schema);
-
-		final State state2 = schema.getState("state2");
-		assertNotNull(state2);
 
 		String sid1 = newSid();
 		HttpServletRequest httpReq1 = mockHttpServletRequest(sid1);
 		ServletSession ssn1 = conn.getOrCreateSession(httpReq1);
 		assertNotNull(ssn1);
-		final ServletStateRequest varReq1 = ssn1.targetForState(state2);
-		final HttpServletResponseMock resp1 = mockHttpServletResponse();
+		Schema schema = ssn1.getSchema();
+		final State state2 = schema.getState("state2");
+		assertNotNull(state2);
 		
 		String sid2 = newSid();
 		HttpServletRequest httpReq2 = mockHttpServletRequest(sid2);
 		final ServletSession ssn2 = conn.getOrCreateSession(httpReq2);
 		assertNotNull(ssn2);
-
-		conn.close();
-		assertEquals(CLOSED_BY_CLIENT,conn.getStatus());
-		
-		new ServletClientExceptionIntercepter() {
-			@Override public void toRun() { 
-				varReq1.commit(resp1);
-			}
-		}.assertThrown(ConnectionClosedException.class);
-
-		new ServletClientExceptionIntercepter() {
-			@Override public void toRun() { 
-				ssn2.targetForState(state2);
-			}
-		}.assertThrown(ConnectionClosedException.class);		
 	}
-
 }

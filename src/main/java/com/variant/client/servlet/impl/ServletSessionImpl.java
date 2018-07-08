@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.Set;
 
 import com.typesafe.config.Config;
-import com.variant.client.ClientException;
 import com.variant.client.Connection;
 import com.variant.client.Session;
 import com.variant.client.StateRequest;
@@ -13,7 +12,9 @@ import com.variant.client.lifecycle.ClientLifecycleEvent;
 import com.variant.client.lifecycle.LifecycleHook;
 import com.variant.client.servlet.ServletSession;
 import com.variant.client.servlet.ServletStateRequest;
+import com.variant.client.servlet.ServletVariantException;
 import com.variant.core.VariantEvent;
+import com.variant.core.schema.Schema;
 import com.variant.core.schema.State;
 import com.variant.core.schema.Test;
 
@@ -35,10 +36,11 @@ public class ServletSessionImpl implements ServletSession {
 	 * 
 	 */
 	public ServletSessionImpl(ServletConnectionImpl wrapConnection, Session bareSession) {
-		if (wrapConnection == null) throw new ClientException.Internal("Servlet connection cannot be null");
-		if (bareSession == null) throw new ClientException.Internal("Bare session cannot be null");
+		if (wrapConnection == null) throw new ServletVariantException("Servlet connection cannot be null");
+		if (bareSession == null) throw new ServletVariantException("Bare session cannot be null");
 		this.wrapConnection = wrapConnection;
 		this.bareSession = bareSession;
+		
 	}
 
 	@Override
@@ -120,6 +122,11 @@ public class ServletSessionImpl implements ServletSession {
 	@Override
 	public void addLifecycleHook(LifecycleHook<? extends ClientLifecycleEvent> hook) {
 		bareSession.addLifecycleHook(hook);
+	}
+
+	@Override
+	public Schema getSchema() {
+		return bareSession.getSchema();
 	}
 
 }

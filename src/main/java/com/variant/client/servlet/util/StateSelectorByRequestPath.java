@@ -2,7 +2,7 @@ package com.variant.client.servlet.util;
 
 import java.util.regex.Pattern;
 
-import com.variant.client.ClientException;
+import com.variant.client.servlet.ServletVariantException;
 import com.variant.core.schema.Schema;
 import com.variant.core.schema.State;
 
@@ -63,8 +63,8 @@ public class StateSelectorByRequestPath  {
 	 */
 	public static boolean match(String pattern, String string) {
 
-		if (!pattern.startsWith("/")) throw new ClientException.User("Pattern must start with [/] but was [" + pattern + "]");
-		if (!string.startsWith("/")) throw new ClientException.User("String must start with [/] but was [" + string + "]");
+		if (!pattern.startsWith("/")) throw new ServletVariantException("Pattern must start with [/] but was [" + pattern + "]");
+		if (!string.startsWith("/")) throw new ServletVariantException("String must start with [/] but was [" + string + "]");
 		
 		// Expand '//', otherwise they may get eaten by the splitter algorithm.
 		// Keep looking for '//' until none. This is needed to account for '///'

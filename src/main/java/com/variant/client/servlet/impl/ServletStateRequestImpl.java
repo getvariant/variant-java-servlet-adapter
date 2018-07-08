@@ -5,10 +5,10 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletResponse;
 
-import com.variant.client.ClientException;
 import com.variant.client.StateRequest;
 import com.variant.client.servlet.ServletSession;
 import com.variant.client.servlet.ServletStateRequest;
+import com.variant.client.servlet.ServletVariantException;
 import com.variant.core.StateRequestStatus;
 import com.variant.core.VariantEvent;
 import com.variant.core.schema.State;
@@ -36,8 +36,8 @@ public class ServletStateRequestImpl implements ServletStateRequest {
 
 	public ServletStateRequestImpl(ServletSession wrapSession, StateRequest bareRequest) {
 		
-		if (bareRequest == null) throw new ClientException.Internal("Bare state request cannot be null");
-		if (wrapSession == null) throw new ClientException.Internal("Servlet session cannot be null");
+		if (bareRequest == null) throw new ServletVariantException("Bare state request cannot be null");
+		if (wrapSession == null) throw new ServletVariantException("Servlet session cannot be null");
 		this.bareRequest = bareRequest;
 		this.wrapSession = wrapSession;
 	}

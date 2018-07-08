@@ -15,11 +15,11 @@ import org.mockito.Answers;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import com.variant.client.ClientException;
 import com.variant.client.TargetingTracker;
 import com.variant.client.mock.HttpServletRequestMock;
 import com.variant.client.mock.HttpServletResponseMock;
 import com.variant.client.mock.HttpSessionMock;
+import com.variant.client.servlet.ServletVariantException;
 import com.variant.client.servlet.SessionIdTrackerHttpCookie;
 import com.variant.client.servlet.TargetingTrackerHttpCookie;
 import com.variant.client.test.ClientBaseTestWithServer;
@@ -34,18 +34,18 @@ public abstract class ServletClientBaseTest extends ClientBaseTestWithServer {
 	//---------------------------------------------------------------------------------------------//
 
 	protected static abstract class ServletClientExceptionIntercepter 
-		extends ExceptionInterceptor<ClientException> {
+		extends ExceptionInterceptor<ServletVariantException> {
 		
 		@Override
-		final public Class<ClientException> getExceptionClass() {
-			return ClientException.class;
+		final public Class<ServletVariantException> getExceptionClass() {
+			return ServletVariantException.class;
 		}
 		
 		/**
 		 * Server side errors: We don't have access to them at comp time
 		 */
-		final public void assertThrown(Class<? extends ClientException> cls) throws Exception {
-			ClientException result = super.run();
+		final public void assertThrown(Class<? extends ServletVariantException> cls) throws Exception {
+			ServletVariantException result = super.run();
 			assertNotNull("Expected exception not thrown", result);
 			assertEquals(cls, result.getClass());
 		}		

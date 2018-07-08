@@ -11,9 +11,7 @@ import com.variant.client.servlet.impl.ServletClientImpl;
  * with their environment-aware counterparts, e.g. 
  * {@link com.variant.client.servlet.ServletConnection#getSession(javax.servlet.http.HttpServletRequest)}
  * in place of the bare {@link com.variant.client.Connection#getSession(Object...)}.
- * 
- * @author Igor Urisman
- * 
+ *  * 
  * @see VariantClient
  * 
  * @since 1.0
@@ -31,12 +29,12 @@ public interface ServletVariantClient extends VariantClient {
 	 * @since 0.7
 	 */
 	@Override
-	public ServletConnection getConnection(String schema);
+	public ServletConnection connectTo(String schema);
 
 	/**
 	 * Factory class: call <code>getInstance()</code> to obtain a new instance of {@link ServletVariantClient}.
 	 *
-	 * @since 1.7
+	 * @since 0.7
 	 */
 	public static class Factory {
 		
@@ -49,7 +47,7 @@ public interface ServletVariantClient extends VariantClient {
 		 * One of these per address space is recommended.
 		 * 
 		 * @return Instance of the {@link ServletVariantClient} type.
-		 * @since 1.0
+		 * @since 0.7
 		 */		
 		public static ServletVariantClient getInstance() {
 			return new ServletClientImpl();

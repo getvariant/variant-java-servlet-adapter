@@ -4,19 +4,15 @@ import java.util.LinkedHashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.variant.client.ClientException;
 import com.variant.client.Connection;
 import com.variant.client.Session;
 import com.variant.client.VariantClient;
-import com.variant.client.lifecycle.ClientLifecycleEvent;
 import com.variant.client.lifecycle.LifecycleHook;
 import com.variant.client.lifecycle.SessionExpiredLifecycleEvent;
-import com.variant.client.SessionExpiredException;
 import com.variant.client.servlet.ServletConnection;
 import com.variant.client.servlet.ServletSession;
 import com.variant.client.servlet.ServletVariantClient;
-import com.variant.core.ConnectionStatus;
-import com.variant.core.schema.Schema;
+import com.variant.client.servlet.ServletVariantException;
 
 /**
  * The implementation of {@link ServletConnection}.
@@ -52,6 +48,23 @@ public class ServletConnectionImpl implements ServletConnection {
 			// Not yet been wrapped.  Add the expiration listener to ensure removal from sessionMap.
 			result = new ServletSessionImpl(this, bareSsn);
 			sessionMap.put(bareSsn.getId(), result);
+			
+			// All sessions created by this connection will self-clean on expiration.
+			// TODO; This must go, see #145
+			result.addLifecycleHook(
+					new LifecycleHook<SessionExpiredLifecycleEvent>() {
+						
+						@Override
+						public Class<SessionExpiredLifecycleEvent> getLifecycleEventClass() {
+							return SessionExpiredLifecycleEvent.class;
+						}
+
+						@Override
+						public void post(SessionExpiredLifecycleEvent event) throws Exception {
+							sessionMap.remove(event.getSession().getId());
+						}
+					});
+
 		}
 		return result;
 	}
@@ -60,34 +73,9 @@ public class ServletConnectionImpl implements ServletConnection {
 	 */
 	public ServletConnectionImpl(ServletVariantClient wrapClient, Connection bareConnection) {
 		this.wrapClient = wrapClient;
-		this.bareConnection = bareConnection;
-		
-		// All sessions created by this connection will self-clean on expiration.
-		addLifecycleHook(
-				new LifecycleHook<SessionExpiredLifecycleEvent>() {
-					
-					@Override
-					public Class<SessionExpiredLifecycleEvent> getLifecycleEventClass() {
-						return SessionExpiredLifecycleEvent.class;
-					}
-
-					@Override
-					public void post(SessionExpiredLifecycleEvent event) throws Exception {
-						sessionMap.remove(event.getSession().getId());
-					}
-				});
+		this.bareConnection = bareConnection;		
 	}
 	
-	@Override
-	public String getId() {
-		return bareConnection.getId();
-	}
-
-	@Override
-	public void close() {
-		bareConnection.close();
-	}
-
 	@Override
 	public VariantClient getClient() {
 		return wrapClient;
@@ -96,7 +84,7 @@ public class ServletConnectionImpl implements ServletConnection {
 	@Override
 	public ServletSession getOrCreateSession(Object... userData) {
 		if (userData.length != 1 || !(userData[0] instanceof HttpServletRequest)) 
-			throw new ClientException.User("User data must have one element of type HttpServletRequest");
+			throw new ServletVariantException("User data must have one element of type HttpServletRequest");
 		return getOrCreateSession((HttpServletRequest) userData[0]);
 	}
 
@@ -105,14 +93,9 @@ public class ServletConnectionImpl implements ServletConnection {
 	}
 
 	@Override
-	public Schema getSchema() {
-		return bareConnection.getSchema();
-	}
-
-	@Override
 	public ServletSession getSession(Object... userData) {
 		if (userData.length != 1 || !(userData[0] instanceof HttpServletRequest)) 
-			throw new ClientException.User("User data must have one element of type HttpServletRequest");
+			throw new ServletVariantException("User data must have one element of type HttpServletRequest");
 		return getSession((HttpServletRequest) userData[0]);
 	}
 
@@ -126,13 +109,8 @@ public class ServletConnectionImpl implements ServletConnection {
 	}
 
 	@Override
-	public ConnectionStatus getStatus() {
-		return bareConnection.getStatus();
-	}
-
-	@Override
-	public void addLifecycleHook(LifecycleHook<? extends ClientLifecycleEvent> hook) {
-		bareConnection.addLifecycleHook(hook);
+	public String getSchemaName() {
+		return bareConnection.getSchemaName();
 	}
 	
 }
