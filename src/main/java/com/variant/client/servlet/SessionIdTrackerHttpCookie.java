@@ -3,7 +3,9 @@ package com.variant.client.servlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.variant.client.Connection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.variant.client.SessionIdTracker;
 import com.variant.client.servlet.util.VariantCookie;
 
@@ -17,6 +19,8 @@ import com.variant.client.servlet.util.VariantCookie;
  */
 public class SessionIdTrackerHttpCookie implements SessionIdTracker {
 			
+	final private static Logger LOG = LoggerFactory.getLogger(SessionIdTrackerHttpCookie.class);
+
 	/**
 	 * Session ID tracking cookie.
 	 */
@@ -55,7 +59,7 @@ public class SessionIdTrackerHttpCookie implements SessionIdTracker {
 
 	// Since 1.0
 	@Override
-	public void init(Connection conn, Object...userData) {		
+	public void init(Object...userData) {		
 		HttpServletRequest request = (HttpServletRequest) userData[0];
 		cookie = new SsnIdCookie(request);
 	}
@@ -76,6 +80,9 @@ public class SessionIdTrackerHttpCookie implements SessionIdTracker {
 	@Override
 	public void save(Object... userData) {
 		HttpServletResponse response = (HttpServletResponse) userData[0];
-		cookie.send(response);		
+		if (LOG.isDebugEnabled()) {
+			LOG.debug("Sending session ID cookie [" + cookie.getValue() + "]");
+		}
+		cookie.send(response);
 	}
 }

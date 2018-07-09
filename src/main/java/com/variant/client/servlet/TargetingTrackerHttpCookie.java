@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.time.DateUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.variant.client.Session;
 import com.variant.client.TargetingTracker;
@@ -24,6 +26,8 @@ import com.variant.client.session.TargetingTrackerString;
  */
 public class TargetingTrackerHttpCookie extends TargetingTrackerString implements TargetingTracker {
 	
+	final private static Logger LOG = LoggerFactory.getLogger(TargetingTrackerHttpCookie.class);
+
 	/**
 	 * The cookie which tracks the experiences
 	 */
@@ -55,7 +59,7 @@ public class TargetingTrackerHttpCookie extends TargetingTrackerString implement
 	 * @since 1.0
 	 */
 	@Override
-	protected Session getSession() {
+	public Session getSession() {
 		return session;
 	}
 	
@@ -96,6 +100,9 @@ public class TargetingTrackerHttpCookie extends TargetingTrackerString implement
 	@Override
 	public void save(Object...userData) {
 		HttpServletResponse response = (HttpServletResponse) userData[0];
+		if (LOG.isDebugEnabled()) {
+			LOG.debug("Sending session ID cookie [" + cookie.getValue() + "]");
+		}
 		cookie.send(response);
 	}
 }
