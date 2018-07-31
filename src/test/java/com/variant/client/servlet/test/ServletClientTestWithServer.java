@@ -1,7 +1,6 @@
 package com.variant.client.servlet.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -15,20 +14,40 @@ import org.mockito.Answers;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import com.variant.core.test.VariantBaseTest;
+import com.variant.client.ConfigKeys;
 import com.variant.client.TargetingTracker;
 import com.variant.client.mock.HttpServletRequestMock;
 import com.variant.client.mock.HttpServletResponseMock;
 import com.variant.client.mock.HttpSessionMock;
+import com.variant.client.servlet.ServletVariantClient;
 import com.variant.client.servlet.ServletVariantException;
 import com.variant.client.servlet.SessionIdTrackerHttpCookie;
 import com.variant.client.servlet.TargetingTrackerHttpCookie;
-import com.variant.client.test.ClientBaseTestWithServer;
+import com.variant.client.test.NativeProcess;
 
 /**
  * Base class for all Core JUnit tests.
  */
-public abstract class ServletClientBaseTest extends ClientBaseTestWithServer {
+public abstract class ServletClientTestWithServer  extends VariantBaseTest {
 			
+	// Subclasses must supply the server url;
+	// tests will be skipped if there's no server at given URL.
+	// abstract protected String getServerUrl();
+		
+	protected static final ServletVariantClient servletClient = ServletVariantClient.Factory.getInstance();
+
+	public ServletClientTestWithServer() {
+		String serverUrl = servletClient.getConfig().getString(ConfigKeys.SERVER_URL);
+		try {
+			if (NativeProcess.execSilent("curl " + serverUrl) != 0 ) 
+				fail("No server at URL [" + serverUrl + "]");
+		}
+		catch (Exception x) {
+			throw new RuntimeException("Unable to verify server URL", x);
+		}
+	}
+	
 	//---------------------------------------------------------------------------------------------//
 	//                                 Exception Intercepter                                       //
 	//---------------------------------------------------------------------------------------------//

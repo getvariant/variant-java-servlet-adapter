@@ -13,7 +13,7 @@ import com.variant.client.lifecycle.LifecycleHook;
 import com.variant.client.servlet.ServletSession;
 import com.variant.client.servlet.ServletStateRequest;
 import com.variant.client.servlet.ServletVariantException;
-import com.variant.core.VariantEvent;
+import com.variant.core.TraceEvent;
 import com.variant.core.schema.Schema;
 import com.variant.core.schema.State;
 import com.variant.core.schema.Test;
@@ -115,8 +115,8 @@ public class ServletSessionImpl implements ServletSession {
 	}
 
 	@Override
-	public void triggerEvent(VariantEvent event) {
-		bareSession.triggerEvent(event);
+	public void triggerTraceEvent(TraceEvent event) {
+		bareSession.triggerTraceEvent(event);
 	}
 
 	@Override

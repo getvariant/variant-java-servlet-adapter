@@ -26,11 +26,9 @@ import com.variant.core.schema.Test;
 import com.variant.core.util.CollectionsUtils;
 import com.variant.core.util.Tuples.Pair;
 
-public class ServletSessionTest extends ServletClientBaseTest {
+public class ServletSessionTest extends ServletClientTestWithServer {
 
-	//private static Random rand = new Random(System.currentTimeMillis());
-	private static final ServletVariantClient servletClient = ServletVariantClient.Factory.getInstance();
-	
+
 	/**
 	 * Test bare and servlet signatures of getSession()
 	 * for the case when there's no session ID in the tracker.

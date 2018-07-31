@@ -84,11 +84,6 @@
          ],
          'hooks':[
             {
-               // Disqualifies all Firefox traffic.
-               'name':'FirefoxDisqualifier',
-               'class':'com.variant.server.ext.demo.FirefoxDisqualHook'
-            },
-            {
                // Assigns all Chrome traffic to the control experience
                'name':'ChromeTargeter',
                'class':'com.variant.server.ext.demo.ChromeTargetingHook'

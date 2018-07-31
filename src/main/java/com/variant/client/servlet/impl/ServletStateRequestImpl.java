@@ -10,7 +10,7 @@ import com.variant.client.servlet.ServletSession;
 import com.variant.client.servlet.ServletStateRequest;
 import com.variant.client.servlet.ServletVariantException;
 import com.variant.core.StateRequestStatus;
-import com.variant.core.VariantEvent;
+import com.variant.core.TraceEvent;
 import com.variant.core.schema.State;
 import com.variant.core.schema.StateVariant;
 import com.variant.core.schema.Test;
@@ -79,7 +79,7 @@ public class ServletStateRequestImpl implements ServletStateRequest {
 	}
 
 	@Override
-	public VariantEvent getStateVisitedEvent() {
+	public TraceEvent getStateVisitedEvent() {
 		return bareRequest.getStateVisitedEvent();
 	}
 
