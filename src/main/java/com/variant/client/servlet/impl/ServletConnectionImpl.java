@@ -1,14 +1,10 @@
 package com.variant.client.servlet.impl;
 
-import java.util.LinkedHashMap;
-
 import javax.servlet.http.HttpServletRequest;
 
 import com.variant.client.Connection;
 import com.variant.client.Session;
 import com.variant.client.VariantClient;
-import com.variant.client.lifecycle.LifecycleHook;
-import com.variant.client.lifecycle.SessionExpiredLifecycleEvent;
 import com.variant.client.servlet.ServletConnection;
 import com.variant.client.servlet.ServletSession;
 import com.variant.client.servlet.ServletVariantClient;
@@ -25,10 +21,7 @@ public class ServletConnectionImpl implements ServletConnection {
 
 	private final ServletVariantClient wrapClient;
 	private final Connection bareConnection;
-	
-	// Keep session wrappers in a map keyed by session ID. Expired sessions remove themselves.
-	private final LinkedHashMap<String, ServletSessionImpl> sessionMap = new LinkedHashMap<String, ServletSessionImpl>();
-	
+		
 	/**
 	 * Wrap the bare session, but only if we haven't already. We do this
 	 * to preserve the bare API's idempotency of the getSession() calls, i.e.
@@ -40,33 +33,7 @@ public class ServletConnectionImpl implements ServletConnection {
 	 */
 	private ServletSessionImpl wrap(final Session bareSsn) {
 		
-		if (bareSsn == null) return null;
-		
-		// If this bare session has already been wrapped, don't re-wrap.
-		ServletSessionImpl result = sessionMap.get(bareSsn.getId());
-		if (result == null) {
-			// Not yet been wrapped.  Add the expiration listener to ensure removal from sessionMap.
-			result = new ServletSessionImpl(this, bareSsn);
-			sessionMap.put(bareSsn.getId(), result);
-			
-			// All sessions created by this connection will self-clean on expiration.
-			// TODO; This must go, see #145
-			result.addLifecycleHook(
-					new LifecycleHook<SessionExpiredLifecycleEvent>() {
-						
-						@Override
-						public Class<SessionExpiredLifecycleEvent> getLifecycleEventClass() {
-							return SessionExpiredLifecycleEvent.class;
-						}
-
-						@Override
-						public void post(SessionExpiredLifecycleEvent event) throws Exception {
-							sessionMap.remove(event.getSession().getId());
-						}
-					});
-
-		}
-		return result;
+		 return bareSsn == null ? null : new ServletSessionImpl(this, bareSsn);
 	}
 	
 	/**

@@ -8,8 +8,6 @@ import com.typesafe.config.Config;
 import com.variant.client.Connection;
 import com.variant.client.Session;
 import com.variant.client.StateRequest;
-import com.variant.client.lifecycle.ClientLifecycleEvent;
-import com.variant.client.lifecycle.LifecycleHook;
 import com.variant.client.servlet.ServletSession;
 import com.variant.client.servlet.ServletStateRequest;
 import com.variant.client.servlet.ServletVariantException;
@@ -109,19 +107,10 @@ public class ServletSessionImpl implements ServletSession {
 		return bareSession.getTraversedTests();
 	}
 
-	@Override
-	public boolean isExpired() {
-		return bareSession.isExpired();
-	}
 
 	@Override
 	public void triggerTraceEvent(TraceEvent event) {
 		bareSession.triggerTraceEvent(event);
-	}
-
-	@Override
-	public void addLifecycleHook(LifecycleHook<? extends ClientLifecycleEvent> hook) {
-		bareSession.addLifecycleHook(hook);
 	}
 
 	@Override

@@ -104,7 +104,8 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 		
 		ssn2 = conn.getOrCreateSession(httpReq);
 		assertNotNull(ssn2);
-		assertEquals(ssn1, ssn2);
+		assertEquals(sid, ssn1.getId());
+		assertEquals(sid, ssn2.getId());
 
 		// Bare signatures		
 		sid = newSid();
@@ -118,15 +119,16 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 		
 		ssn2 = conn.getOrCreateSession((Object)httpReq2);
 		assertNotNull(ssn2);
-		assertEquals(ssn1, ssn2);
+		assertEquals(sid, ssn1.getId());
+		assertEquals(sid, ssn2.getId());
 
 		ssn2 = conn.getSession((Object)httpReq2);
 		assertNotNull(ssn2);
-		assertEquals(ssn1, ssn2);
+		assertEquals(sid, ssn2.getId());
 
 		ssn2 = conn.getSessionById(sid);
 		assertNotNull(ssn2);
-		assertEquals(ssn1, ssn2);
+		assertEquals(sid, ssn2.getId());
 
 	}
 	
@@ -195,7 +197,6 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 		httpReq = mockHttpServletRequest(httpResp);
 		ServletSession ssn3 = conn.getSession(httpReq);
 		assertTrue(varReq.isCommitted());
-		assertEquals(ssn3, ssn2);
 		assertEqualAsSets(
 				CollectionsUtils.pairsToMap(new Pair<State,Integer>(state1, 1)), 
 				ssn2.getTraversedStates());
@@ -255,8 +256,7 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 		// Create a new HTTP request with the same VRNT-SSNID cookie.  Should fetch the same bare session.
 		HttpServletRequest httpReq2 = mockHttpServletRequest(sid);
 		ServletSession ssn2 = conn.getSession(httpReq2);
-		assertEquals(ssn2, varReq.getSession());
-		assertEquals(ssn2.getStateRequest(), varReq);
+		assertNull(ssn2.getStateRequest());
 		assertEqualAsSets(
 				CollectionsUtils.pairsToMap(new Pair<State,Integer>(state2, 1)), 
 				ssn1.getTraversedStates());
@@ -290,7 +290,6 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 		// Request 2: Same SID from cookie.
 		httpReq = mockHttpServletRequest(resp);
 		ServletSession ssn2 = conn.getSession(httpReq);
-		assertEquals(ssn1, ssn2);
 		assertEquals(sid1, ssn2.getId());
 		
 		// Request 3: SID cookie removed
