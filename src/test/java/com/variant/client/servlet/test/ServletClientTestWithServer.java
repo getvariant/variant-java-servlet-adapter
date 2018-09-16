@@ -1,12 +1,13 @@
 package com.variant.client.servlet.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.Collection;
 
 import javax.servlet.http.Cookie;
 
@@ -14,17 +15,17 @@ import org.mockito.Answers;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import com.variant.core.test.VariantBaseTest;
 import com.variant.client.ConfigKeys;
-import com.variant.client.TargetingTracker;
-import com.variant.client.mock.HttpServletRequestMock;
-import com.variant.client.mock.HttpServletResponseMock;
-import com.variant.client.mock.HttpSessionMock;
 import com.variant.client.servlet.ServletVariantClient;
 import com.variant.client.servlet.ServletVariantException;
 import com.variant.client.servlet.SessionIdTrackerHttpCookie;
 import com.variant.client.servlet.TargetingTrackerHttpCookie;
+import com.variant.client.servlet.mock.HttpServletRequestMock;
+import com.variant.client.servlet.mock.HttpServletResponseMock;
+import com.variant.client.servlet.mock.HttpSessionMock;
 import com.variant.client.test.NativeProcess;
+import com.variant.core.test.VariantBaseTest;
+import com.variant.core.util.Tuples.Tripple;
 
 /**
  * Base class for all Core JUnit tests.
@@ -42,6 +43,8 @@ public abstract class ServletClientTestWithServer  extends VariantBaseTest {
 		try {
 			if (NativeProcess.execSilent("curl " + serverUrl) != 0 ) 
 				fail("No server at URL [" + serverUrl + "]");
+			else 
+				System.out.println("Server found at URL [" + serverUrl + "]");
 		}
 		catch (Exception x) {
 			throw new RuntimeException("Unable to verify server URL", x);
@@ -83,7 +86,7 @@ public abstract class ServletClientTestWithServer  extends VariantBaseTest {
 	}
 
 	/**
-	 * Mock HttpServletRequest. Will only contain the SID cookie.
+	 * Mock HttpServletRequest with only the SID tracker cookie.
 	 * @return
 	 */
 	protected HttpServletRequestMock mockHttpServletRequest(String sessionId) { 
@@ -91,18 +94,33 @@ public abstract class ServletClientTestWithServer  extends VariantBaseTest {
 	}
 
 	/**
-	 * Mock HttpServletRequest. Will contain variant related cookies as passed in arguments
+	 * Mock HttpServletRequest with booth cookies as passed in arguments
 	 * @return
-	 */
-	protected HttpServletRequestMock mockHttpServletRequest(
-			String sessionId, Collection<TargetingTracker.Entry> entries) { 
+	 *
+	protected HttpServletRequestMock mockHttpServletRequest(Collection<TargetingTracker.Entry> entries) { 
 		
 		String targetingTrackerVal = null;
 		if (entries != null && entries.size() > 0) {
 			targetingTrackerVal = TargetingTrackerHttpCookie.toString(entries);
 		}
 
-		return mockHttpServletRequest(sessionId, targetingTrackerVal);
+		return mockHttpServletRequest(targetingTrackerVal);
+	}
+*/
+	/**
+	 * Mock HttpServletRequest with booth cookies as passed in arguments
+	 * @return
+	 */
+	@SafeVarargs
+	final protected HttpServletRequestMock mockHttpServletRequest(Tripple<Long,String,String>...entries) { 
+		
+		String targetingTrackerVal = null;
+		targetingTrackerVal = null;
+		if (entries != null && entries.length > 0) {
+			targetingTrackerVal = TargetingTrackerHttpCookie.toString(entries);
+		}
+
+		return mockHttpServletRequest(null, targetingTrackerVal);
 	}
 
 	/**

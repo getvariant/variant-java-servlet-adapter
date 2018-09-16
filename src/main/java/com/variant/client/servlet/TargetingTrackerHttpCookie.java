@@ -9,7 +9,6 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.variant.client.Session;
 import com.variant.client.TargetingTracker;
 import com.variant.client.servlet.util.VariantCookie;
 import com.variant.client.session.TargetingTrackerString;
@@ -50,18 +49,7 @@ public class TargetingTrackerHttpCookie extends TargetingTrackerString implement
 		}
 	}
 
-	private Session session;	
 	private TargetingCookie cookie;
-
-	/**
-	 * The session which created this object.
-	 * 
-	 * @since 1.0
-	 */
-	@Override
-	public Session getSession() {
-		return session;
-	}
 	
 	//---------------------------------------------------------------------------------------------//
 	//                                          PUBLIC                                             //
@@ -76,8 +64,7 @@ public class TargetingTrackerHttpCookie extends TargetingTrackerString implement
 
 	// @since 1.0
 	@Override
-	public void init(Session session, Object...userData){
-		this.session = session;
+	public void init(Object...userData){
 		HttpServletRequest request =  (HttpServletRequest) userData[0];
 		cookie = new TargetingCookie(request);
 	}		
@@ -101,7 +88,7 @@ public class TargetingTrackerHttpCookie extends TargetingTrackerString implement
 	public void save(Object...userData) {
 		HttpServletResponse response = (HttpServletResponse) userData[0];
 		if (LOG.isDebugEnabled()) {
-			LOG.debug("Sending session ID cookie [" + cookie.getValue() + "]");
+			LOG.debug("Sending targeting cookie [" + cookie.getValue() + "]");
 		}
 		cookie.send(response);
 	}

@@ -117,5 +117,4 @@ public class ServletSessionImpl implements ServletSession {
 	public Schema getSchema() {
 		return bareSession.getSchema();
 	}
-
 }

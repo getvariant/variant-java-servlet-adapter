@@ -43,13 +43,23 @@ public class ServletStateRequestImpl implements ServletStateRequest {
 	}
 	
 	@Override
-	public boolean commit(Object... userData) {
-		return commit((HttpServletResponse)userData[0]);
+	public void commit(Object... userData) {
+		commit((HttpServletResponse)userData[0]);
 	}
 
 	@Override
-	public boolean commit(HttpServletResponse resp) {
-		return bareRequest.commit(resp);
+	public void commit(HttpServletResponse resp) {
+		bareRequest.commit(resp);
+	}
+
+	@Override
+	public void fail(Object... userData) {
+		fail((HttpServletResponse)userData[0]);
+	}
+
+	@Override
+	public void fail(HttpServletResponse resp) {
+		bareRequest.fail(resp);
 	}
 
 	@Override
@@ -84,23 +94,13 @@ public class ServletStateRequestImpl implements ServletStateRequest {
 	}
 
 	@Override
-	public boolean isCommitted() {
-		return bareRequest.isCommitted();
-	}
-
-	@Override
-	public Map<String, String> getResolvedParameters() {
-		return bareRequest.getResolvedParameters();
-	}
-
-	@Override
 	public StateRequestStatus getStatus() {
 		return bareRequest.getStatus();
 	}
 
 	@Override
-	public void setStatus(StateRequestStatus status) {
-		bareRequest.setStatus(status);
+	public Map<String, String> getResolvedParameters() {
+		return bareRequest.getResolvedParameters();
 	}
 
 	// ---------------------------------------------------------------------------------------------//

@@ -1,4 +1,4 @@
-package com.variant.client.mock;
+package com.variant.client.servlet.mock;
 
 import java.util.HashMap;
 

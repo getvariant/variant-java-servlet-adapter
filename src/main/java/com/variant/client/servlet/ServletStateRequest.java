@@ -10,16 +10,25 @@ import com.variant.client.StateRequest;
  * Servlet-aware {@link #commit(HttpServletResponse)}. 
  * 
  * @author Igor Urisman
- * @since 1.0
+ * @since 0.7
  */
 
 public interface ServletStateRequest extends StateRequest {
 	
 	/**
-	 * Environment bound version of of the bare client's {@link #commit(Object...)}.
+	 * Environment bound version of of the Java client's {@link #commit(Object...)}.
 	 * 
 	 * @param request Current {@link HttpServletResponse}.
-	 * @since 1.0
+	 * @since 0.7
 	 */
-	boolean commit(HttpServletResponse response);
+	void commit(HttpServletResponse response);
+	
+	/**
+	 * Environment bound version of of the Java client's {@link #fail(Object...)}.
+	 * 
+	 * @param request Current {@link HttpServletResponse}.
+	 * @since 0.9
+	 */
+	void fail(HttpServletResponse response);
+
 }
