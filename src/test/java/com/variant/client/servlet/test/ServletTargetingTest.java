@@ -37,5 +37,6 @@ public class ServletTargetingTest extends ServletClientTestWithServer {
 		assertEquals("test2", req.getLiveExperience(schema.getTest("test2")).getTest().getName());
 		assertEquals("B", req.getLiveExperience(schema.getTest("test2")).getName());		
 	}
-	
+
+	// TODO: same with SID in tracker.
 }
