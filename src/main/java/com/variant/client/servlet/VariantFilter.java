@@ -231,8 +231,8 @@ public class VariantFilter implements Filter {
 			chain.doFilter(request, response);							
 		}
 							
-		
-		if (stateRequest != null) {
+		// Commit state request if not yet.
+		if (stateRequest != null && stateRequest.getStatus() == StateRequestStatus.InProgress) {
 			try {
 				// Add some extra info to the state visited event(s)
 				TraceEvent sve = stateRequest.getStateVisitedEvent();
