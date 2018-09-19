@@ -11,7 +11,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -113,7 +112,7 @@ import com.variant.core.schema.State;
  * Varaint exception, the user session will see the control experience. 
  * 
  * @author Igor Urisman
- * @since 1.0
+ * @since 0.5
  */
 public class VariantFilter implements Filter {
 
@@ -123,6 +122,18 @@ public class VariantFilter implements Filter {
 	
 	private String schemaName = null;
 	private ServletConnection connection = null;
+	
+	//---------------------------------------------------------------------------------------------//
+	//                                          PROTECTED                                          //
+	//---------------------------------------------------------------------------------------------//
+
+	/**
+	 * On session callback method. Extending client classes may add custom semantics by overriding
+	 * this method. Otherwise, the default implementation does nothing.
+	 * 
+	 * @param ssn The newly acquired Variant session object.
+	 */
+	protected void onSession(ServletRequest request, ServletResponse response, ServletSession ssn) {}
 	
 	//---------------------------------------------------------------------------------------------//
 	//                                          PUBLIC                                             //
@@ -167,8 +178,6 @@ public class VariantFilter implements Filter {
 		ServletSession variantSsn = null; 
 		ServletStateRequest stateRequest = null;
 		
-		long start = System.currentTimeMillis();
-
 		String resolvedPath = null;
 		boolean isForwarding = false;
 		String path = httpRequest.getRequestURI();
@@ -195,8 +204,9 @@ public class VariantFilter implements Filter {
 			}
 			else {
 
-				// Path instrumented by Variant and we have variant session. 
-				variantSsn.setAttribute("user-agent", ((HttpServletRequest)request).getHeader("User-Agent"));
+				// Extending client code gets to do something custom here.
+				onSession(request, response, variantSsn);
+
 				stateRequest = variantSsn.targetForState(state);
 				request.setAttribute(VARIANT_REQUEST_ATTR_NAME, stateRequest);
 
@@ -204,18 +214,9 @@ public class VariantFilter implements Filter {
 				isForwarding = !resolvedPath.equals(state.getParameters().get("path"));
 				
 				if (LOG.isDebugEnabled()) {
-					String msg = 
-							"Variant dispatcher for path [" + path +
-							"] completed in " + DurationFormatUtils.formatDuration(System.currentTimeMillis() - start, "mm:ss.SSS") +". ";
-					if (isForwarding) {
-						msg += "Forwarding to path [" + resolvedPath + "].";							
-					}
-					else {
-						msg += "Falling through to requested URL";
-					}
+					String msg = isForwarding ? "Forwarding to path [" + resolvedPath + "]." : "Falling through to requested URL";
 					LOG.debug(msg);
 				}
-				
 			}
 		}
 		catch (VariantException e) {

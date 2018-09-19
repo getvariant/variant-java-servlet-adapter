@@ -1,0 +1,155 @@
+//
+// Variant Java client + Servlet adapter demo application.
+// Demonstrates instrumentation of a basic Variant experiment.
+// See https://github.com/getvariant/variant-java-demo for details.
+//
+// Copyright © 2015-2018 Variant, Inc. All Rights Reserved.
+
+{
+   'meta':{
+      'name':'petclinic',
+      'comment':'Variation schema for experiments on the Pet Clinic demo application'
+      // The default flusher appends to the server log file log/variant.log
+      // To have trace events written off to a PostgreSQL database: 
+      //  1. Uncomment below and specify the appropriate database credentials. 
+      //  2. Place the Postres JDVC driver JAR file (release 9.1-901-1 or higher) 
+      //     in the server's ext/ directory.
+      // ,'flusher': {
+      //  'class':'com.variant.server.api.EventFlusherPostgres',
+      //  'init': {
+      //      'url':'jdbc:postgresql://localhost/variant',
+      //      'user':'variant',
+      //       'password':'variant'
+      //  }
+      // }
+   },
+
+   'states':[
+      { 
+         // The vets page
+         'name':'vets',
+         'parameters': [
+            {
+               'name':'path',
+               'value':'/petclinic/vets.html'
+            }
+         ]
+      },
+      { 
+         // The New Owner page used to add owner at /petclinic/owners/new 
+         'name':'newOwner',
+         'parameters': [
+            {
+               'name':'path',
+               'value':'/petclinic/owners/new'
+            }
+          ]
+      },                                                    
+      {  
+         // The Owner Detail page. Note that owner ID is in the path,
+          // so we have to use regular expression to match.
+         'name':'ownerDetail',
+         'parameters': [
+            {
+               'name':'path',
+               'value':'/petclinic/owners/~\\d+/'
+            }
+         ]
+      }                                                       
+   ],                                                        
+
+   'tests':[
+     //
+     // Vet's hourly rate feature toggle.
+     //
+     {                                                      
+         'name':'VetsHourlyRateFeature',
+         'experiences':[                                     
+            {                                                
+               'name':'existing',                                   
+               'weight':1,                                  
+               'isControl':true                              
+            },                                               
+            {                                                
+               'name':'rateColumn',
+               'weight':1                                   
+            }              
+         ],                                                  
+         'onStates':[
+            {                                                
+               'stateRef':'vets',
+               'isNonvariant':true
+            }
+         ],
+         'hooks':[
+               {
+                  // Assigns all Chrome traffic to the control experience
+                  'name':'ChromeTargeter',
+                  'class':'com.variant.server.ext.demo.ChromeTargetingHook'
+               }
+          ]
+      },
+      //
+      // The New Owner test on 2 pages.
+      //
+      {                                                      
+         'name':'NewOwnerTest',
+         'experiences':[                                     
+            {                                                
+               'name':'outOfTheBox',                                   
+               'weight':1,                                  
+               'isControl':true                              
+            },                                               
+            {                                                
+               'name':'tosCheckbox',
+               'weight':1                                   
+            },                                               
+            {                                                
+               'name':'tosAndMailCheckbox',                                   
+               'weight':1                                   
+            }                                               
+         ],                                                  
+         'onStates':[                                         
+            {                                                
+               'stateRef':'newOwner',                    
+               'variants':[                                  
+                  {                                          
+                     'experienceRef': 'tosCheckbox',
+                     'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/owners/new/variant/newOwnerTest.tosCheckbox'
+                        }
+                     ]
+                  },                                         
+                  {                                          
+                     'experienceRef': 'tosAndMailCheckbox',                   
+                     'parameters': [
+                        {
+                           'name':'path',
+                           'value':'/owners/new/variant/newOwnerTest.tosAndMailCheckbox'
+                        }
+                     ]
+                  }                                          
+               ]                                             
+            },
+            {                                                
+               'stateRef':'ownerDetail',                            
+               'isNonvariant': true
+            }                                                
+         ],
+         'hooks':[
+            {
+               // Disqualifies all Safari traffic.
+               'name':'SafariDisqualifier',
+               'class':'com.variant.server.ext.demo.SafariDisqualHook'
+            },
+            {
+               // Assigns all Chrome traffic to the control experience
+               'name':'ChromeTargeter',
+               'class':'com.variant.server.ext.demo.ChromeTargetingHook'
+            }
+         ]
+      }
+   ]
+}
