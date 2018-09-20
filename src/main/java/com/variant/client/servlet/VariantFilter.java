@@ -182,6 +182,11 @@ public class VariantFilter implements Filter {
 		boolean isForwarding = false;
 		String path = httpRequest.getRequestURI();
 
+		// Sporadically, Spring will switch to URL rewriting and tack on the jsessionid param to the URL. 
+		// we throw it away here quietly. 
+		int pos = path.indexOf(";jsessionid");
+		if (pos > 0) path = path.substring(0, pos);
+		
 		LOG.debug("VariantFilter for path [" + path + "]");
 
 		try {
