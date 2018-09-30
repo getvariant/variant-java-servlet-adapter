@@ -1,6 +1,7 @@
 package com.variant.client.servlet.impl;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletResponse;
@@ -13,8 +14,8 @@ import com.variant.core.StateRequestStatus;
 import com.variant.core.TraceEvent;
 import com.variant.core.schema.State;
 import com.variant.core.schema.StateVariant;
-import com.variant.core.schema.Test;
-import com.variant.core.schema.Test.Experience;
+import com.variant.core.schema.Variation;
+import com.variant.core.schema.Variation.Experience;
 
 /**
  * <p>The implementation of {@link ServletStateRequest}.
@@ -84,7 +85,7 @@ public class ServletStateRequestImpl implements ServletStateRequest {
 	}
 
 	@Override
-	public Experience getLiveExperience(Test test) {
+	public Optional<Experience> getLiveExperience(Variation test) {
 		return bareRequest.getLiveExperience(test);
 	}
 

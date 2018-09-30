@@ -1,9 +1,7 @@
 package com.variant.client.servlet.test;
 
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 import java.util.Collection;
 
@@ -20,7 +18,7 @@ import com.variant.client.servlet.mock.HttpServletResponseMock;
 import com.variant.core.StateRequestStatus;
 import com.variant.core.schema.Schema;
 import com.variant.core.schema.State;
-import com.variant.core.schema.Test;
+import com.variant.core.schema.Variation;
 import com.variant.core.util.CollectionsUtils;
 import com.variant.core.util.Tuples.Pair;
 
@@ -36,7 +34,7 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 	@org.junit.Test
 	public void getSessionNoTrackerTest() throws Exception {
 		
-		final ServletConnection conn = servletClient.connectTo("big_covar_schema");
+		final ServletConnection conn = servletClient.connectTo("big_conjoint_schema");
 		assertNotNull(conn);
 		
 		// Servlet signatures
@@ -85,7 +83,7 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 	@org.junit.Test
 	public void getSessionWithTrackerTest() throws Exception {
 
-		final ServletConnection conn = servletClient.connectTo("big_covar_schema");
+		final ServletConnection conn = servletClient.connectTo("big_conjoint_schema");
 
 		// Servlet signatures
 		HttpServletRequest httpReq = mockHttpServletRequest(newSid());
@@ -133,7 +131,7 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 	@org.junit.Test
 	public void fullStateRequestNoIdTracker() throws Exception {
 		
-		final ServletConnection conn = servletClient.connectTo("big_covar_schema");
+		final ServletConnection conn = servletClient.connectTo("big_conjoint_schema");
 		
 		HttpServletRequest httpReq = mockHttpServletRequest();
 		HttpServletResponseMock httpResp = mockHttpServletResponse();
@@ -142,33 +140,33 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 		assertNotNull(ssn1);
 		assertNotNull(ssn1.getId());
 		assertEquals(conn, ssn1.getConnection());
-		assertNull(ssn1.getStateRequest());		
+		assertFalse(ssn1.getStateRequest().isPresent());		
 		assertEquals(0, ssn1.getTraversedStates().size());
-		assertEquals(0, ssn1.getTraversedTests().size());
+		assertEquals(0, ssn1.getTraversedVariations().size());
 		assertEquals(0, httpResp.getCookies().length);
 		
 		ServletSession ssn2 = conn.getOrCreateSession(httpReq);
 		assertNotEquals(ssn1, ssn2);  
 		
 		Schema schema = ssn2.getSchema();
-		State state1 = schema.getState("state1");		
+		State state1 = schema.getState("state1").get();		
 		ServletStateRequest req2 = ssn2.targetForState(state1);
 		assertEquals(state1, req2.getState());
 		assertEquals(ssn2, req2.getSession());
-		assertEquals(req2, ssn2.getStateRequest());
+		assertEquals(req2, ssn2.getStateRequest().get());
 
 		assertEqualAsSets(
 				CollectionsUtils.pairsToMap(new Pair<State,Integer>(state1, 1)), 
 				ssn2.getTraversedStates());
 		
-		Collection<Test> expectedTests = CollectionsUtils.list(
-				schema.getTest("test2"), 
-				schema.getTest("test3"), 
-				schema.getTest("test4"), 
-				schema.getTest("test5"), 
-				schema.getTest("test6"));
+		Collection<Variation> expectedTests = CollectionsUtils.list(
+				schema.getVariation("test2").get(), 
+				schema.getVariation("test3").get(), 
+				schema.getVariation("test4").get(), 
+				schema.getVariation("test5").get(), 
+				schema.getVariation("test6").get());
 		
-		assertEqualAsSets(expectedTests, ssn2.getTraversedTests());
+		assertEqualAsSets(expectedTests, ssn2.getTraversedVariations());
 
 		req2.commit(httpResp);
 		assertEquals(StateRequestStatus.Committed, req2.getStatus());
@@ -176,7 +174,7 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 		// commit() has added the targeting tracker cookie.
 		assertEquals(2, httpResp.getCookies().length);
 		assertEquals(ssn2.getId(), httpResp.getCookie(SessionIdTrackerHttpCookie.COOKIE_NAME).getValue());
-		for (Test test: expectedTests)
+		for (Variation test: expectedTests)
 			assertMatches(".*\\." + test.getName() + "\\..*", httpResp.getCookie(TargetingTrackerHttpCookie.COOKIE_NAME).getValue());
 		
 		// The session shouldn't have changed after commit.
@@ -184,7 +182,7 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 				CollectionsUtils.pairsToMap(new Pair<State,Integer>(state1, 1)), 
 				ssn2.getTraversedStates());
 
-		assertEqualAsSets(expectedTests, ssn2.getTraversedTests());
+		assertEqualAsSets(expectedTests, ssn2.getTraversedVariations());
 
 		// Commit should have saved the session.
 		httpReq = mockHttpServletRequest(httpResp);
@@ -194,7 +192,7 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 				CollectionsUtils.pairsToMap(new Pair<State,Integer>(state1, 1)), 
 				ssn2.getTraversedStates());
 
-		assertEqualAsSets(expectedTests, ssn3.getTraversedTests());		
+		assertEqualAsSets(expectedTests, ssn3.getTraversedVariations());		
 
 		// should be a no-op.
 		req2.commit(httpResp);
@@ -209,7 +207,7 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 	@org.junit.Test
 	public void fullStateRequestWithIdTracker() throws Exception {
 		
-		final ServletConnection conn = servletClient.connectTo("big_covar_schema");
+		final ServletConnection conn = servletClient.connectTo("big_conjoint_schema");
 
 		HttpServletRequest httpReq = mockHttpServletRequest(newSid());
 		HttpServletResponseMock httpResp = mockHttpServletResponse();
@@ -219,28 +217,28 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 
 		ssn1 = conn.getOrCreateSession(httpReq);
 		assertNotNull(ssn1);
-		assertNull(ssn1.getStateRequest());		
+		assertFalse(ssn1.getStateRequest().isPresent());		
 		assertEquals(0, ssn1.getTraversedStates().size());
-		assertEquals(0, ssn1.getTraversedTests().size());
+		assertEquals(0, ssn1.getTraversedVariations().size());
 		assertEquals(0, httpResp.getCookies().length);  // We didn't drop the ssnid cookie, because there was one in request.
 		
 		Schema schema = ssn1.getSchema();
-		State state2 = schema.getState("state2");		
+		State state2 = schema.getState("state2").get();		
 		StateRequest varReq = ssn1.targetForState(state2);
 		assertEquals(ssn1, varReq.getSession());
 		assertEqualAsSets(
 				CollectionsUtils.pairsToMap(new Pair<State,Integer>(state2, 1)), 
 				ssn1.getTraversedStates());
 		
-		Collection<Test> expectedTests = CollectionsUtils.list(
-				schema.getTest("test1"), 
-				schema.getTest("test2"), 
-				schema.getTest("test3"), 
-				schema.getTest("test4"), 
-				schema.getTest("test5"), 
-				schema.getTest("test6"));
+		Collection<Variation> expectedTests = CollectionsUtils.list(
+				schema.getVariation("test1").get(), 
+				schema.getVariation("test2").get(), 
+				schema.getVariation("test3").get(), 
+				schema.getVariation("test4").get(), 
+				schema.getVariation("test5").get(), 
+				schema.getVariation("test6").get());
 
-		assertEqualAsSets(expectedTests, ssn1.getTraversedTests());		
+		assertEqualAsSets(expectedTests, ssn1.getTraversedVariations());		
 
 		varReq.commit(httpResp);
 		assertEquals(StateRequestStatus.Committed, varReq.getStatus());
@@ -248,11 +246,11 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 		// Create a new HTTP request with the same VRNT-SSNID cookie.  Should fetch the same bare session.
 		HttpServletRequest httpReq2 = mockHttpServletRequest(ssn1.getId());
 		ServletSession ssn2 = conn.getSession(httpReq2);
-		assertNull(ssn2.getStateRequest());
+		assertFalse(ssn2.getStateRequest().isPresent());
 		assertEqualAsSets(
 				CollectionsUtils.pairsToMap(new Pair<State,Integer>(state2, 1)), 
 				ssn1.getTraversedStates());
-		assertEqualAsSets(expectedTests, ssn1.getTraversedTests());
+		assertEqualAsSets(expectedTests, ssn1.getTraversedVariations());
 		
 	}
 	
@@ -264,7 +262,7 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 	@org.junit.Test
 	public void cookieForgedTest() throws Exception {
 		
-		final ServletConnection conn = servletClient.connectTo("big_covar_schema");
+		final ServletConnection conn = servletClient.connectTo("big_conjoint_schema");
 
 		
 		// Request 1: new session.
@@ -272,7 +270,7 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 		ServletSession ssn1 = conn.getOrCreateSession(httpReq);
 		assertNotNull(ssn1);
 		Schema schema = ssn1.getSchema();
-		State state3 = schema.getState("state3");
+		State state3 = schema.getState("state3").get();
 		assertNotNull(state3);
 		String sid1 = ssn1.getId();
 		ServletStateRequest req = ssn1.targetForState(state3);
@@ -296,7 +294,7 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 	@org.junit.Test
 	public void connClosedByClientTest() throws Exception {
 		
-		final ServletConnection conn = servletClient.connectTo("big_covar_schema");
+		final ServletConnection conn = servletClient.connectTo("big_conjoint_schema");
 
 
 		String sid1 = newSid();
@@ -304,7 +302,7 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 		ServletSession ssn1 = conn.getOrCreateSession(httpReq1);
 		assertNotNull(ssn1);
 		Schema schema = ssn1.getSchema();
-		final State state2 = schema.getState("state2");
+		final State state2 = schema.getState("state2").get();
 		assertNotNull(state2);
 		
 		String sid2 = newSid();

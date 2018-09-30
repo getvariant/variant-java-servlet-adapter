@@ -23,7 +23,7 @@ public class ServletTargetingTest extends ServletClientTestWithServer {
 	@org.junit.Test
 	public void noSIDwithTargeting() throws Exception {
 		
-		ServletConnection conn = servletClient.connectTo("big_covar_schema");
+		ServletConnection conn = servletClient.connectTo("big_conjoint_schema");
 		
 		Tripple<Long,String,String> targetingCookie = 
 			new Tripple<Long,String,String>(System.currentTimeMillis(), "test2", "B");
@@ -32,10 +32,10 @@ public class ServletTargetingTest extends ServletClientTestWithServer {
 
 		ServletSession ssn = conn.getOrCreateSession(httpReq);		
 		Schema schema = ssn.getSchema();
-		State state1 = schema.getState("state1");		
+		State state1 = schema.getState("state1").get();		
 		ServletStateRequest req = ssn.targetForState(state1);
-		assertEquals("test2", req.getLiveExperience(schema.getTest("test2")).getTest().getName());
-		assertEquals("B", req.getLiveExperience(schema.getTest("test2")).getName());		
+		assertEquals("test2", req.getLiveExperience(schema.getVariation("test2").get()).get().getVariation().getName());
+		assertEquals("B", req.getLiveExperience(schema.getVariation("test2").get()).get().getName());		
 	}
 
 	// TODO: same with SID in tracker.

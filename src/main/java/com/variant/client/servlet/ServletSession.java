@@ -13,9 +13,12 @@ import com.variant.core.schema.State;
  */
 public interface ServletSession extends Session {
 
-	// Override the bare {@link VariantCoreSession#targetForState(State)} in order to
-	// return the servlet-aware state request {@link ServletStateRequest}
-	// @since 1.0
+	/**
+	 * Override the bare {@link VariantCoreSession#targetForState(State)} in order to
+	 * return the servlet-aware state request {@link ServletStateRequest}
+	 * @since 0.6
+	 */
+	@Override
 	public ServletStateRequest targetForState(State state);
 
 }

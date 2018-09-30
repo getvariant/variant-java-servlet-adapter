@@ -58,7 +58,7 @@
       }                                                       
    ],                                                        
 
-   'tests':[
+   'variations':[
      //
      // Vet's hourly rate feature toggle.
      //

@@ -2,6 +2,7 @@ package com.variant.client.servlet.impl;
 
 import java.util.Date;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import com.typesafe.config.Config;
@@ -14,7 +15,7 @@ import com.variant.client.servlet.ServletVariantException;
 import com.variant.core.TraceEvent;
 import com.variant.core.schema.Schema;
 import com.variant.core.schema.State;
-import com.variant.core.schema.Test;
+import com.variant.core.schema.Variation;
 
 /**
  * <p>The implementation of {@link ServletSession}.
@@ -48,18 +49,8 @@ public class ServletSessionImpl implements ServletSession {
 	}
 
 	@Override
-	public String clearAttribute(String name) {
-		return bareSession.clearAttribute(name);
-	}
-
-	@Override
-	public String getAttribute(String name) {
-		return bareSession.getAttribute(name);
-	}
-
-	@Override
-	public String setAttribute(String name, String value) {
-		return bareSession.setAttribute(name, value);
+	public Map<String,String> getAttributes() {
+		return bareSession.getAttributes();
 	}
 
 	@Override
@@ -78,8 +69,8 @@ public class ServletSessionImpl implements ServletSession {
 	}
 
 	@Override
-	public Set<Test> getDisqualifiedTests() {
-		return bareSession.getDisqualifiedTests();
+	public Set<Variation> getDisqualifiedVariations() {
+		return bareSession.getDisqualifiedVariations();
 	}
 
 	@Override
@@ -88,8 +79,8 @@ public class ServletSessionImpl implements ServletSession {
 	}
 
 	@Override
-	public StateRequest getStateRequest() {
-		return wrapStateRequest;
+	public Optional<StateRequest> getStateRequest() {
+		return Optional.ofNullable(wrapStateRequest);
 	}
 
 	@Override
@@ -103,8 +94,8 @@ public class ServletSessionImpl implements ServletSession {
 	}
 
 	@Override
-	public Set<Test> getTraversedTests() {
-		return bareSession.getTraversedTests();
+	public Set<Variation> getTraversedVariations() {
+		return bareSession.getTraversedVariations();
 	}
 
 
