@@ -134,8 +134,7 @@
                ]                                             
             },
             {                                                
-               'stateRef':'ownerDetail',                            
-               'isNonvariant': true
+               'stateRef':'ownerDetail'                            
             }                                                
          ],
          'hooks':[

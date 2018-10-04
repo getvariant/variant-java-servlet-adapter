@@ -74,7 +74,7 @@ public class ServletStateRequestImpl implements ServletStateRequest {
 	}
 
 	@Override
-	public StateVariant getResolvedStateVariant() {
+	public Optional<StateVariant> getResolvedStateVariant() {
 		return bareRequest.getResolvedStateVariant();
 	}
 
