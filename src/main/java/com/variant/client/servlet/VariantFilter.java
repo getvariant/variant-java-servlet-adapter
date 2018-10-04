@@ -135,6 +135,14 @@ public class VariantFilter implements Filter {
 	 */
 	protected void onSession(ServletRequest request, ServletResponse response, ServletSession ssn) {}
 	
+	/**
+	 * On session callback method. Extending client classes may add custom semantics by overriding
+	 * this method. Otherwise, the default implementation does nothing.
+	 * 
+	 * @param ssn The newly acquired Variant session object.
+	 */
+	protected void onStateRequest(ServletRequest request, ServletResponse response, ServletStateRequest stateRequest) {}
+
 	//---------------------------------------------------------------------------------------------//
 	//                                          PUBLIC                                             //
 	//---------------------------------------------------------------------------------------------//
@@ -214,6 +222,9 @@ public class VariantFilter implements Filter {
 
 				stateRequest = variantSsn.targetForState(state);
 				request.setAttribute(VARIANT_REQUEST_ATTR_NAME, stateRequest);
+
+				// Extending client code gets to do something custom here.
+				onStateRequest(request, response, stateRequest);
 
 				resolvedPath = stateRequest.getResolvedParameters().get("path");
 				isForwarding = !resolvedPath.equals(state.getParameters().get("path"));
