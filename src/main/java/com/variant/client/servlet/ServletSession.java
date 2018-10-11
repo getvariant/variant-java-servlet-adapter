@@ -1,6 +1,6 @@
 package com.variant.client.servlet;
 
-//import com.variant.client.Session;
+import com.variant.client.Session;
 import com.variant.core.schema.State;
 
 /**
@@ -11,7 +11,7 @@ import com.variant.core.schema.State;
  * @author Igor Urisman
  * @since 1.0
  */
-public interface ServletSession extends com.variant.client.Session {
+public interface ServletSession extends Session {
 
 	/**
 	 * Override the underlying {@link Session#targetForState(State)} in order to
