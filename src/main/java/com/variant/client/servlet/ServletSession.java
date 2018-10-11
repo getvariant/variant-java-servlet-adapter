@@ -1,6 +1,6 @@
 package com.variant.client.servlet;
 
-import com.variant.client.Session;
+//import com.variant.client.Session;
 import com.variant.core.schema.State;
 
 /**
