@@ -11,10 +11,10 @@ import com.variant.core.schema.State;
  * @author Igor Urisman
  * @since 1.0
  */
-public interface ServletSession extends Session {
+public interface ServletSession extends com.variant.client.Session {
 
 	/**
-	 * Override the bare {@link VariantCoreSession#targetForState(State)} in order to
+	 * Override the underlying {@link Session#targetForState(State)} in order to
 	 * return the narrower servlet-aware state request {@link ServletStateRequest}
 	 * @since 0.6
 	 */

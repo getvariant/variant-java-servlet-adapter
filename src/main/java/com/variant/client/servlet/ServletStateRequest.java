@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.variant.client.StateRequest;
 
 /**
- * <p>Servlet-aware wrapper around bare client's implementation of {@link StateRequest}.
+ * Servlet-aware wrapper around the underlying implementation of {@link StateRequest}.
  * Overrides the {@link StateRequest#commit(Object...)} method with the
  * Servlet-aware {@link #commit(HttpServletResponse)}. 
  * 
