@@ -34,7 +34,7 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 	@org.junit.Test
 	public void getSessionNoTrackerTest() throws Exception {
 		
-		final ServletConnection conn = servletClient.connectTo("big_conjoint_schema");
+		final ServletConnection conn = servletClient.connectTo("monstrosity");
 		assertNotNull(conn);
 		
 		// Servlet signatures
@@ -83,7 +83,7 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 	@org.junit.Test
 	public void getSessionWithTrackerTest() throws Exception {
 
-		final ServletConnection conn = servletClient.connectTo("big_conjoint_schema");
+		final ServletConnection conn = servletClient.connectTo("monstrosity");
 
 		// Servlet signatures
 		HttpServletRequest httpReq = mockHttpServletRequest(newSid());
@@ -131,7 +131,7 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 	@org.junit.Test
 	public void fullStateRequestNoIdTracker() throws Exception {
 		
-		final ServletConnection conn = servletClient.connectTo("big_conjoint_schema");
+		final ServletConnection conn = servletClient.connectTo("monstrosity");
 		
 		HttpServletRequest httpReq = mockHttpServletRequest();
 		HttpServletResponseMock httpResp = mockHttpServletResponse();
@@ -162,7 +162,6 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 		Collection<Variation> expectedTests = CollectionsUtils.list(
 				schema.getVariation("test2").get(), 
 				schema.getVariation("test3").get(), 
-				schema.getVariation("test4").get(), 
 				schema.getVariation("test5").get(), 
 				schema.getVariation("test6").get());
 		
@@ -207,7 +206,7 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 	@org.junit.Test
 	public void fullStateRequestWithIdTracker() throws Exception {
 		
-		final ServletConnection conn = servletClient.connectTo("big_conjoint_schema");
+		final ServletConnection conn = servletClient.connectTo("monstrosity");
 
 		HttpServletRequest httpReq = mockHttpServletRequest(newSid());
 		HttpServletResponseMock httpResp = mockHttpServletResponse();
@@ -233,7 +232,6 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 		Collection<Variation> expectedTests = CollectionsUtils.list(
 				schema.getVariation("test1").get(), 
 				schema.getVariation("test2").get(), 
-				schema.getVariation("test3").get(), 
 				schema.getVariation("test4").get(), 
 				schema.getVariation("test5").get(), 
 				schema.getVariation("test6").get());
@@ -262,7 +260,7 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 	@org.junit.Test
 	public void cookieForgedTest() throws Exception {
 		
-		final ServletConnection conn = servletClient.connectTo("big_conjoint_schema");
+		final ServletConnection conn = servletClient.connectTo("monstrosity");
 
 		
 		// Request 1: new session.
@@ -294,7 +292,7 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 	@org.junit.Test
 	public void connClosedByClientTest() throws Exception {
 		
-		final ServletConnection conn = servletClient.connectTo("big_conjoint_schema");
+		final ServletConnection conn = servletClient.connectTo("monstrosity");
 
 
 		String sid1 = newSid();
