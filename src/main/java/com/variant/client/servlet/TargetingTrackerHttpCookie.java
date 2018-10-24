@@ -5,13 +5,13 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.variant.client.TargetingTracker;
 import com.variant.client.servlet.util.VariantCookie;
 import com.variant.client.session.TargetingTrackerString;
+import com.variant.core.util.TimeUtils;
 
 /**
  * Concrete implementation of the Variant targeting tracker based on HTTP cookie. 
@@ -45,7 +45,7 @@ public class TargetingTrackerHttpCookie extends TargetingTrackerString implement
 		 */
 		@Override
 		public int getMaxAge() {
-			return (int) DateUtils.MILLIS_PER_DAY / 1000 * 365;
+			return (int) TimeUtils.MILLIS_PER_DAY / 1000 * 365;
 		}
 	}
 
