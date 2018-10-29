@@ -12,6 +12,9 @@ public class PathMatcherTest {
 	@Test
 	public void matcherTest() {
 		
+		assertFalse(StateSelectorByRequestPath.match("/foo", "/"));
+		assertFalse(StateSelectorByRequestPath.match("/", "/foo"));
+		assertTrue(StateSelectorByRequestPath.match("/", "/"));
 		assertTrue(StateSelectorByRequestPath.match("/foo", "/foo/"));
 		assertTrue(StateSelectorByRequestPath.match("/foo", "/foo"));
 		assertTrue(StateSelectorByRequestPath.match("/foo/", "/foo/"));

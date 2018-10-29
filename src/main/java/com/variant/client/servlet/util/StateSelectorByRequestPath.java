@@ -77,7 +77,15 @@ public class StateSelectorByRequestPath  {
 		String patternTokens[] = expandedPattern.split("/");
 		
 		// Start with 1 because the first token in both will always be an empty string because the
-		// first character in both is '/'.
+		// first character in both is '/'. UNLESS the pattern or the string is just "/", in which
+		// case split() creates a 0 length array -- a corner case that has to be accounted for.
+		if (stringTokens.length == 0) {
+			return patternTokens.length == 0;
+		}
+		else if  (patternTokens.length == 0) {
+			return stringTokens.length == 0;
+		}
+		
 		for (int i = 1; ;i++) {
 			if (i == stringTokens.length) {
 				if (i == patternTokens.length) {
