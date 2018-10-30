@@ -23,7 +23,7 @@ Servlet adapter consists of the following three components:
 
 ## 2. Classpath Installation
 
-The servlet adapter JAR file and its two transitive dependencies can be found in this repository in the [/lib](https://github.com/getvariant/variant-java-servlet-adapter/tree/master/lib) directory. Add all three JAR files on your host application's classpath.
+The servlet adapter JAR file and its two transitive dependencies can be found in this repository's [/lib](https://github.com/getvariant/variant-java-servlet-adapter/tree/master/lib) directory. Add all three JAR files on your host application's classpath.
 
 Note that these libraries in turn have the following transitive dependencies:
 
@@ -31,7 +31,7 @@ Note that these libraries in turn have the following transitive dependencies:
 2. [Simple Logging Facade for Java (1.7+)](https://www.slf4j.org/) library. 
 2. [Typesafe Config (1.2+)](https://github.com/typesafehub/config) library. 
 
-Download these dependent libraries and add them to your host application classpath.
+Download these dependent libraries and add them to your host application classpath as well, if you don't already have them.
 
 ## 3. Adding Servlet Adapter to Host Application's Maven Build
 
