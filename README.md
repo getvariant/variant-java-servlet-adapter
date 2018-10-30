@@ -21,7 +21,7 @@ Servlet adapter consists of the following three components:
 * HTTP Cookie based implementations of the [targeting tracker](https://getvariant.github.io/variant-java-servlet-adapter/com/variant/client/servlet/TargetingTrackerHttpCookie.html) and the [session ID tracker](https://getvariant.github.io/variant-java-servlet-adapter/com/variant/client/servlet/SessionIdTrackerHttpCookie.html). 
 * Updated [configuration file](https://github.com/getvariant/variant-java-servlet-adapter/blob/master/variant.conf).
 
-## 2. Installation
+## 2 Installation
 ### 2.1 Classpath Installation
 
 The servlet adapter JAR file and its two transitive dependencies can be found in this repository's [/lib](https://github.com/getvariant/variant-java-servlet-adapter/tree/master/lib) directory. Add all three JAR files on your host application's classpath.
@@ -93,7 +93,7 @@ Add the following dependencies to your host application's `pom.xml` file (copied
 </dependency>
 ```
 
-## 3. Building From Source with Maven
+## 3 Building From Source with Maven
 
 __∎ Clone this repository to your local system.__
 
@@ -125,6 +125,34 @@ this will create the `java-client-servlet-adapter-0.9.3.jar` file in the `/targe
 
 ## 4 Configuration
 
-Your applicaiton must use the [config file, which comes with this project](https://github.com/getvariant/variant-java-servlet-adapter/blob/master/variant.conf).
+The following configuration properties must be set in your application's variant.conf:
+```
+session.id.tracker.class.name = "com.variant.client.servlet.SessionIdTrackerHttpCookie"
+targeting.tracker.class.name = "com.variant.client.servlet.TargetingTrackerHttpCookie"
+```
+Refer to the [Variant Java Client User Guide](https://www.getvariant.com/resources/docs/0-9/clients/variant-java-client/#section-2.2) for more information on how to configure your Variant Java Client.
 
+## 5 Hello, World!
+__∎ Deploy Variant Server__
+
+__∎ Create variation schema file `hello_world.schema`__
+
+Create the `hello_world.schema` file in your Variant server's 
+__∎ Add Servlet Adapter to `web.xml`__
+Add the following lines to your application's `web.xml` file:
+```
+     <filter>
+        <filter-name>variantFilter</filter-name>
+        <filter-class>com.variant.client.servlet.demo.PetclinicVariantFilter</filter-class> 
+        <init-param>
+           <param-name>schema</param-name>
+           <param-value>hello_world</param-value>
+        </init-param>
+     </filter>
+     
+     <filter-mapping>
+        <filter-name>variantFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+     </filter-mapping>
+```
 
