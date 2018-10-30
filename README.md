@@ -37,9 +37,11 @@ Download these dependent libraries and add them to your host application classpa
 ### 2.2 Maven Build Installation
 
 __∎ Download dependent libraries__
+
 The servlet adapter JAR file and its two transitive dependencies can be found in this repository's [/lib](https://github.com/getvariant/variant-java-servlet-adapter/tree/master/lib) directory. Download these JAR files to your local system.
 
-__∎ Install private dependencies:__ 
+__∎ Install private dependencies__ 
+
 Add the downloaded files to your corporate Maven repository or to your local repository:
 
 ```shell
@@ -49,7 +51,8 @@ Add the downloaded files to your corporate Maven repository or to your local rep
 
 % mvn install:install-file -Dfile=lib/variant-java-client-servlet-adapter-0.9.3.jar -DgroupId=com.variant -DartifactId=variant-java-client-servlet-adapter -Dversion=0.9.3 -Dpackaging=jar
 ```
-__∎ Add dependencies to your build:__
+__∎ Add dependencies to your build__
+
 Add the following dependencies to your host application's `pom.xml` file (copied from this project's [pom.xml](https://github.com/getvariant/variant-java-servlet-adapter/blob/master/pom.xml)
 
 ```
