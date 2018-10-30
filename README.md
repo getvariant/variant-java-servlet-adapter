@@ -107,8 +107,8 @@ This project depends on the following transitive dependencies, found in the [/li
 
 | File        | Description           | 
 | ------------- | ------------- | 
-| `variant-java-client-0.9.3.jar` | Variant Java client, a.k.a. the bare Java client. The servlet adapter runs on top of it. | 
-| `variant-core-0.9.3.jar` | Dependent Variant core library. Contains objects shared between the client and the server code bases. | 
+| `variant-java-client-0.9.3.jar` | The general Variant Java client. The servlet adapter runs on top of it. | 
+| `variant-core-0.9.3.jar` | Variant Java Client's transitive dependency. | 
 
 Add these libraries to your corporate Maven repository or to your local repository:
 
