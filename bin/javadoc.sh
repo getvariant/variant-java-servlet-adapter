@@ -4,14 +4,13 @@
 # 
 
 
-version=1.0
+version=0.9.3
 root_dir=$(cd $(dirname $0)/..; pwd)
 javadoc_dir=${root_dir}/docs
 
 rm -rf ${javadoc_dir}/*
 
 javadoc -d ${javadoc_dir}  \
-   # specify the classpath so that referenced classes are found and included.
    -classpath ${root_dir}/lib/variant-java-client-0.9.3.jar:${root_dir}/lib/variant-core-0.9.3.jar \
    -sourcepath ${root_dir}/src/main/java \
    -windowtitle "Variant ${version}" \
