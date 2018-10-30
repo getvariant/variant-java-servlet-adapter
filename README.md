@@ -19,7 +19,7 @@ Servlet adapter wraps the Variant Java client with a higher level API, which re-
 Servlet adapter consists of the following three components:
 * [VariantFilter](https://getvariant.github.io/variant-java-servlet-adapter/com/variant/client/servlet/VariantFilter.html) bootstraps the servlet adapter and underlying Variant client and implements all the core functionality a simple Variant experience variation will require. Must be configured in the host application's `web.xml`.
 * HTTP Cookie based implementations of the [targeting tracker](https://getvariant.github.io/variant-java-servlet-adapter/com/variant/client/servlet/TargetingTrackerHttpCookie.html) and the [session ID tracker](https://getvariant.github.io/variant-java-servlet-adapter/com/variant/client/servlet/SessionIdTrackerHttpCookie.html). 
-* Updated [configuration file](https://github.com/getvariant/variant-java-servlet-adapter/blob/master/src/main/resources/variant.conf).
+* Updated [configuration file](https://github.com/getvariant/variant-java-servlet-adapter/blob/master/variant.conf).
 
 ## 2. Classpath Installation
 
