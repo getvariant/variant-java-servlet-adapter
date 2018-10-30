@@ -9,7 +9,7 @@ import com.variant.core.schema.State;
  * Servlet-aware state request object {@link ServletStateRequest}. 
  * 
  * @author Igor Urisman
- * @since 1.0
+ * @since 0.5
  */
 public interface ServletSession extends Session {
 

@@ -14,8 +14,7 @@ import com.variant.client.servlet.util.VariantCookie;
  * Session ID is saved between state request in a browser's session-scoped cookie.
  * 
  * @see SessionIdTracker
- * @author Igor Urisman
- * @since 1.0
+ * @since 0.5
  */
 public class SessionIdTrackerHttpCookie implements SessionIdTracker {
 			
@@ -57,26 +56,22 @@ public class SessionIdTrackerHttpCookie implements SessionIdTracker {
 	 */
 	public SessionIdTrackerHttpCookie() {}
 
-	// Since 1.0
 	@Override
 	public void init(Object...userData) {		
 		HttpServletRequest request = (HttpServletRequest) userData[0];
 		cookie = new SsnIdCookie(request);
 	}
 	
-	// @since 1.0
 	@Override
 	public String get() {
 		return cookie == null ? null : cookie.getValue();
 	}
 
-	// @since 1.0
 	@Override
 	public void set(String sessionId) {
 		cookie.setValue(sessionId);
 	}
 
-	// @since 1.0
 	@Override
 	public void save(Object... userData) {
 		HttpServletResponse response = (HttpServletResponse) userData[0];

@@ -10,7 +10,7 @@ import com.variant.client.Connection;
  * of {@link HttpServletRequest} and return the narrower, servlet-aware {@link ServletSession}
  * 
  * @author Igor Urisman
- * @since 1.0
+ * @since 0.5
  */
 
 public interface ServletConnection extends Connection {

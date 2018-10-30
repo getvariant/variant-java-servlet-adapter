@@ -14,7 +14,7 @@ import com.variant.client.servlet.impl.ServletClientImpl;
  *  * 
  * @see VariantClient
  * 
- * @since 1.0
+ * @since 0.5
  */
 public interface ServletVariantClient extends VariantClient {
 	

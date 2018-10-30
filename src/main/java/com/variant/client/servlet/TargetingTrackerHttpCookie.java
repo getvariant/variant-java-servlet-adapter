@@ -20,8 +20,7 @@ import com.variant.core.util.TimeUtils;
  * experiences, so long as he's using the same Web browser and that cookies have not 
  * been removed since the last visit. 
  * 
- * @author Igor Urisman
- * @since 1.0
+ * @since 0.5
  */
 public class TargetingTrackerHttpCookie extends TargetingTrackerString implements TargetingTracker {
 	
