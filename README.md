@@ -1,22 +1,20 @@
 ![Variant Logo](http://www.getvariant.com/wp-content/uploads/2016/07/VariantLogoSquare-100.png)
 
 # Servlet Adapter for Variant Java Client
-## Wrapper API for Variant Java Client, suitable for host application written on top of the Servlet API. Enables integration with Variant Experiment Server.
-### Release 1.0.0
-
-[__Documentation__](http://www.getvariant.com/docs/0-8/clients/variant-java-client/#section-3) | [__Javadoc__](https://getvariant.github.io/variant-java-servlet-adapter/)
-
+### Release 0.9.3
 #### Requires: 
-* Variant Java Client 0.8.x 
-* Variant Experiment Server 0.8.x 
-* Java Servlet API 2.4 or later 
-* Java 7 or later.
+* [Variant Java Client 0.9.3](https://www.getvariant.com/resources/docs/0-9/clients/variant-java-client/)
+* [Variant Experience Server 0.9.x](http://www.getvariant.com/resources/docs/0-9/experience-server/user-guide/) 
+* Java Servlet API 2.4 or later
+* Java 8 or later.
+
+[__Documentation__](https://www.getvariant.com/resources/docs/0-9/clients/variant-java-client/#section-3) | [__Javadoc__](https://getvariant.github.io/variant-java-servlet-adapter/)
 
 ## 1. Introduction
 
-A Java application, in order to instrument online controlled experiments or feature toggles, must integratie with Variant Experiment Server. Any Java host application may communicate with Variant server via the [bare Variant Java client](http://www.getvariant.com/docs/0-8/clients/variant-java-client/#section-2). However, many Java Web applications are written on top of the Servlet API, either directly or via a servlet-based framework, such as Spring MVC. Such applications should take advantage of this servlet adapter, instead of coding directly to the bare API.
+A Java application, in order to take advantage of [Variant Experience Server](http://www.getvariant.com/resources/docs/0-9/experience-server/user-guide/), must integratie with the [Variant Java Client](https://www.getvariant.com/resources/docs/0-9/clients/variant-java-client/). It makes no assumption about the host application whatsoever. However, many Java Web applications are written on top of the Servlet API, either directly or via a servlet-based framework, such as Spring MVC. Such applications should take advantage of this servlet adapter, instead of coding directly to the general Variant Java API.
 
-The servlet adapter wraps the bare Java client with a higher level API, which re-writes environment-dependent method signatures in terms of familiar servlet objects, like <span class="variant-code">HttpServletRequest</span>. The servlet adapter preserves 100% of the bare client’s functionality and comes with out-of-the-box implementations of all [environment-dependent classes](http://www.getvariant.com/docs/0-8/clients/variant-java-client/#section-2.4).
+The servlet adapter wraps the Variant Java client with a higher level API, which re-writes all environment-dependent method signatures in terms of familiar servlet objects <span class="variant-code">HttpServletRequest</span> and <span class="variant-code">HttpServletResponse</span>. The servlet adapter preserves 100% of the underlying Java client’s functionality and comes with out-of-the-box implementations of all [environment-dependent classes](https://www.getvariant.com/resources/docs/0-9/clients/variant-java-client/#section-3.4).
 
 Variant servlet adapter for the Java client contains the following three components:
 * [VariantFilter](https://getvariant.github.io/variant-java-servlet-adapter/com/variant/client/servlet/VariantFilter.html) bootstraps the servlet adapter and underlying Variant client and implements all the core functionality a simple Variant experiment will require. Integrates with the host application as a servlet filter.
