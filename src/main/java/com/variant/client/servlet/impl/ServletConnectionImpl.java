@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.variant.client.Connection;
 import com.variant.client.Session;
-import com.variant.client.VariantClient;
 import com.variant.client.servlet.ServletConnection;
 import com.variant.client.servlet.ServletSession;
 import com.variant.client.servlet.ServletVariantClient;

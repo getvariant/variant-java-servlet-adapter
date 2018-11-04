@@ -6,7 +6,6 @@ import java.util.Optional;
 import java.util.Set;
 
 import com.typesafe.config.Config;
-import com.variant.client.Connection;
 import com.variant.client.Session;
 import com.variant.client.StateRequest;
 import com.variant.client.servlet.ServletConnection;

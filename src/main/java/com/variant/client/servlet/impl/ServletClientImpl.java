@@ -1,12 +1,10 @@
 package com.variant.client.servlet.impl;
 
-import java.util.Optional;
-
 import com.typesafe.config.Config;
 import com.variant.client.Connection;
 import com.variant.client.VariantClient;
-import com.variant.client.servlet.ServletVariantClient;
 import com.variant.client.servlet.ServletConnection;
+import com.variant.client.servlet.ServletVariantClient;
 
 /**
  * The implementation of {@link ServletVariantClient}.
