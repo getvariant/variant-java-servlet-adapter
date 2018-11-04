@@ -1,6 +1,7 @@
 package com.variant.client.servlet;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -208,18 +209,21 @@ public class VariantFilter implements Filter {
 			// Get Variant session.
 			variantSsn = connection.getOrCreateSession(httpRequest);
 			
+			// Extending client code gets to do something custom here,
+			// e.g. save the session in request, to avoid an unnecessary round trip to the server
+			onSession(request, response, variantSsn);
+
+			// If the 'path' state parameter isn't set, we 
 			// Is this request's URI mapped in Variant?
-			State state = StateSelectorByRequestPath.select(variantSsn.getSchema(), path);
+			Optional<State> stateOpt = StateSelectorByRequestPath.select(variantSsn.getSchema(), path);
 			
-			if (state == null) {
+			if (!stateOpt.isPresent()) {
 				// Variant doesn't know about this path.
 				if (LOG.isTraceEnabled()) LOG.trace("Path [" + path + "] is not instrumented");
 			}
 			else {
 
-				// Extending client code gets to do something custom here.
-				onSession(request, response, variantSsn);
-
+				State state = stateOpt.get();
 				stateRequest = variantSsn.targetForState(state);
 				request.setAttribute(VARIANT_REQUEST_ATTR_NAME, stateRequest);
 

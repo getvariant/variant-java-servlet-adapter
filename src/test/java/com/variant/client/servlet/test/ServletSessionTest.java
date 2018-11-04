@@ -40,22 +40,19 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 		// Servlet signatures
 		final HttpServletRequest httpReq = mockHttpServletRequest();
 		
-		ServletSession ssn1 = conn.getSession(httpReq);
-		assertNull(ssn1);
+		assertFalse(conn.getSession(httpReq).isPresent());
 		
-		ssn1 = conn.getOrCreateSession(httpReq);
+		Session ssn1 = conn.getOrCreateSession(httpReq);
 		assertNotNull(ssn1);
 
-		ServletSession ssn2 = conn.getSession(httpReq);
-		assertNull(ssn2);
+		assertFalse(conn.getSession(httpReq).isPresent());
 		
-		ssn2 = conn.getOrCreateSession(httpReq);
+		Session ssn2 = conn.getOrCreateSession(httpReq);
 		assertNotNull(ssn2);
 		assertNotEquals(ssn1, ssn2);
 
 		// Bare signatures		
-		ssn1 = conn.getSession((Object) httpReq);
-		assertNull(ssn1);
+		assertFalse(conn.getSession((Object) httpReq).isPresent());
 		
 		ssn1 = conn.getOrCreateSession((Object)httpReq);
 		assertNotNull(ssn1);
@@ -88,21 +85,18 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 		// Servlet signatures
 		HttpServletRequest httpReq = mockHttpServletRequest(newSid());
 		
-		Session ssn1 = conn.getSession(httpReq);
-		assertNull(ssn1);
+		assertFalse(conn.getSession(httpReq).isPresent());
 		
-		ssn1 = conn.getOrCreateSession(httpReq);
+		ServletSession ssn1 = conn.getOrCreateSession(httpReq);
 		assertNotNull(ssn1);
 
-		ServletSession ssn2 = conn.getSession(mockHttpServletRequest(ssn1.getId()));
-		assertNotNull(ssn2); 
+		ServletSession ssn2 = conn.getSession(mockHttpServletRequest(ssn1.getId())).get();
 		assertEquals(ssn1.getId(), ssn2.getId());
 
 		// Bare signatures		
 		httpReq = mockHttpServletRequest(newSid());
 
-		ssn1 = conn.getSession((Object) httpReq);
-		assertNull(ssn1);
+		assertFalse(conn.getSession((Object) httpReq).isPresent());
 		
 		ssn1 = conn.getOrCreateSession((Object)httpReq);
 		assertNotNull(ssn1);
@@ -113,11 +107,11 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 		assertNotNull(ssn2);
 		assertEquals(ssn1.getId(), ssn2.getId());
 
-		ssn2 = conn.getSession((Object)httpReq);
+		ssn2 = conn.getSession((Object)httpReq).get();
 		assertNotNull(ssn2);
 		assertEquals(ssn1.getId(), ssn2.getId());
 
-		ssn2 = conn.getSessionById(ssn1.getId());
+		ssn2 = conn.getSessionById(ssn1.getId()).get();
 		assertNotNull(ssn2);
 		assertEquals(ssn1.getId(), ssn2.getId());
 
@@ -185,7 +179,7 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 
 		// Commit should have saved the session.
 		httpReq = mockHttpServletRequest(httpResp);
-		ServletSession ssn3 = conn.getSession(httpReq);
+		ServletSession ssn3 = conn.getSession(httpReq).get();
 		assertEquals(StateRequestStatus.Committed, req2.getStatus());
 		assertEqualAsSets(
 				CollectionsUtils.pairsToMap(new Pair<State,Integer>(state1, 1)), 
@@ -211,10 +205,9 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 		HttpServletRequest httpReq = mockHttpServletRequest(newSid());
 		HttpServletResponseMock httpResp = mockHttpServletResponse();
 
-		ServletSession ssn1 = conn.getSession(httpReq);
-		assertNull(ssn1);
+		assertFalse(conn.getSession(httpReq).isPresent());
 
-		ssn1 = conn.getOrCreateSession(httpReq);
+		ServletSession ssn1 = conn.getOrCreateSession(httpReq);
 		assertNotNull(ssn1);
 		assertFalse(ssn1.getStateRequest().isPresent());		
 		assertEquals(0, ssn1.getTraversedStates().size());
@@ -243,7 +236,7 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 		
 		// Create a new HTTP request with the same VRNT-SSNID cookie.  Should fetch the same bare session.
 		HttpServletRequest httpReq2 = mockHttpServletRequest(ssn1.getId());
-		ServletSession ssn2 = conn.getSession(httpReq2);
+		ServletSession ssn2 = conn.getSession(httpReq2).get();
 		assertFalse(ssn2.getStateRequest().isPresent());
 		assertEqualAsSets(
 				CollectionsUtils.pairsToMap(new Pair<State,Integer>(state2, 1)), 
@@ -277,13 +270,12 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 		
 		// Request 2: Same SID from cookie.
 		httpReq = mockHttpServletRequest(resp);
-		ServletSession ssn2 = conn.getSession(httpReq);
+		ServletSession ssn2 = conn.getSession(httpReq).get();
 		assertEquals(sid1, ssn2.getId());
 		
 		// Request 3: SID cookie removed
 		httpReq = mockHttpServletRequest();
-		ssn2 = conn.getSession(httpReq);
-		assertNull(ssn2);
+		assertFalse(conn.getSession(httpReq).isPresent());
 		
 	}
 	
