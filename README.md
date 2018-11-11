@@ -16,7 +16,7 @@ A Java application, in order to communicate with [Variant Experience Server](htt
 
 Servlet adapter wraps the general Variant Java client with a higher level API, which re-writes all environment-dependent method signatures in terms of the familiar servlet objects `HttpServletRequest` and `HttpServletResponse`. The servlet adapter preserves all of the underlying Java client’s functionality and comes with out-of-the-box implementations of all [environment-dependent classes](https://www.getvariant.com/resources/docs/0-9/clients/variant-java-client/#section-3.4).
 
-Servlet adapter consists of the following three components:
+Servlet adapter consists of the following components:
 * [ServletVariantClient](https://github.com/getvariant/variant-java-servlet-adapter/blob/master/src/main/java/com/variant/client/servlet/ServletVariantClient.java) and related classes mirror the corresponding classes of the underlying general Java Client.
 * HTTP Cookie based implementations of the [targeting tracker](https://getvariant.github.io/variant-java-servlet-adapter/com/variant/client/servlet/TargetingTrackerHttpCookie.html) and the [session ID tracker](https://getvariant.github.io/variant-java-servlet-adapter/com/variant/client/servlet/SessionIdTrackerHttpCookie.html).
 * Updated [configuration file](https://github.com/getvariant/variant-java-servlet-adapter/blob/master/variant.conf).
