@@ -1,9 +1,10 @@
 ![Variant Logo](http://www.getvariant.com/wp-content/uploads/2016/07/VariantLogoSquare-100.png)
 
-[__Documentation__](https://www.getvariant.com/resources/docs/0-9/clients/variant-java-client/#section-3) | [__Javadoc__](https://getvariant.github.io/variant-java-servlet-adapter/)
-
 # Servlet Adapter for Variant Java Client
 ### Release 0.9.3
+
+[__Documentation__](https://www.getvariant.com/resources/docs/0-9/clients/variant-java-client/#section-3) | [__Javadoc__](https://getvariant.github.io/variant-java-servlet-adapter/)
+
 #### Requires: 
 * [Variant Java Client 0.9.3](https://www.getvariant.com/resources/docs/0-9/clients/variant-java-client/)
 * [Variant Experience Server 0.9.x](http://www.getvariant.com/resources/docs/0-9/experience-server/user-guide/) 
