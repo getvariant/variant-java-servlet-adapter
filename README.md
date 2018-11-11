@@ -21,8 +21,8 @@ Servlet adapter consists of the following three components:
 * HTTP Cookie based implementations of the [targeting tracker](https://getvariant.github.io/variant-java-servlet-adapter/com/variant/client/servlet/TargetingTrackerHttpCookie.html) and the [session ID tracker](https://getvariant.github.io/variant-java-servlet-adapter/com/variant/client/servlet/SessionIdTrackerHttpCookie.html). 
 * Updated [configuration file](https://github.com/getvariant/variant-java-servlet-adapter/blob/master/variant.conf).
 
-## 2 Installation
-### 2.1 Classpath Installation
+## 2. Installation
+### 2.1. Classpath Installation
 
 The servlet adapter JAR file and its two transitive dependencies can be found in this repository's [/lib](https://github.com/getvariant/variant-java-servlet-adapter/tree/master/lib) directory. Add all three JAR files on your host application's classpath.
 
@@ -34,7 +34,7 @@ Note that these libraries in turn have the following transitive dependencies:
 
 Download these dependent libraries and add them to your host application classpath as well, if you don't already have them.
 
-### 2.2 Maven Build Installation
+### 2.2. Maven Build Installation
 
 __∎ Download dependent libraries__
 
@@ -93,7 +93,7 @@ Add the following dependencies to your host application's `pom.xml` file (copied
 </dependency>
 ```
 
-## 3 Building From Source with Maven
+## 3. Building From Source with Maven
 
 __∎ Clone this repository to your local system.__
 
@@ -123,7 +123,7 @@ __∎ Package the Servlet Adapter JAR__
 ```
 this will create the `java-client-servlet-adapter-0.9.3.jar` file in the `/target` directory.
 
-## 4 Configuration
+## 4. Configuration
 
 The following configuration properties must be set in your application's variant.conf:
 ```
@@ -131,47 +131,3 @@ session.id.tracker.class.name = "com.variant.client.servlet.SessionIdTrackerHttp
 targeting.tracker.class.name = "com.variant.client.servlet.TargetingTrackerHttpCookie"
 ```
 Refer to the [Variant Java Client User Guide](https://www.getvariant.com/resources/docs/0-9/clients/variant-java-client/#section-2.2) for more information on how to configure your Variant Java Client.
-
-## 5 Hello, World!
-__∎ Start Variant Server__
-
-[Download and install](https://www.getvariant.com/resources/docs/0-9/experience-server/reference/#section-1) Variant Experience Server.
-
-Start Variant server:
-```
-% /path/to/server/bin/variant.sh start
-```
-
-If all went well, the server console output should look something like this:
-```
-[info] 19:10:12.717 c.v.c.c.ConfigLoader - Found  config resource [/variant.conf] as [/private/tmp/demo/variant-server-0.9.3/conf/variant.conf]
-[info] 19:10:14.091 c.v.s.s.SchemaDeployerFileSystem - Mounted schemata directory [/private/tmp/demo/variant-server-0.9.3/schemata]
-[info] 19:10:14.092 c.v.s.s.SchemaDeployerFileSystem - Deploying schema from file [/private/tmp/demo/variant-server-0.9.3/schemata/petclinic.schema]
-[info] 19:10:14.285 c.v.s.s.ServerFlusherService - Registered event logger [com.variant.server.api.EventFlusherAppLogger] for schema [petclinic]
-[info] 19:10:14.312 c.v.s.s.SchemaDeployerFileSystem - Deployed schema [petclinic] ID [38EFB1D4B56FCA01], from [petclinic.schema]:
-   NewOwnerTest:[outOfTheBox (control), tosCheckbox, tosAndMailCheckbox] (ON)
-[info] 19:10:14.317 c.v.s.b.VariantServerImpl - [431] Variant Experiment Server release 0.9.3 bootstrapped on :5377/variant in 00:01.247
-```
-
-__∎ Create variation schema file `hello_world.schema`__
-
-
-Create the `hello_world.schema` file in your Variant server's 
-__∎ Add Servlet Adapter to `web.xml`__
-Add the following lines to your application's `web.xml` file:
-```
-     <filter>
-        <filter-name>variantFilter</filter-name>
-        <filter-class>com.variant.client.servlet.demo.PetclinicVariantFilter</filter-class> 
-        <init-param>
-           <param-name>schema</param-name>
-           <param-value>hello_world</param-value>
-        </init-param>
-     </filter>
-     
-     <filter-mapping>
-        <filter-name>variantFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-     </filter-mapping>
-```
-
