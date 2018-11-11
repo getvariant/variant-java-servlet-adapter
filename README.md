@@ -5,21 +5,22 @@
 #### Requires: 
 * [Variant Java Client 0.9.3](https://www.getvariant.com/resources/docs/0-9/clients/variant-java-client/)
 * [Variant Experience Server 0.9.x](http://www.getvariant.com/resources/docs/0-9/experience-server/user-guide/) 
-* Java Servlet API 2.4 or later
+* Java Servlet API 3.0 or later
 * Java 8 or later.
 
 [__Documentation__](https://www.getvariant.com/resources/docs/0-9/clients/variant-java-client/#section-3) | [__Javadoc__](https://getvariant.github.io/variant-java-servlet-adapter/)
 
 ## 1. Introduction
 
-A Java application, in order to take advantage of [Variant Experience Server](http://www.getvariant.com/resources/docs/0-9/experience-server/user-guide/), must integratie with the [Variant Java Client](https://www.getvariant.com/resources/docs/0-9/clients/variant-java-client/). It makes no assumption about the host application whatsoever. However, many Java Web applications are written on top of the Servlet API, either directly or via a servlet-based framework, such as Spring MVC. Such applications should take advantage of this servlet adapter, instead of coding directly to the general Variant Java API.
+A Java application, in order to communicate with [Variant Experience Server](http://www.getvariant.com/resources/docs/0-9/experience-server/user-guide/), must integratie with the [Variant Java Client](https://www.getvariant.com/resources/docs/0-9/clients/variant-java-client/), which makes no assumption about the host application whatsoever, other than it is Java. However, most Java Web applications are written on top of the Servlet SPI, either directly or via a servlet-based framework, such as Spring MVC. Such applications should take advantage of this servlet adapter, instead of coding directly to the general Variant Java Client API.
 
-Servlet adapter wraps the Variant Java client with a higher level API, which re-writes all environment-dependent method signatures in terms of familiar servlet objects `HttpServletRequest` and `HttpServletResponse`. The servlet adapter preserves all of the underlying Java client’s functionality and comes with out-of-the-box implementations of all [environment-dependent classes](https://www.getvariant.com/resources/docs/0-9/clients/variant-java-client/#section-3.4).
+Servlet adapter wraps the general Variant Java client with a higher level API, which re-writes all environment-dependent method signatures in terms of the familiar servlet objects `HttpServletRequest` and `HttpServletResponse`. The servlet adapter preserves all of the underlying Java client’s functionality and comes with out-of-the-box implementations of all [environment-dependent classes](https://www.getvariant.com/resources/docs/0-9/clients/variant-java-client/#section-3.4).
 
 Servlet adapter consists of the following three components:
-* [VariantFilter](https://getvariant.github.io/variant-java-servlet-adapter/com/variant/client/servlet/VariantFilter.html) bootstraps the servlet adapter and underlying Variant client and implements all the core functionality a simple Variant experience variation will require. Must be configured in the host application's `web.xml`.
-* HTTP Cookie based implementations of the [targeting tracker](https://getvariant.github.io/variant-java-servlet-adapter/com/variant/client/servlet/TargetingTrackerHttpCookie.html) and the [session ID tracker](https://getvariant.github.io/variant-java-servlet-adapter/com/variant/client/servlet/SessionIdTrackerHttpCookie.html). 
+* [ServletVariantClient](https://github.com/getvariant/variant-java-servlet-adapter/blob/master/src/main/java/com/variant/client/servlet/ServletVariantClient.java) and related classes mirror the corresponding classes of the underlying general Java Client.
+* HTTP Cookie based implementations of the [targeting tracker](https://getvariant.github.io/variant-java-servlet-adapter/com/variant/client/servlet/TargetingTrackerHttpCookie.html) and the [session ID tracker](https://getvariant.github.io/variant-java-servlet-adapter/com/variant/client/servlet/SessionIdTrackerHttpCookie.html).
 * Updated [configuration file](https://github.com/getvariant/variant-java-servlet-adapter/blob/master/variant.conf).
+* [VariantFilter](https://getvariant.github.io/variant-java-servlet-adapter/com/variant/client/servlet/VariantFilter.html) bootstraps the servlet adapter and underlying Variant client as a servlet filter. Implements eager instrumentation.
 
 ## 2. Installation
 ### 2.1. Classpath Installation
@@ -36,13 +37,9 @@ Download these dependent libraries and add them to your host application classpa
 
 ### 2.2. Maven Build Installation
 
-__∎ Download dependent libraries__
-
-The servlet adapter JAR file and its two transitive dependencies can be found in this repository's [/lib](https://github.com/getvariant/variant-java-servlet-adapter/tree/master/lib) directory. Download these JAR files to your local system.
-
 __∎ Install private dependencies__ 
 
-Add the downloaded files to your corporate Maven repository or to your local repository:
+Add the servlet adapter JAR and its two private dependent JARs to your local Maven repository:
 
 ```shell
 % mvn install:install-file -Dfile=lib/variant-java-client-0.9.3.jar -DgroupId=com.variant -DartifactId=variant-java-client -Dversion=0.9.3 -Dpackaging=jar
@@ -93,7 +90,16 @@ Add the following dependencies to your host application's `pom.xml` file (copied
 </dependency>
 ```
 
-## 3. Building From Source with Maven
+## 3. Configuration
+
+The following configuration properties must be set in your application's variant.conf:
+```
+session.id.tracker.class.name = "com.variant.client.servlet.SessionIdTrackerHttpCookie"
+targeting.tracker.class.name = "com.variant.client.servlet.TargetingTrackerHttpCookie"
+```
+Refer to the [Variant Java Client User Guide](https://www.getvariant.com/resources/docs/0-9/clients/variant-java-client/#section-2.2) for more information on how to configure your Variant Java Client.
+
+## 4. Building From Source with Maven
 
 __∎ Clone this repository to your local system.__
 
@@ -122,12 +128,3 @@ __∎ Package the Servlet Adapter JAR__
 % mvn clean package
 ```
 this will create the `java-client-servlet-adapter-0.9.3.jar` file in the `/target` directory.
-
-## 4. Configuration
-
-The following configuration properties must be set in your application's variant.conf:
-```
-session.id.tracker.class.name = "com.variant.client.servlet.SessionIdTrackerHttpCookie"
-targeting.tracker.class.name = "com.variant.client.servlet.TargetingTrackerHttpCookie"
-```
-Refer to the [Variant Java Client User Guide](https://www.getvariant.com/resources/docs/0-9/clients/variant-java-client/#section-2.2) for more information on how to configure your Variant Java Client.
