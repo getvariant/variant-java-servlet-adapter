@@ -6,9 +6,9 @@ import java.util.Optional;
 import java.util.Set;
 
 import com.typesafe.config.Config;
-import com.variant.client.Connection;
 import com.variant.client.Session;
 import com.variant.client.StateRequest;
+import com.variant.client.servlet.ServletConnection;
 import com.variant.client.servlet.ServletSession;
 import com.variant.client.servlet.ServletStateRequest;
 import com.variant.client.servlet.ServletVariantException;
@@ -27,7 +27,7 @@ import com.variant.core.schema.Variation;
  */
 public class ServletSessionImpl implements ServletSession {
 
-	private final Connection wrapConnection;
+	private final ServletConnection wrapConnection;
 	private final Session bareSession;
 	private ServletStateRequest wrapStateRequest;
 
@@ -54,7 +54,7 @@ public class ServletSessionImpl implements ServletSession {
 	}
 
 	@Override
-	public Connection getConnection() {
+	public ServletConnection getConnection() {
 		return wrapConnection;
 	}
 

@@ -1,5 +1,6 @@
 package com.variant.client.servlet.util;
 
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 import com.variant.client.servlet.ServletVariantException;
@@ -128,17 +129,19 @@ public class StateSelectorByRequestPath  {
 	//---------------------------------------------------------------------------------------------//
 
 	/**
-	 * Select a Variant state based by its path.
+	 * Select a Variant state by its path.
 	 *
-	 * @param path Path string.
+	 * @param resourcePath the resource path to match against. 
 	 * @return
 	 * @since 0.5
 	 */
-	public static State select(Schema schema, String path) {
+	public static Optional<State> select(Schema schema, String resourcePath) {
+		
 		for (State state: schema.getStates()) {
-			if (match(state.getParameters().get("path"), path)) return state;
+			String statePath = state.getParameters().get("path");
+			if (statePath != null && match(statePath, resourcePath)) return Optional.of(state);
 		}
-		return null;
+		return Optional.empty();
 	}
 	
 }

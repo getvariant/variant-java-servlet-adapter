@@ -3,8 +3,8 @@ package com.variant.client.servlet.impl;
 import com.typesafe.config.Config;
 import com.variant.client.Connection;
 import com.variant.client.VariantClient;
-import com.variant.client.servlet.ServletVariantClient;
 import com.variant.client.servlet.ServletConnection;
+import com.variant.client.servlet.ServletVariantClient;
 
 /**
  * The implementation of {@link ServletVariantClient}.
@@ -16,24 +16,6 @@ public class ServletClientImpl implements ServletVariantClient {
 
 	private VariantClient bareClient;
 	
-	/**
-	 * Wrap the bare session in a servlet session, but only once.
-	 * We don't want to keep re-wrapping the same bare session.
-	 *
-	private VariantServletSession wrapBareSession(Session vareSsn) {
-		
-		if (bareSession == null) return null;
-		
-		// If this bare session has already been wrapped, don't re-wrap.
-		VariantServletSession result = (VariantServletSession) bareSession.getAttribute(WRAP_ATTR_NAME);
-		if (result == null) {
-			// Not yet been wrapped.
-			result = new ServletSessionImpl(bareSession);
-			bareSession.setAttribute(WRAP_ATTR_NAME, result);
-		}
-		return result;
-	}
-	*/
 	//---------------------------------------------------------------------------------------------//
 	//                                          PUBLIC                                             //
 	//---------------------------------------------------------------------------------------------//
@@ -52,7 +34,7 @@ public class ServletClientImpl implements ServletVariantClient {
 	@Override
 	public ServletConnection connectTo(String url) {
 		Connection bareConnection = bareClient.connectTo(url);
-		return bareConnection == null ? null : new ServletConnectionImpl(this, bareConnection);
+		return new ServletConnectionImpl(this, bareConnection);
 	}
 
 	//---------------------------------------------------------------------------------------------//

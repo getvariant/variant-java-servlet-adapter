@@ -1,10 +1,11 @@
 package com.variant.client.servlet.impl;
 
+import java.util.Optional;
+
 import javax.servlet.http.HttpServletRequest;
 
 import com.variant.client.Connection;
 import com.variant.client.Session;
-import com.variant.client.VariantClient;
 import com.variant.client.servlet.ServletConnection;
 import com.variant.client.servlet.ServletSession;
 import com.variant.client.servlet.ServletVariantClient;
@@ -44,8 +45,28 @@ public class ServletConnectionImpl implements ServletConnection {
 	}
 	
 	@Override
-	public VariantClient getClient() {
+	public ServletVariantClient getClient() {
 		return wrapClient;
+	}
+
+	@Override
+	public ServletSession getOrCreateSession(HttpServletRequest req) {
+		return wrap(bareConnection.getOrCreateSession(req));
+	}
+
+	@Override
+	public Optional<ServletSession> getSession(HttpServletRequest req) {
+		return bareConnection.getSession(req).map((ssn) -> wrap(ssn));
+	}
+
+	@Override
+	public Optional<ServletSession> getSessionById(String sid) {
+		return bareConnection.getSessionById(sid).map((ssn) -> wrap(ssn));
+	}
+
+	@Override
+	public String getSchemaName() {
+		return bareConnection.getSchemaName();
 	}
 
 	@Override
@@ -55,29 +76,11 @@ public class ServletConnectionImpl implements ServletConnection {
 		return getOrCreateSession((HttpServletRequest) userData[0]);
 	}
 
-	public ServletSession getOrCreateSession(HttpServletRequest req) {
-		return wrap(bareConnection.getOrCreateSession(req));
-	}
-
 	@Override
-	public ServletSession getSession(Object... userData) {
+	public Optional<ServletSession> getSession(Object... userData) {
 		if (userData.length != 1 || !(userData[0] instanceof HttpServletRequest)) 
 			throw new ServletVariantException("User data must have one element of type HttpServletRequest");
 		return getSession((HttpServletRequest) userData[0]);
-	}
-
-	public ServletSession getSession(HttpServletRequest req) {
-		return wrap(bareConnection.getSession(req));
-	}
-
-	@Override
-	public ServletSession getSessionById(String sid) {
-		return wrap(bareConnection.getSessionById(sid));
-	}
-
-	@Override
-	public String getSchemaName() {
-		return bareConnection.getSchemaName();
 	}
 	
 }

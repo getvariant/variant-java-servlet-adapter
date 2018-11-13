@@ -1,5 +1,7 @@
 package com.variant.client.servlet;
 
+import com.variant.client.Connection;
+import com.variant.client.UnknownSchemaException;
 import com.variant.client.VariantClient;
 import com.variant.client.servlet.impl.ServletClientImpl;
 
@@ -14,7 +16,7 @@ import com.variant.client.servlet.impl.ServletClientImpl;
  *  * 
  * @see VariantClient
  * 
- * @since 0.5
+ * @since 0.7
  */
 public interface ServletVariantClient extends VariantClient {
 	
@@ -23,12 +25,11 @@ public interface ServletVariantClient extends VariantClient {
 	 * 
 	 * @param schema The name of the schema, which should be deployed on the server.
 	 *        
-	 * @return An instance of the {@link ServletConnection} type, or <code>null</null> if the
-	 * requested schema was not found on the server.
+	 * @return An instance of the {@link Connection} type.
 	 * 
+	 * @throws UnknownSchemaException if given schema does not exist on the server.
 	 * @since 0.7
 	 */
-	@Override
 	public ServletConnection connectTo(String schema);
 
 	/**

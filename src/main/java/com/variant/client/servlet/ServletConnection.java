@@ -1,5 +1,7 @@
 package com.variant.client.servlet;
 
+import java.util.Optional;
+
 import javax.servlet.http.HttpServletRequest;
 
 import com.variant.client.Connection;
@@ -27,14 +29,14 @@ public interface ServletConnection extends Connection {
 	 * Use {@link #getSession(HttpServletRequest)} instead.
 	 */
 	@Override
-	ServletSession getSession(Object... userData);
+	Optional<ServletSession> getSession(Object... userData);
 
 	/**
 	 * Get an existing session by ID.
 	 * @see com.variant.client.Connection#getSessionById(String)
 	 */
 	@Override
-	ServletSession getSessionById(String sessionId);
+	Optional<ServletSession> getSessionById(String sessionId);
 
 	/**
 	 * Rewritten signature in terms of Servlet API. 
@@ -48,6 +50,6 @@ public interface ServletConnection extends Connection {
 	 * @param req
 	 * @return
 	 */
-	ServletSession getSession(HttpServletRequest req);
+	Optional<ServletSession> getSession(HttpServletRequest req);
 	
 }
