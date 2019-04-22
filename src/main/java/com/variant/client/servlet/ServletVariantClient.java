@@ -1,6 +1,8 @@
 package com.variant.client.servlet;
 
 import com.variant.client.Connection;
+import com.variant.client.SessionIdTracker;
+import com.variant.client.TargetingTracker;
 import com.variant.client.UnknownSchemaException;
 import com.variant.client.VariantClient;
 import com.variant.client.servlet.impl.ServletClientImpl;
@@ -21,37 +23,71 @@ import com.variant.client.servlet.impl.ServletClientImpl;
 public interface ServletVariantClient extends VariantClient {
 	
 	/**
-	 * Connect to the given variation schema on the server.
+	 * Connect to a variation schema on a Variant server by its URI.
+	 * Variant schema URI has the following format:
+	 * [variant:]//netloc[:port]/schema
 	 * 
-	 * @param schema The name of the schema, which should be deployed on the server.
+	 * @param uri The Variant URI to the schema.
 	 *        
 	 * @return An instance of the {@link Connection} type.
 	 * 
 	 * @throws UnknownSchemaException if given schema does not exist on the server.
 	 * @since 0.7
-	 */
-	public ServletConnection connectTo(String schema);
+	 */	
+	ServletConnection connectTo(String uri);
 
 	/**
-	 * Factory class: call <code>getInstance()</code> to obtain a new instance of {@link ServletVariantClient}.
-	 *
-	 * @since 0.7
+	 * Override the bare {@link VariantClient.Builder} to fix the return types.
+	 * 
+	 * @see VariantClient.Builder
+	 * @since 0.10
 	 */
-	public static class Factory {
-		
-		private Factory() {}
+	public static class Builder extends VariantClient.Builder {		
+
+		/**
+		 * Default builder uses {@link SessionIdTrackerHttpCookie} and {@link TargetingTrackerHttpCookie}.
+		 * 
+		 * @since 0.10
+		 */
+		public Builder() {
+			withSessionIdTrackerClass(SessionIdTrackerHttpCookie.class);
+			withTargetingTrackerClass(TargetingTrackerHttpCookie.class);
+		}
 		
 		/**
-		 * Obtain a new instance of {@link ServletVariantClient}.
-		 * 
-		 * Host application should hold on to and reuse the object returned by this method whenever possible.
-		 * One of these per address space is recommended.
-		 * 
-		 * @return Instance of the {@link ServletVariantClient} type.
-		 * @since 0.7
-		 */		
-		public static ServletVariantClient getInstance() {
-			return new ServletClientImpl();
+		 * @see {@link VariantClient.Builder#build()}
+		 * @since 0.10
+		 */
+		@Override
+		public Builder withTargetingStabilityDays(int days) {
+			return (Builder) super.withTargetingStabilityDays(days);
+		}
+		
+		/**
+		 * @see {@link VariantClient.Builder#build()}
+		 * @since 0.10
+		 */
+		@Override
+		public Builder withTargetingTrackerClass(Class<? extends TargetingTracker> klass) {
+			return (Builder) super.withTargetingTrackerClass(klass);
+		}
+		
+		/**
+		 * @see {@link VariantClient.Builder#build()}
+		 * @since 0.10
+		 */
+		public Builder withSessionIdTrackerClass(Class<? extends SessionIdTracker> klass) {
+			return (Builder) super.withSessionIdTrackerClass(klass);
+		}
+
+		/**
+		 * @see {@link VariantClient.Builder#build()}
+		 * @since 0.10
+		 */
+		public ServletVariantClient build() {
+			
+			return new ServletClientImpl(super.build());
 		}
 	}
+		
 }

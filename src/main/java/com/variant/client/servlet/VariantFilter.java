@@ -15,10 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.variant.client.TraceEvent;
 import com.variant.client.VariantException;
 import com.variant.client.servlet.util.StateSelectorByRequestPath;
 import com.variant.core.StateRequestStatus;
-import com.variant.core.TraceEvent;
 import com.variant.core.schema.State;
 
 /**
@@ -119,9 +119,9 @@ public class VariantFilter implements Filter {
 
 	private static final Logger LOG = LoggerFactory.getLogger(VariantFilter.class);
 
-	private static final ServletVariantClient client = ServletVariantClient.Factory.getInstance();
+	private static final ServletVariantClient client = new ServletVariantClient.Builder().build();
 	
-	private String schemaName = null;
+	private String url = null;
 	private ServletConnection connection = null;
 	
 	//---------------------------------------------------------------------------------------------//
@@ -158,14 +158,14 @@ public class VariantFilter implements Filter {
 	@Override
 	public void init(FilterConfig config) throws ServletException {
 		
-		schemaName = config.getInitParameter("schema");
+		url = config.getInitParameter("url");
 		
-		if (schemaName == null) 
+		if (url == null) 
 			throw new ServletVariantException("Filter init parameter [schema] must be specified");
 		else {
 			try {
-				connection = client.connectTo(schemaName);
-				LOG.info("Connected to Variant schema [" + schemaName + "]");
+				connection = client.connectTo(url);
+				LOG.info("Connected to Variant URL [" + url + "]");
 			}
 			catch (VariantException e) {
 				LOG.error("Variant error " + e.getMessage());
@@ -202,8 +202,8 @@ public class VariantFilter implements Filter {
 			
 			// If we're not connected, try to reconnect.
 			if (connection == null) {
-				connection = client.connectTo(schemaName);
-				LOG.info("Connected to Variant schema [" + schemaName + "]");
+				connection = client.connectTo(url);
+				LOG.info("Connected to Variant URL [" + url + "]");
 			}
 
 			// Get Variant session.
@@ -257,7 +257,7 @@ public class VariantFilter implements Filter {
 			try {
 				// Add some extra info to the state visited event(s)
 				TraceEvent sve = stateRequest.getStateVisitedEvent();
-				if (sve != null) sve.setAttribute("HTTP_STATUS", Integer.toString(httpResponse.getStatus()));
+				if (sve != null) sve.getAttributes().put("HTTP_STATUS", Integer.toString(httpResponse.getStatus()));
 
 				// The following line throws NPE on Safari, most likely to disqualification => no SVE.
 				//stateRequest.getStateVisitedEvent().getParameterMap().put("HTTP_STATUS", String.valueOf(httpResponse.getStatus()));

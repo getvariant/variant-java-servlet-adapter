@@ -34,7 +34,7 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 	@org.junit.Test
 	public void getSessionNoTrackerTest() throws Exception {
 		
-		final ServletConnection conn = servletClient.connectTo("monstrosity");
+		final ServletConnection conn = servletClient.connectTo("variant://localhost:5377/monstrosity");
 		assertNotNull(conn);
 		
 		// Servlet signatures
@@ -80,7 +80,7 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 	@org.junit.Test
 	public void getSessionWithTrackerTest() throws Exception {
 
-		final ServletConnection conn = servletClient.connectTo("monstrosity");
+		final ServletConnection conn = servletClient.connectTo("variant://localhost:5377/monstrosity");
 
 		// Servlet signatures
 		HttpServletRequest httpReq = mockHttpServletRequest(newSid());
@@ -125,7 +125,7 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 	@org.junit.Test
 	public void fullStateRequestNoIdTracker() throws Exception {
 		
-		final ServletConnection conn = servletClient.connectTo("monstrosity");
+		final ServletConnection conn = servletClient.connectTo("variant://localhost:5377/monstrosity");
 		
 		HttpServletRequest httpReq = mockHttpServletRequest();
 		HttpServletResponseMock httpResp = mockHttpServletResponse();
@@ -200,7 +200,7 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 	@org.junit.Test
 	public void fullStateRequestWithIdTracker() throws Exception {
 		
-		final ServletConnection conn = servletClient.connectTo("monstrosity");
+		final ServletConnection conn = servletClient.connectTo("variant://localhost:5377/monstrosity");
 
 		HttpServletRequest httpReq = mockHttpServletRequest(newSid());
 		HttpServletResponseMock httpResp = mockHttpServletResponse();
@@ -253,7 +253,7 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 	@org.junit.Test
 	public void cookieForgedTest() throws Exception {
 		
-		final ServletConnection conn = servletClient.connectTo("monstrosity");
+		final ServletConnection conn = servletClient.connectTo("variant://localhost:5377/monstrosity");
 
 		
 		// Request 1: new session.
@@ -284,7 +284,7 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 	@org.junit.Test
 	public void connClosedByClientTest() throws Exception {
 		
-		final ServletConnection conn = servletClient.connectTo("monstrosity");
+		final ServletConnection conn = servletClient.connectTo("variant://localhost:5377/monstrosity");
 
 
 		String sid1 = newSid();

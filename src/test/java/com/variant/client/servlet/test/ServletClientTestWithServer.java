@@ -2,7 +2,6 @@ package com.variant.client.servlet.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -15,7 +14,6 @@ import org.mockito.Answers;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import com.variant.client.ConfigKeys;
 import com.variant.client.servlet.ServletVariantClient;
 import com.variant.client.servlet.ServletVariantException;
 import com.variant.client.servlet.SessionIdTrackerHttpCookie;
@@ -23,7 +21,6 @@ import com.variant.client.servlet.TargetingTrackerHttpCookie;
 import com.variant.client.servlet.mock.HttpServletRequestMock;
 import com.variant.client.servlet.mock.HttpServletResponseMock;
 import com.variant.client.servlet.mock.HttpSessionMock;
-import com.variant.client.test.NativeProcess;
 import com.variant.core.test.VariantBaseTest;
 import com.variant.core.util.Tuples.Tripple;
 
@@ -36,20 +33,9 @@ public abstract class ServletClientTestWithServer  extends VariantBaseTest {
 	// tests will be skipped if there's no server at given URL.
 	// abstract protected String getServerUrl();
 		
-	protected static final ServletVariantClient servletClient = ServletVariantClient.Factory.getInstance();
+	protected static final ServletVariantClient servletClient = new ServletVariantClient.Builder().build();
 
-	public ServletClientTestWithServer() {
-		String serverUrl = servletClient.getConfig().getString(ConfigKeys.SERVER_URL);
-		try {
-			if (NativeProcess.execSilent("curl " + serverUrl) != 0 ) 
-				fail("No server at URL [" + serverUrl + "]");
-			else 
-				System.out.println("Server found at URL [" + serverUrl + "]");
-		}
-		catch (Exception x) {
-			throw new RuntimeException("Unable to verify server URL", x);
-		}
-	}
+	public ServletClientTestWithServer() { }
 	
 	//---------------------------------------------------------------------------------------------//
 	//                                 Exception Intercepter                                       //

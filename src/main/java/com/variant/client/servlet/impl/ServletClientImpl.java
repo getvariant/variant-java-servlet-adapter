@@ -1,6 +1,5 @@
 package com.variant.client.servlet.impl;
 
-import com.typesafe.config.Config;
 import com.variant.client.Connection;
 import com.variant.client.VariantClient;
 import com.variant.client.servlet.ServletConnection;
@@ -22,13 +21,8 @@ public class ServletClientImpl implements ServletVariantClient {
 
 	/**
 	 */		
-	public ServletClientImpl() {
-		this.bareClient = VariantClient.Factory.getInstance();
-	}
-
-	@Override
-	public Config getConfig() {
-		return bareClient.getConfig();
+	public ServletClientImpl(VariantClient bareClient) {
+		this.bareClient = bareClient;
 	}
 
 	@Override

@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import com.variant.client.TargetingTracker;
 import com.variant.client.servlet.util.VariantCookie;
-import com.variant.client.session.TargetingTrackerString;
+import com.variant.client.impl.TargetingTrackerString;
 import com.variant.core.util.TimeUtils;
 
 /**

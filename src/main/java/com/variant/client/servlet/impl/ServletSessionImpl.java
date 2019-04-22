@@ -5,17 +5,18 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-import com.typesafe.config.Config;
 import com.variant.client.Session;
+import com.variant.client.SessionAttributes;
 import com.variant.client.StateRequest;
 import com.variant.client.servlet.ServletConnection;
 import com.variant.client.servlet.ServletSession;
 import com.variant.client.servlet.ServletStateRequest;
 import com.variant.client.servlet.ServletVariantException;
-import com.variant.core.TraceEvent;
+import com.variant.client.TraceEvent;
 import com.variant.core.schema.Schema;
 import com.variant.core.schema.State;
 import com.variant.core.schema.Variation;
+import com.variant.core.schema.Variation.Experience;
 
 /**
  * <p>The implementation of {@link ServletSession}.
@@ -49,18 +50,13 @@ public class ServletSessionImpl implements ServletSession {
 	}
 
 	@Override
-	public Map<String,String> getAttributes() {
+	public SessionAttributes getAttributes() {
 		return bareSession.getAttributes();
 	}
 
 	@Override
 	public ServletConnection getConnection() {
 		return wrapConnection;
-	}
-
-	@Override
-	public Config getConfig() {
-		return bareSession.getConfig();
 	}
 
 	@Override
@@ -107,5 +103,20 @@ public class ServletSessionImpl implements ServletSession {
 	@Override
 	public Schema getSchema() {
 		return bareSession.getSchema();
+	}
+
+	@Override
+	public Optional<Experience> getLiveExperience(Variation var) {
+		return bareSession.getLiveExperience(var);
+	}
+
+	@Override
+	public Optional<Experience> getLiveExperience(String varName) {
+		return bareSession.getLiveExperience(varName);
+	}
+
+	@Override
+	public Set<Experience> getLiveExperiences() {
+		return bareSession.getLiveExperiences();
 	}
 }

@@ -23,7 +23,7 @@ public class ServletTargetingTest extends ServletClientTestWithServer {
 	@org.junit.Test
 	public void noSIDwithTargeting() throws Exception {
 		
-		ServletConnection conn = servletClient.connectTo("monstrosity");
+		ServletConnection conn = servletClient.connectTo("variant://localhost:5377/monstrosity");
 		
 		Tripple<Long,String,String> targetingCookie = 
 			new Tripple<Long,String,String>(System.currentTimeMillis(), "test2", "B");
