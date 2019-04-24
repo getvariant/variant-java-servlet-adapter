@@ -9,36 +9,19 @@
 {
    'meta':{
       'name':'petclinic',
-      'comment':'Variation schema for experiments on the Pet Clinic demo application'
+      'comment':'Variant schema for the Pet Clinic demo application'
    },
 
    'states':[
-      { 
-         // The vets page
-         'name':'vets',
-         'parameters': [
-            {
-               'name':'path',
-               'value':'/petclinic/vets.html'
-            }
-         ]
-      },
-      {
-         // The new visit page
-         'name':'newVisit',
-         'parameters': [
-            {
-               'name':'path',
-               'value':'/petclinic/owners/~\\d+/pets/~\\d+/visits/new'
-            }
-         ]
-      } 
+      {'name':'vets'},
+      {'name':'newVisit'} 
    ],                                                        
 
    'variations':[
 
       /*
        * Vet's hourly rate feature toggle on the vets page only.
+       * Demonstrates lazy instrumentation.
        */ 
 
      {                                                      
@@ -55,22 +38,14 @@
             }              
          ],                                                  
          'onStates':[
-            {                                                
-               'stateRef':'vets'
-            }
-         ],
-         'hooks':[
-            {
-               // Assigns all Chrome traffic to the control experience
-               'name':'ChromeTargeter',
-               'class':'com.variant.server.ext.demo.ChromeTargetingHook'
-            }
+            {'stateRef':'vets'}
          ]
       },
 
       /*
-       * The Book a Visit Experiment on 2 pages.
-       */ 
+       * The Schedule-a-Visit Experiment on 2 pages.
+       * Demonstrate eager instrumentation and conjoint variation concurrency.
+       */
       
       {                                                      
          'name':'ScheduleVisitTest',
@@ -87,52 +62,16 @@
             }                                              
          ],                                                  
          'onStates':[
-            {                    
-               // The Vets page is instrumented by both variations
-               'stateRef':'vets',                  
-               'variants':[                                  
-                  {  
-                	 // Proper variant - when the rate column feature is in control.
-                     'experienceRef': 'withLink',
-                     'parameters': [
-                        {
-                           'name':'path',
-                           'value':'/vets__ScheduleVisit_withLink.html'
-                        }
-                     ]
-                  },                                        
-                  {                                          
-                 	 // Hybrid variant - when the rate column feature is also in a variant.
-                     'experienceRef': 'withLink',
-                     'conjointExperienceRefs': [                         
-                        {                                                 
-                           'variationRef': 'VetsHourlyRateFeature',
-                           'experienceRef': 'rateColumn'                           
-                        }                                                 
-                     ],                                                  
-                     'parameters': [
-                        {
-                           'name':'path',
-                           'value':'/vets__ScheduleVisit_withLink.html'
-                        }
-                     ]                                             
-                  }
-               ]                                             
-            },
-            {                                                
-               'stateRef':'newVisit',                    
-               'variants':[                                  
-                  {                                          
-                     'experienceRef': 'withLink',
-                     'parameters': [
-                        {
-                           'name':'path',
-                           'value':'/owners/11/pets/14/visits/new__ScheduleVisit_withLink'
-                        }
-                     ]
-                  }
-               ]
-            }
+            {'stateRef':'vets'},
+            {'stateRef':'newVisit'}
+         ],
+         'hooks': [
+        	{
+        		// Target Chrome traffic to control.
+        		'name':'chromeControlTargeter',
+        		'class':'com.variant.extapi.standard.demo.UserQualifyingHook',
+        		'init': {'blackList':['Nikita Krushchev']}
+        	} 
          ]
       }
    ]
