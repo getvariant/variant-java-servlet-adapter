@@ -3,13 +3,17 @@
  * Demonstrates instrumentation of an experiment and a concurrent feature toggle.
  * See https://github.com/getvariant/variant-java-demo for details.
  *
- * Copyright © 2015-2018 Variant, Inc. All Rights Reserved.
+ * Copyright © 2019 Variant, Inc. All Rights Reserved.
  */
 
 {
    'meta':{
       'name':'petclinic',
-      'comment':'Variant schema for the Pet Clinic demo application'
+      'comment':'Variant schema for the Pet Clinic demo application',
+      'flusher': {
+        'class':'com.variant.extapi.std.flush.TraceEventFlusherCsv',
+        'init':{'header':true, 'file':'/tmp/variant-trace-events-petclinic.csv'}
+       }
    },
 
    'states':[
@@ -66,12 +70,11 @@
             {'stateRef':'newVisit'}
          ],
          'hooks': [
-        	{
-        		// Target Chrome traffic to control.
-        		'name':'chromeControlTargeter',
-        		'class':'com.variant.extapi.standard.demo.UserQualifyingHook',
-        		'init': {'blackList':['Nikita Krushchev']}
-        	} 
+         {
+            // Disqualify blacklisted users.
+            'class':'com.variant.extapi.std.demo.UserQualifyingHook',
+            'init': {'blackList':['Nikita Krushchev']}
+         } 
          ]
       }
    ]
