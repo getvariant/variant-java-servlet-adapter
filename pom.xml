@@ -2,7 +2,7 @@
 <!--
 /*
  * Java Servlet Adapter for Variant Experiment Server Java client.
- * © 2017 Variant Inc. All rights reserved.
+ * © 2019 Variant Inc. All rights reserved.
  *
  */
 -->
@@ -12,6 +12,7 @@
 	<properties>
     	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>	
     	<tomcat.version>7.0.59</tomcat.version>
+        <jackson.version>2.5.3</jackson.version>
         <variant.version>0.10.0</variant.version>
     </properties>
 
@@ -25,16 +26,20 @@
     <dependencies>
  
       <!-- Variant Bare Java Client and transitives -->
-      <dependency>
-         <groupId>com.variant</groupId>
-         <artifactId>variant-java-client</artifactId>
-         <version>${variant.version}</version>
-      </dependency>
+        <dependency>
+           <groupId>com.variant</groupId>
+           <artifactId>variant-java-client</artifactId>
+           <version>${variant.version}</version>
+           <scope>system</scope>
+           <systemPath>${project.basedir}/lib/variant-java-client-${variant.version}.jar</systemPath>
+        </dependency>
 
       <dependency>
          <groupId>com.variant</groupId>
          <artifactId>variant-core</artifactId>
          <version>${variant.version}</version>
+         <scope>system</scope>
+         <systemPath>${project.basedir}/lib/variant-core-${variant.version}.jar</systemPath>
       </dependency>
 
        <dependency>
@@ -48,28 +53,50 @@
 	     <artifactId>slf4j-api</artifactId>
          <version>1.7.12</version>
       </dependency>
-
-      <!-- Mockito -->	
-      <dependency>
-         <groupId>org.mockito</groupId>
-         <artifactId>mockito-all</artifactId>
-         <version>2.0.2-beta</version>
-         <scope>test</scope>
-      </dependency>
-    	
-      <!-- JUnit -->    
-      <dependency>
-	  <groupId>junit</groupId>
-	  <artifactId>junit</artifactId>
-	  <version>4.12</version>
-      </dependency>
-      
+            
+      <!-- Jackson JSON parser -->
+        <!-- the core, which includes Streaming API, shared low-level abstractions (but NOT data-binding) -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson.version}</version>
+        </dependency> 
+        
+        <!-- databinding; ObjectMapper, JsonNode and related classes are here -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>  
+    
+        <dependency>
+           <groupId>com.fasterxml.jackson.core</groupId>
+           <artifactId>jackson-annotations</artifactId>
+           <version>${jackson.version}</version>
+        </dependency>
+            
       <!-- Servlet -->
 		<dependency>
         	<groupId>org.apache.tomcat</groupId>
         	<artifactId>tomcat-servlet-api</artifactId>
          	<version>${tomcat.version}</version>
           	<scope>provided</scope>
+      </dependency>
+      
+      <!-- Mockito -->    
+      <dependency>
+         <groupId>org.mockito</groupId>
+         <artifactId>mockito-all</artifactId>
+         <version>2.0.2-beta</version>
+         <scope>test</scope>
+      </dependency>
+        
+      <!-- JUnit -->    
+      <dependency>
+         <groupId>junit</groupId>
+         <artifactId>junit</artifactId>
+         <version>4.12</version>
+         <scope>test</scope>
       </dependency>
                 
 	</dependencies>
@@ -96,7 +123,8 @@
                         because Variant.bootstrap() can only be called once per JVM's lifetime. 
                    -->
 			       <reuseForks>false</reuseForks>
-			       <systemPropertyVariables>
+                   <trimStackTrace>false</trimStackTrace>
+        	       <systemPropertyVariables>
                       <variant.version>${variant.version}</variant.version>
                    </systemPropertyVariables>
                </configuration>

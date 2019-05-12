@@ -1,6 +1,6 @@
 package com.variant.client.servlet.impl;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -8,11 +8,11 @@ import java.util.Set;
 import com.variant.client.Session;
 import com.variant.client.SessionAttributes;
 import com.variant.client.StateRequest;
+import com.variant.client.TraceEvent;
 import com.variant.client.servlet.ServletConnection;
 import com.variant.client.servlet.ServletSession;
 import com.variant.client.servlet.ServletStateRequest;
 import com.variant.client.servlet.ServletVariantException;
-import com.variant.client.TraceEvent;
 import com.variant.core.schema.Schema;
 import com.variant.core.schema.State;
 import com.variant.core.schema.Variation;
@@ -60,8 +60,8 @@ public class ServletSessionImpl implements ServletSession {
 	}
 
 	@Override
-	public Date getCreateDate() {
-		return bareSession.getCreateDate();
+	public Instant getTimestamp() {
+		return bareSession.getTimestamp();
 	}
 
 	@Override

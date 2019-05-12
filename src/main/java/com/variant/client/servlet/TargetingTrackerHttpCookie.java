@@ -48,7 +48,7 @@ public class TargetingTrackerHttpCookie extends TargetingTrackerString implement
 		}
 	}
 
-	private TargetingCookie cookie;
+	private final TargetingCookie cookie;
 	
 	//---------------------------------------------------------------------------------------------//
 	//                                          PUBLIC                                             //
@@ -57,16 +57,12 @@ public class TargetingTrackerHttpCookie extends TargetingTrackerString implement
 	public static final String COOKIE_NAME = "variant-target";
 
 	/**
-	 * No-argument constructor must be provided by contract. 
+	 * Constructor must be provided by contract.
 	 */
-	public TargetingTrackerHttpCookie() {}
-
-	// @since 1.0
-	@Override
-	public void init(Object...userData){
+	public TargetingTrackerHttpCookie(Object...userData) {
 		HttpServletRequest request =  (HttpServletRequest) userData[0];
 		cookie = new TargetingCookie(request);
-	}		
+	}
 
 	// @since 1.0
 	@Override

@@ -43,7 +43,7 @@ public class SessionIdTrackerHttpCookie implements SessionIdTracker {
 		}
 	}
 
-	private SsnIdCookie cookie = null;
+	private final SsnIdCookie cookie;
 
 	//---------------------------------------------------------------------------------------------//
 	//                                          PUBLIC                                             //
@@ -54,14 +54,11 @@ public class SessionIdTrackerHttpCookie implements SessionIdTracker {
 	/**
 	 * No-argument constructor must be provided by contract.
 	 */
-	public SessionIdTrackerHttpCookie() {}
-
-	@Override
-	public void init(Object...userData) {		
+	public SessionIdTrackerHttpCookie(Object...userData) {
 		HttpServletRequest request = (HttpServletRequest) userData[0];
-		cookie = new SsnIdCookie(request);
+		cookie = new SsnIdCookie(request);	
 	}
-	
+		
 	@Override
 	public String get() {
 		return cookie == null ? null : cookie.getValue();
