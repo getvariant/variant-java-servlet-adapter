@@ -44,7 +44,7 @@ public class TargetingTrackerHttpCookie extends TargetingTrackerString implement
 		 */
 		@Override
 		public int getMaxAge() {
-			return (int) TimeUtils.MILLIS_PER_DAY / 1000 * 365;
+			return (int) TimeUtils.SECONDS_PER_DAY * 365;
 		}
 	}
 
