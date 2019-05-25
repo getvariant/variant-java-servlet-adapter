@@ -138,7 +138,7 @@ public class StateSelectorByRequestPath  {
 	public static Optional<State> select(Schema schema, String resourcePath) {
 		
 		for (State state: schema.getStates()) {
-			String statePath = state.getParameters().get("path");
+			String statePath = state.getParameters().map(params -> params.get("path")).orElse(null);
 			if (statePath != null && match(statePath, resourcePath)) return Optional.of(state);
 		}
 		return Optional.empty();

@@ -231,7 +231,7 @@ public class VariantFilter implements Filter {
 				onStateRequest(request, response, stateRequest);
 
 				resolvedPath = stateRequest.getResolvedParameters().get("path");
-				isForwarding = !resolvedPath.equals(state.getParameters().get("path"));
+				isForwarding = !resolvedPath.equals(state.getParameters().map(params -> params.get("path")).orElse(null));
 				
 				if (LOG.isDebugEnabled()) {
 					String msg = isForwarding ? "Forwarding to path [" + resolvedPath + "]." : "Falling through to requested URL";
