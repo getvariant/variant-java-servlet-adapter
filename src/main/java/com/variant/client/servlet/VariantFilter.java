@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 import com.variant.client.TraceEvent;
 import com.variant.client.VariantException;
 import com.variant.client.servlet.util.StateSelectorByRequestPath;
-import com.variant.core.StateRequestStatus;
+import com.variant.client.StateRequest.Status;
 import com.variant.core.schema.State;
 
 /**
@@ -253,7 +253,7 @@ public class VariantFilter implements Filter {
 		}
 							
 		// Commit state request if not yet.
-		if (stateRequest != null && stateRequest.getStatus() == StateRequestStatus.InProgress) {
+		if (stateRequest != null && stateRequest.getStatus() == Status.InProgress) {
 			try {
 				// Add some extra info to the state visited event(s)
 				TraceEvent sve = stateRequest.getStateVisitedEvent();
@@ -266,7 +266,7 @@ public class VariantFilter implements Filter {
 			catch (VariantException e) {
 				LOG.error("Unhandled exception in Variant for path [" + path + "]", e);
 				try {
-					if (stateRequest.getStatus() == StateRequestStatus.InProgress)
+					if (stateRequest.getStatus() == Status.InProgress)
 					stateRequest.fail(httpResponse);
 				}
 				catch (VariantException e2) {

@@ -7,11 +7,10 @@ import java.util.Set;
 import javax.servlet.http.HttpServletResponse;
 
 import com.variant.client.StateRequest;
+import com.variant.client.TraceEvent;
 import com.variant.client.servlet.ServletSession;
 import com.variant.client.servlet.ServletStateRequest;
 import com.variant.client.servlet.ServletVariantException;
-import com.variant.client.TraceEvent;
-import com.variant.core.StateRequestStatus;
 import com.variant.core.schema.State;
 import com.variant.core.schema.StateVariant;
 import com.variant.core.schema.Variation;
@@ -95,7 +94,7 @@ public class ServletStateRequestImpl implements ServletStateRequest {
 	}
 
 	@Override
-	public StateRequestStatus getStatus() {
+	public Status getStatus() {
 		return bareRequest.getStatus();
 	}
 

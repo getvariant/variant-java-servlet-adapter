@@ -15,7 +15,7 @@ import com.variant.client.servlet.ServletStateRequest;
 import com.variant.client.servlet.SessionIdTrackerHttpCookie;
 import com.variant.client.servlet.TargetingTrackerHttpCookie;
 import com.variant.client.servlet.mock.HttpServletResponseMock;
-import com.variant.core.StateRequestStatus;
+import com.variant.client.StateRequest.Status;
 import com.variant.core.schema.Schema;
 import com.variant.core.schema.State;
 import com.variant.core.schema.Variation;
@@ -162,7 +162,7 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 		assertEqualAsSets(expectedTests, ssn2.getTraversedVariations());
 
 		req2.commit(httpResp);
-		assertEquals(StateRequestStatus.Committed, req2.getStatus());
+		assertEquals(Status.Committed, req2.getStatus());
 
 		// commit() has added the targeting tracker cookie.
 		assertEquals(2, httpResp.getCookies().length);
@@ -180,7 +180,7 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 		// Commit should have saved the session.
 		httpReq = mockHttpServletRequest(httpResp);
 		ServletSession ssn3 = conn.getSession(httpReq).get();
-		assertEquals(StateRequestStatus.Committed, req2.getStatus());
+		assertEquals(Status.Committed, req2.getStatus());
 		assertEqualAsSets(
 				CollectionsUtils.pairsToMap(new Pair<State,Integer>(state1, 1)), 
 				ssn2.getTraversedStates());
@@ -232,7 +232,7 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 		assertEqualAsSets(expectedTests, ssn1.getTraversedVariations());		
 
 		varReq.commit(httpResp);
-		assertEquals(StateRequestStatus.Committed, varReq.getStatus());
+		assertEquals(Status.Committed, varReq.getStatus());
 		
 		// Create a new HTTP request with the same VRNT-SSNID cookie.  Should fetch the same bare session.
 		HttpServletRequest httpReq2 = mockHttpServletRequest(ssn1.getId());
