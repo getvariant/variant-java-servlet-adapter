@@ -3,7 +3,7 @@
 # Servlet Adapter for Variant Java Client
 ### Release 0.9.3
 
-### [Documentation](https://www.getvariant.com/resources/docs/0-9/clients/variant-java-client/#section-3) | [Javadoc](https://getvariant.github.io/variant-java-servlet-adapter/)
+### [Documentation](https://www.getvariant.com/resources/docs/0-9/clients/variant-java-client/#section-5.1) | [Javadoc](https://getvariant.github.io/variant-java-servlet-adapter/)
 
 #### Requires: 
 * [Variant Java Client 0.9.3](https://www.getvariant.com/resources/docs/0-9/clients/variant-java-client/)
