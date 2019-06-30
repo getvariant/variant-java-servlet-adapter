@@ -13,11 +13,11 @@
 
 ## 1. Introduction
 
-A Java host application communicates with an instance of [Variant AIM Server](http://www.getvariant.com/resources/docs/0-10/application-iteration-server/user-guide/) via the  [Variant Java Client](https://www.getvariant.com/resources/docs/0-10/clients/variant-java-client/), a general purpose Java client cliebrary, which makes no assumption about the host application's operational details, other than it run on a JVM and hence can consume a Java API. This flexibility comes at the expense of some deferred dependencies, such as a mechanism for tracking Variant session ID between state request. These deferred dependencies are provided by stack-specific adapters, such as the Servlet Adapter discussed in this document. It is intened for use by those host applications, which run in servlet containers, such as Tomcat.
+A Java host application communicates with an instance of [Variant AIM Server](http://www.getvariant.com/resources/docs/0-10/application-iteration-server/user-guide/) via the  [Variant Java Client](https://www.getvariant.com/resources/docs/0-10/clients/variant-java-client/), a general purpose Java client cliebrary, which makes no assumption about the host application's operational details, other than it runs on a JVM. This flexibility comes at the expense of some deferred dependencies, such as a mechanism for tracking Variant session ID between state request. These deferred dependencies are provided by stack-specific adapters, such as the Servlet Adapter discussed in this document. It is intened for use by those host applications, which run in servlet containers, such as Tomcat.
 
 The servlet adapter consists of two components:
-* Wrapper client API, which re-writes all deferred method signatures in terms of familiar servlet objects, like HttpServletRequest. See Section 5.1.2 for further details;
-* Servlet-based implementation of the session ID tracker, utilizing HTTP cookies. See Section 5.1.3 for details.
+* Wrapper client API, which wraps the general purpose classes in a functionally identical servlet-aware classes, whose only difference is that they rewrites all deferred environment-dependent method signatures with those that operate on the familiar servlet objects, like `HttpServletRequest` and `HttpServletResponse`;
+* Servlet-based implementation of the session ID tracker, utilizing HTTP cookies.
 
 See [documentation](https://www.getvariant.com/resources/docs/0-10/clients/variant-java-client/#section-5.1) for further details.
 
