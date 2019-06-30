@@ -1,7 +1,7 @@
 ![Variant Logo](http://www.getvariant.com/wp-content/uploads/2016/07/VariantLogoSquare-100.png)
 
 # Servlet Adapter for Variant Java Client
-### Release 0.9.3
+### Release 0.10.0
 
 ### [Documentation](https://www.getvariant.com/resources/docs/0-9/clients/variant-java-client/#section-5.1) | [Javadoc](https://getvariant.github.io/variant-java-servlet-adapter/)
 
