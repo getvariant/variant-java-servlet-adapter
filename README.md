@@ -7,13 +7,13 @@
 
 #### Requires: 
 * [Variant Java Client 0.10.0](https://www.getvariant.com/resources/docs/0-10/clients/variant-java-client/)
-* [Variant Experience Server 0.10](http://www.getvariant.com/resources/docs/0-10/application-iteration-server/user-guide/) 
+* [Variant AIM Server 0.10](http://www.getvariant.com/resources/docs/0-10/application-iteration-server/user-guide/) 
 * Java Servlet API 3.0 or later
 * Java 8 or later.
 
 ## 1. Introduction
 
-A Java application, in order to communicate with [Variant Experience Server](http://www.getvariant.com/resources/docs/0-9/experience-server/user-guide/), must integratie with the [Variant Java Client](https://www.getvariant.com/resources/docs/0-9/clients/variant-java-client/), which makes no assumption about the host application whatsoever, other than it is Java. However, most Java Web applications are written on top of the Servlet SPI, either directly or via a servlet-based framework, such as Spring MVC. Such applications should take advantage of this servlet adapter, instead of coding directly to the general Variant Java Client API.
+A Java host application communicates with an instance of [Variant AIM Server](http://www.getvariant.com/resources/docs/0-9/experience-server/user-guide/) via the  [Variant Java Client](https://www.getvariant.com/resources/docs/0-9/clients/variant-java-client/), a general purpose Java client cliebrary, which makes no assumption about the host application's operational details, other than it run on a JVM and hence can consume a Java API. This flexibility comes at the expense of some deferred dependencies, such as a mechanism for tracking Variant session ID between state request. These deferred dependencies are provided by stack-specific adapters, such as the Servlet Adapter discussed in this document. It is intened to be used by those host applications, which run in servlet containers, such as Tomcat.
 
 Servlet adapter wraps the general Variant Java client with a higher level API, which re-writes all environment-dependent method signatures in terms of the familiar servlet objects `HttpServletRequest` and `HttpServletResponse`. The servlet adapter preserves all of the underlying Java client’s functionality and comes with out-of-the-box implementations of all [environment-dependent classes](https://www.getvariant.com/resources/docs/0-9/clients/variant-java-client/#section-3.4).
 
