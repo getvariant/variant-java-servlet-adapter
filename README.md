@@ -30,9 +30,6 @@ Note that these libraries in turn have the following transitive dependencies:
 
 1. Apache [HTTP Client (4.5+)](https://hc.apache.org/httpcomponents-client-4.5.x/index.html) library. 
 2. [Simple Logging Facade for Java (1.7+)](https://www.slf4j.org/) library. 
-2. [Typesafe Config (1.2+)](https://github.com/typesafehub/config) library. 
-
-Download these dependent libraries and add them to your host application classpath as well, if you don't already have them.
 
 ### 2.2. Maven Build Installation
 
@@ -41,11 +38,11 @@ __∎ Install private dependencies__
 Add the servlet adapter JAR and its two private dependent JARs to your local Maven repository:
 
 ```shell
-% mvn install:install-file -Dfile=lib/variant-java-client-0.9.3.jar -DgroupId=com.variant -DartifactId=variant-java-client -Dversion=0.9.3 -Dpackaging=jar
+% mvn install:install-file -Dfile=lib/variant-java-client-0.10.0.jar -DgroupId=com.variant -DartifactId=variant-java-client -Dversion=0.9.3 -Dpackaging=jar
 
-% mvn install:install-file -Dfile=lib/variant-core-0.9.3.jar -DgroupId=com.variant -DartifactId=variant-core -Dversion=0.9.3 -Dpackaging=jar
+% mvn install:install-file -Dfile=lib/variant-core-0.10.0.jar -DgroupId=com.variant -DartifactId=variant-core -Dversion=0.10.0 -Dpackaging=jar
 
-% mvn install:install-file -Dfile=lib/variant-java-client-servlet-adapter-0.9.3.jar -DgroupId=com.variant -DartifactId=variant-java-client-servlet-adapter -Dversion=0.9.3 -Dpackaging=jar
+% mvn install:install-file -Dfile=lib/variant-java-client-servlet-adapter-0.10.0.jar -DgroupId=com.variant -DartifactId=variant-java-client-servlet-adapter -Dversion=0.10.0 -Dpackaging=jar
 ```
 __∎ Add dependencies to your build__
 
@@ -55,31 +52,25 @@ Add the following dependencies to your host application's `pom.xml` file (copied
 <dependency>
    <groupId>com.variant</groupId>
    <artifactId>java-client-servlet-adapter</artifactId>
-   <version>0.9.3</version>
+   <version>0.10.0</version>
 </dependency>
 
 <dependency>
    <groupId>com.variant</groupId>
    <artifactId>java-client</artifactId>
-   <version>0.9.3</version>
+   <version>0.10.0</version>
 </dependency>
 
 <dependency>
    <groupId>com.variant</groupId>
    <artifactId>variant-core</artifactId>
-   <version>0.9.3</version>
+   <version>0.10.0</version>
 </dependency>
 
 <dependency>
    <groupId>org.apache.httpcomponents</groupId>
    <artifactId>httpclient</artifactId>
    <version>4.5.1</version>
-</dependency>
-
-<dependency>
-   <groupId>com.typesafe</groupId>
-   <artifactId>config</artifactId>
-   <version>1.2.1</version>
 </dependency>
 
 <dependency>
