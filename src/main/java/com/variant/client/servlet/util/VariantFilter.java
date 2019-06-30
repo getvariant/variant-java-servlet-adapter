@@ -1,4 +1,4 @@
-package com.variant.client.servlet;
+package com.variant.client.servlet.util;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -17,8 +17,13 @@ import org.slf4j.LoggerFactory;
 
 import com.variant.client.TraceEvent;
 import com.variant.client.VariantException;
-import com.variant.client.servlet.util.StateSelectorByRequestPath;
 import com.variant.client.StateRequest.Status;
+import com.variant.client.servlet.ServletConnection;
+import com.variant.client.servlet.ServletSession;
+import com.variant.client.servlet.ServletStateRequest;
+import com.variant.client.servlet.ServletVariantClient;
+import com.variant.client.servlet.ServletVariantException;
+import com.variant.client.servlet.ServletVariantClient.Builder;
 import com.variant.core.schema.State;
 
 /**
