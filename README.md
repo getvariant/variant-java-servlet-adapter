@@ -3,11 +3,11 @@
 # Servlet Adapter for Variant Java Client
 ### Release 0.10.0
 
-### [Documentation](https://www.getvariant.com/resources/docs/0-9/clients/variant-java-client/#section-5.1) | [Javadoc](https://getvariant.github.io/variant-java-servlet-adapter/)
+### [Documentation](https://www.getvariant.com/resources/docs/0-10/clients/variant-java-client/#section-5.1) | [Javadoc](https://getvariant.github.io/variant-java-servlet-adapter/)
 
 #### Requires: 
-* [Variant Java Client 0.9.3](https://www.getvariant.com/resources/docs/0-9/clients/variant-java-client/)
-* [Variant Experience Server 0.9.x](http://www.getvariant.com/resources/docs/0-9/experience-server/user-guide/) 
+* [Variant Java Client 0.10.0](https://www.getvariant.com/resources/docs/0-10/clients/variant-java-client/)
+* [Variant Experience Server 0.10](http://www.getvariant.com/resources/docs/0-10/application-iteration-server/user-guide/) 
 * Java Servlet API 3.0 or later
 * Java 8 or later.
 
