@@ -104,6 +104,7 @@ Add these libraries to your corporate Maven repository or to your local reposito
 % mvn install:install-file -Dfile=lib/variant-core-0.10.0.jar -DgroupId=com.variant -DartifactId=variant-core -Dversion=0.10.0 -Dpackaging=jar
 ```
 __∎ Running unit tests__
+
 Unit tests expect two test variation schemata to be deployed on an instance of Variant server, running at `http://localhost:5377`. Simply copy the contents of `src/test/resurces/schemata` to your server's `schemata` directory.
 
 __∎ Package the Servlet Adapter JAR__
