@@ -30,7 +30,7 @@ Note that these libraries in turn have the following transitive dependencies:
 1. Apache [HTTP Client (4.5+)](https://hc.apache.org/httpcomponents-client-4.5.x/index.html) library. 
 2. [Simple Logging Facade for Java (1.7+)](https://www.slf4j.org/) library. 
 
-### 3. Maven Build Installation
+## 3. Maven Build Installation
 
 __∎ Install private dependencies__ 
 
@@ -79,7 +79,7 @@ Add the following dependencies to your host application's `pom.xml` file (copied
 </dependency>
 ```
 
-## 3. Building From Source with Maven
+## 4. Building From Source with Maven
 
 __∎ Clone this repository to your local system.__
 
@@ -103,8 +103,11 @@ Add these libraries to your corporate Maven repository or to your local reposito
 
 % mvn install:install-file -Dfile=lib/variant-core-0.10.0.jar -DgroupId=com.variant -DartifactId=variant-core -Dversion=0.10.0 -Dpackaging=jar
 ```
+__∎ Running unit tests__
+Unit tests expect two test variation schemata to be deployed on an instance of Variant server, running at `http://localhost:5377`. Simply copy the contents of `src/test/resurces/schemata` to your server's `schemata` directory.
+
 __∎ Package the Servlet Adapter JAR__
 ```shell
 % mvn clean package
 ```
-this will create the `java-client-servlet-adapter-0.10.0.jar` file in the `/target` directory.
+this will run the unit tests and create the `java-client-servlet-adapter-0.10.0.jar` file in the `/target` directory.  
