@@ -21,8 +21,7 @@ The servlet adapter consists of two components:
 
 See [documentation](https://www.getvariant.com/resources/docs/0-10/clients/variant-java-client/#section-5.1) for further details.
 
-## 2. Installation
-### 2.1. Classpath Installation
+## 2. Classpath Installation
 
 The servlet adapter JAR file and its two transitive dependencies can be found in this repository's [/lib](https://github.com/getvariant/variant-java-servlet-adapter/tree/master/lib) directory. Add all three JAR files on your host application's classpath.
 
@@ -31,7 +30,7 @@ Note that these libraries in turn have the following transitive dependencies:
 1. Apache [HTTP Client (4.5+)](https://hc.apache.org/httpcomponents-client-4.5.x/index.html) library. 
 2. [Simple Logging Facade for Java (1.7+)](https://www.slf4j.org/) library. 
 
-### 2.2. Maven Build Installation
+### 3. Maven Build Installation
 
 __∎ Install private dependencies__ 
 
@@ -80,16 +79,7 @@ Add the following dependencies to your host application's `pom.xml` file (copied
 </dependency>
 ```
 
-## 3. Configuration
-
-The following configuration properties must be set in your application's variant.conf:
-```
-session.id.tracker.class.name = "com.variant.client.servlet.SessionIdTrackerHttpCookie"
-targeting.tracker.class.name = "com.variant.client.servlet.TargetingTrackerHttpCookie"
-```
-Refer to the [Variant Java Client User Guide](https://www.getvariant.com/resources/docs/0-9/clients/variant-java-client/#section-2.2) for more information on how to configure your Variant Java Client.
-
-## 4. Building From Source with Maven
+## 3. Building From Source with Maven
 
 __∎ Clone this repository to your local system.__
 
@@ -103,18 +93,18 @@ This project depends on the following transitive dependencies, found in the [/li
 
 | File        | Description           | 
 | ------------- | ------------- | 
-| `variant-java-client-0.9.3.jar` | The general Variant Java client. The servlet adapter runs on top of it. | 
-| `variant-core-0.9.3.jar` | Variant Java Client's transitive dependency. | 
+| `variant-java-client-0.10.0.jar` | The general Variant Java client. The servlet adapter runs on top of it. | 
+| `variant-core-0.10.0.jar` | Variant Java Client's transitive dependency. | 
 
 Add these libraries to your corporate Maven repository or to your local repository:
 
 ```shell
-% mvn install:install-file -Dfile=lib/variant-java-client-0.9.3.jar -DgroupId=com.variant -DartifactId=variant-java-client -Dversion=0.9.3 -Dpackaging=jar
+% mvn install:install-file -Dfile=lib/variant-java-client-0.10.0.jar -DgroupId=com.variant -DartifactId=variant-java-client -Dversion=0.10.0 -Dpackaging=jar
 
-% mvn install:install-file -Dfile=lib/variant-core-0.9.3.jar -DgroupId=com.variant -DartifactId=variant-core -Dversion=0.9.3 -Dpackaging=jar
+% mvn install:install-file -Dfile=lib/variant-core-0.10.0.jar -DgroupId=com.variant -DartifactId=variant-core -Dversion=0.10.0 -Dpackaging=jar
 ```
 __∎ Package the Servlet Adapter JAR__
 ```shell
 % mvn clean package
 ```
-this will create the `java-client-servlet-adapter-0.9.3.jar` file in the `/target` directory.
+this will create the `java-client-servlet-adapter-0.10.0.jar` file in the `/target` directory.
