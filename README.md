@@ -38,7 +38,7 @@ __∎ Install private dependencies__
 Add the servlet adapter JAR and its two private dependent JARs to your local Maven repository:
 
 ```shell
-% mvn install:install-file -Dfile=lib/variant-java-client-0.10.0.jar -DgroupId=com.variant -DartifactId=variant-java-client -Dversion=0.9.3 -Dpackaging=jar
+% mvn install:install-file -Dfile=lib/variant-java-client-0.10.0.jar -DgroupId=com.variant -DartifactId=variant-java-client -Dversion=0.10.0 -Dpackaging=jar
 
 % mvn install:install-file -Dfile=lib/variant-core-0.10.0.jar -DgroupId=com.variant -DartifactId=variant-core -Dversion=0.10.0 -Dpackaging=jar
 
