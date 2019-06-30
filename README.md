@@ -13,15 +13,13 @@
 
 ## 1. Introduction
 
-A Java host application communicates with an instance of [Variant AIM Server](http://www.getvariant.com/resources/docs/0-9/experience-server/user-guide/) via the  [Variant Java Client](https://www.getvariant.com/resources/docs/0-9/clients/variant-java-client/), a general purpose Java client cliebrary, which makes no assumption about the host application's operational details, other than it run on a JVM and hence can consume a Java API. This flexibility comes at the expense of some deferred dependencies, such as a mechanism for tracking Variant session ID between state request. These deferred dependencies are provided by stack-specific adapters, such as the Servlet Adapter discussed in this document. It is intened to be used by those host applications, which run in servlet containers, such as Tomcat.
+A Java host application communicates with an instance of [Variant AIM Server](http://www.getvariant.com/resources/docs/0-9/experience-server/user-guide/) via the  [Variant Java Client](https://www.getvariant.com/resources/docs/0-9/clients/variant-java-client/), a general purpose Java client cliebrary, which makes no assumption about the host application's operational details, other than it run on a JVM and hence can consume a Java API. This flexibility comes at the expense of some deferred dependencies, such as a mechanism for tracking Variant session ID between state request. These deferred dependencies are provided by stack-specific adapters, such as the Servlet Adapter discussed in this document. It is intened for use by those host applications, which run in servlet containers, such as Tomcat.
 
-Servlet adapter wraps the general Variant Java client with a higher level API, which re-writes all environment-dependent method signatures in terms of the familiar servlet objects `HttpServletRequest` and `HttpServletResponse`. The servlet adapter preserves all of the underlying Java client’s functionality and comes with out-of-the-box implementations of all [environment-dependent classes](https://www.getvariant.com/resources/docs/0-9/clients/variant-java-client/#section-3.4).
+The servlet adapter consists of two components:
+* Wrapper client API, which re-writes all deferred method signatures in terms of familiar servlet objects, like HttpServletRequest. See Section 5.1.2 for further details;
+* Servlet-based implementation of the session ID tracker, utilizing HTTP cookies. See Section 5.1.3 for details.
 
-Servlet adapter consists of the following components:
-* [ServletVariantClient](https://github.com/getvariant/variant-java-servlet-adapter/blob/master/src/main/java/com/variant/client/servlet/ServletVariantClient.java) and related classes mirror the corresponding classes of the underlying general Java Client.
-* HTTP Cookie based implementations of the [targeting tracker](https://getvariant.github.io/variant-java-servlet-adapter/com/variant/client/servlet/TargetingTrackerHttpCookie.html) and the [session ID tracker](https://getvariant.github.io/variant-java-servlet-adapter/com/variant/client/servlet/SessionIdTrackerHttpCookie.html).
-* Updated [configuration file](https://github.com/getvariant/variant-java-servlet-adapter/blob/master/variant.conf).
-* [VariantFilter](https://getvariant.github.io/variant-java-servlet-adapter/com/variant/client/servlet/VariantFilter.html) bootstraps the servlet adapter and underlying Variant client as a servlet filter. Implements eager instrumentation.
+See [documentation](https://www.getvariant.com/resources/docs/0-10/clients/variant-java-client/#section-5.1) for further details.
 
 ## 2. Installation
 ### 2.1. Classpath Installation
