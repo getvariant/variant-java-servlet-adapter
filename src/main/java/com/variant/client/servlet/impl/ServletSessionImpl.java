@@ -36,8 +36,8 @@ public class ServletSessionImpl implements ServletSession {
 	 * 
 	 */
 	public ServletSessionImpl(ServletConnectionImpl wrapConnection, Session bareSession) {
-		if (wrapConnection == null) throw new ServletVariantException("Servlet connection cannot be null");
-		if (bareSession == null) throw new ServletVariantException("Bare session cannot be null");
+		if (wrapConnection == null) throw ServletVariantException.internal("Servlet connection cannot be null");
+		if (bareSession == null) throw ServletVariantException.internal("Bare session cannot be null");
 		this.wrapConnection = wrapConnection;
 		this.bareSession = bareSession;
 		

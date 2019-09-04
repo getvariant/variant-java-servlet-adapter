@@ -10,6 +10,7 @@ import com.variant.client.servlet.ServletConnection;
 import com.variant.client.servlet.ServletSession;
 import com.variant.client.servlet.ServletVariantClient;
 import com.variant.client.servlet.ServletVariantException;
+import static com.variant.client.servlet.ServletVariantError.*;
 
 /**
  * The implementation of {@link ServletConnection}.
@@ -72,14 +73,14 @@ public class ServletConnectionImpl implements ServletConnection {
 	@Override
 	public ServletSession getOrCreateSession(Object... userData) {
 		if (userData.length != 1 || !(userData[0] instanceof HttpServletRequest)) 
-			throw new ServletVariantException("User data must have one element of type HttpServletRequest");
+			throw new ServletVariantException(USER_DATA_INVALID);
 		return getOrCreateSession((HttpServletRequest) userData[0]);
 	}
 
 	@Override
 	public Optional<ServletSession> getSession(Object... userData) {
 		if (userData.length != 1 || !(userData[0] instanceof HttpServletRequest)) 
-			throw new ServletVariantException("User data must have one element of type HttpServletRequest");
+			throw new ServletVariantException(USER_DATA_INVALID);
 		return getSession((HttpServletRequest) userData[0]);
 	}
 	

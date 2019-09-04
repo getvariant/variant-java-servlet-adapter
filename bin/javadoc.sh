@@ -4,7 +4,7 @@
 # 
 
 
-version=0.10.0
+version=0.10.1
 root_dir=$(cd $(dirname $0)/..; pwd)
 javadoc_dir=${root_dir}/docs
 

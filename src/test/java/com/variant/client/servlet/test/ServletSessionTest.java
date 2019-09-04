@@ -149,9 +149,9 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 		assertEquals(ssn2, req2.getSession());
 		assertEquals(req2, ssn2.getStateRequest().get());
 
-		assertEqualAsSets(
+		assertTrue(CollectionsUtils.equalAsSets(
 				CollectionsUtils.pairsToMap(new Pair<State,Integer>(state1, 1)), 
-				ssn2.getTraversedStates());
+				ssn2.getTraversedStates()));
 		
 		Collection<Variation> expectedTests = CollectionsUtils.list(
 				schema.getVariation("test2").get(), 
@@ -159,7 +159,7 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 				schema.getVariation("test5").get(), 
 				schema.getVariation("test6").get());
 		
-		assertEqualAsSets(expectedTests, ssn2.getTraversedVariations());
+		assertTrue(CollectionsUtils.equalAsSets(expectedTests, ssn2.getTraversedVariations()));
 
 		req2.commit(httpResp);
 		assertEquals(Status.Committed, req2.getStatus());
@@ -171,21 +171,21 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 			assertMatches(".*\\." + test.getName() + "\\..*", httpResp.getCookie(TargetingTrackerHttpCookie.COOKIE_NAME).getValue());
 		
 		// The session shouldn't have changed after commit.
-		assertEqualAsSets(
+		assertTrue(CollectionsUtils.equalAsSets(
 				CollectionsUtils.pairsToMap(new Pair<State,Integer>(state1, 1)), 
-				ssn2.getTraversedStates());
+				ssn2.getTraversedStates()));
 
-		assertEqualAsSets(expectedTests, ssn2.getTraversedVariations());
+		assertTrue(CollectionsUtils.equalAsSets(expectedTests, ssn2.getTraversedVariations()));
 
 		// Commit should have saved the session.
 		httpReq = mockHttpServletRequest(httpResp);
 		ServletSession ssn3 = conn.getSession(httpReq).get();
 		assertEquals(Status.Committed, req2.getStatus());
-		assertEqualAsSets(
+		assertTrue(CollectionsUtils.equalAsSets(
 				CollectionsUtils.pairsToMap(new Pair<State,Integer>(state1, 1)), 
-				ssn2.getTraversedStates());
+				ssn2.getTraversedStates()));
 
-		assertEqualAsSets(expectedTests, ssn3.getTraversedVariations());		
+		assertTrue(CollectionsUtils.equalAsSets(expectedTests, ssn3.getTraversedVariations()));		
 
 		// should be a no-op.
 		req2.commit(httpResp);
@@ -218,9 +218,9 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 		State state2 = schema.getState("state2").get();		
 		StateRequest varReq = ssn1.targetForState(state2);
 		assertEquals(ssn1, varReq.getSession());
-		assertEqualAsSets(
+		assertTrue(CollectionsUtils.equalAsSets(
 				CollectionsUtils.pairsToMap(new Pair<State,Integer>(state2, 1)), 
-				ssn1.getTraversedStates());
+				ssn1.getTraversedStates()));
 		
 		Collection<Variation> expectedTests = CollectionsUtils.list(
 				schema.getVariation("test1").get(), 
@@ -229,7 +229,7 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 				schema.getVariation("test5").get(), 
 				schema.getVariation("test6").get());
 
-		assertEqualAsSets(expectedTests, ssn1.getTraversedVariations());		
+		assertTrue(CollectionsUtils.equalAsSets(expectedTests, ssn1.getTraversedVariations()));		
 
 		varReq.commit(httpResp);
 		assertEquals(Status.Committed, varReq.getStatus());
@@ -238,10 +238,10 @@ public class ServletSessionTest extends ServletClientTestWithServer {
 		HttpServletRequest httpReq2 = mockHttpServletRequest(ssn1.getId());
 		ServletSession ssn2 = conn.getSession(httpReq2).get();
 		assertFalse(ssn2.getStateRequest().isPresent());
-		assertEqualAsSets(
+		assertTrue(CollectionsUtils.equalAsSets(
 				CollectionsUtils.pairsToMap(new Pair<State,Integer>(state2, 1)), 
-				ssn1.getTraversedStates());
-		assertEqualAsSets(expectedTests, ssn1.getTraversedVariations());
+				ssn1.getTraversedStates()));
+		assertTrue(CollectionsUtils.equalAsSets(expectedTests, ssn1.getTraversedVariations()));
 		
 	}
 	

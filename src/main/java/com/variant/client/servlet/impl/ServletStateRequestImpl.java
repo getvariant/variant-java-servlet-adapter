@@ -36,8 +36,8 @@ public class ServletStateRequestImpl implements ServletStateRequest {
 
 	public ServletStateRequestImpl(ServletSession wrapSession, StateRequest bareRequest) {
 		
-		if (bareRequest == null) throw new ServletVariantException("Bare state request cannot be null");
-		if (wrapSession == null) throw new ServletVariantException("Servlet session cannot be null");
+		if (bareRequest == null) throw ServletVariantException.internal("Bare state request cannot be null");
+		if (wrapSession == null) throw ServletVariantException.internal("Servlet session cannot be null");
 		this.bareRequest = bareRequest;
 		this.wrapSession = wrapSession;
 	}

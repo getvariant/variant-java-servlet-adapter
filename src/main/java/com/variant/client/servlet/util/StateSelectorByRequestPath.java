@@ -7,6 +7,8 @@ import com.variant.client.servlet.ServletVariantException;
 import com.variant.core.schema.Schema;
 import com.variant.core.schema.State;
 
+import static com.variant.client.servlet.ServletVariantError.*;
+
 /**
  * <p>
  * Select a Variant state based on a path pattern. Implements a sophisticated path matching scheme:</p>
@@ -64,8 +66,8 @@ public class StateSelectorByRequestPath  {
 	 */
 	public static boolean match(String pattern, String string) {
 
-		if (!pattern.startsWith("/")) throw new ServletVariantException("Pattern must start with [/] but was [" + pattern + "]");
-		if (!string.startsWith("/")) throw new ServletVariantException("String must start with [/] but was [" + string + "]");
+		if (!pattern.startsWith("/")) throw new ServletVariantException(PATTERN_INVALID, pattern);
+		if (!string.startsWith("/")) throw new ServletVariantException(PATTERN_INVALID, pattern);
 		
 		// Expand '//', otherwise they may get eaten by the splitter algorithm.
 		// Keep looking for '//' until none. This is needed to account for '///'
@@ -143,5 +145,5 @@ public class StateSelectorByRequestPath  {
 		}
 		return Optional.empty();
 	}
-	
 }
+

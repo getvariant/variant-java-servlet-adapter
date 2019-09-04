@@ -23,8 +23,9 @@ import com.variant.client.servlet.ServletSession;
 import com.variant.client.servlet.ServletStateRequest;
 import com.variant.client.servlet.ServletVariantClient;
 import com.variant.client.servlet.ServletVariantException;
-import com.variant.client.servlet.ServletVariantClient.Builder;
 import com.variant.core.schema.State;
+
+import static com.variant.client.servlet.ServletVariantError.*;
 
 /**
  * <p>The preferred way of instrumenting Variant experiments for host applications written on top of the Java Servlet API.
@@ -166,7 +167,7 @@ public class VariantFilter implements Filter {
 		url = config.getInitParameter("url");
 		
 		if (url == null) 
-			throw new ServletVariantException("Filter init parameter [schema] must be specified");
+			throw new ServletVariantException(FILTER_INIT_MISSING);
 		else {
 			try {
 				connection = client.connectTo(url);
