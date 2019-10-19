@@ -17,6 +17,9 @@ import com.variant.client.Connection;
 
 public interface ServletConnection extends Connection {
 	
+
+	@Override
+	ServletVariantClient getClient();
 	/**
 	 * Equivalent to {@code getOrCreateSession((HttpServletRequest)userData[0])}.
 	 * Use {@link #getOrCreateSession(HttpServletRequest)} instead.

@@ -13,7 +13,7 @@
     	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>	
     	<tomcat.version>7.0.59</tomcat.version>
         <jackson.version>2.9.8</jackson.version>
-        <variant.version>0.10.1</variant.version>
+        <variant.version>0.10.2</variant.version>
     </properties>
 
     <artifactId>variant-java-client-servlet-adapter</artifactId>

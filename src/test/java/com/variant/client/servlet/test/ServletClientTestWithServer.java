@@ -33,7 +33,7 @@ public abstract class ServletClientTestWithServer  extends VariantBaseTest {
 	// tests will be skipped if there's no server at given URL.
 	// abstract protected String getServerUrl();
 		
-	protected static final ServletVariantClient servletClient = new ServletVariantClient.Builder().build();
+	protected static final ServletVariantClient servletClient = ServletVariantClient.build();
 
 	public ServletClientTestWithServer() { }
 	

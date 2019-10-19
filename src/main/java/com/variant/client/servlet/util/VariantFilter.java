@@ -125,7 +125,7 @@ public class VariantFilter implements Filter {
 
 	private static final Logger LOG = LoggerFactory.getLogger(VariantFilter.class);
 
-	private static final ServletVariantClient client = new ServletVariantClient.Builder().build();
+	private static final ServletVariantClient client = ServletVariantClient.build();
 	
 	private String url = null;
 	private ServletConnection connection = null;

@@ -1,11 +1,9 @@
 package com.variant.client.servlet;
 
 import com.variant.client.Connection;
-import com.variant.client.SessionIdTracker;
-import com.variant.client.TargetingTracker;
 import com.variant.client.UnknownSchemaException;
 import com.variant.client.VariantClient;
-import com.variant.client.servlet.impl.ServletClientImpl;
+import com.variant.client.servlet.impl.ServletConnectionImpl;
 
 /**
  * <p>Servlet Adapter for the "bare" Variant Java Client, providing greatly simplified integration
@@ -20,8 +18,35 @@ import com.variant.client.servlet.impl.ServletClientImpl;
  * 
  * @since 0.7
  */
-public interface ServletVariantClient extends VariantClient {
+public class ServletVariantClient implements VariantClient {
+		   
+   /**
+    * Factory method for obtaining a new instance of {@link ServletVariantClient}.
+    * Host application should hold on to and reuse the object returned by this method whenever possible.
+    * In most cases, one {@link VariantClient} instance per application is sufficient.
+    * 
+    * @return Instance of the {@link ServerVariantClient} type. Cannot be null.
+    * @since 0.10
+    */
+   public static ServletVariantClient build() { 
+      
+      VariantClient bareClient = new VariantClient.Builder()
+    		  .withSessionIdTrackerClass(SessionIdTrackerHttpCookie.class)
+    		  .withTargetingTrackerClass(TargetingTrackerHttpCookie.class)
+    		  .build();
+
+      return new ServletVariantClient(bareClient);
+   }
 	
+	private final VariantClient bareClient;
+	
+	/**
+	 * No public instantiation
+	 */
+	private ServletVariantClient (VariantClient bareClient) {
+		this.bareClient = bareClient;
+	}
+
 	/**
 	 * Connect to a variation schema on a Variant server by its URI.
 	 * Variant schema URI has the following format:
@@ -34,60 +59,9 @@ public interface ServletVariantClient extends VariantClient {
 	 * @throws UnknownSchemaException if given schema does not exist on the server.
 	 * @since 0.7
 	 */	
-	ServletConnection connectTo(String uri);
-
-	/**
-	 * Override the bare {@link VariantClient.Builder} to fix the return types.
-	 * 
-	 * @see VariantClient.Builder
-	 * @since 0.10
-	 */
-	public static class Builder extends VariantClient.Builder {		
-
-		/**
-		 * Default builder uses {@link SessionIdTrackerHttpCookie} and {@link TargetingTrackerHttpCookie}.
-		 * 
-		 * @since 0.10
-		 */
-		public Builder() {
-			withSessionIdTrackerClass(SessionIdTrackerHttpCookie.class);
-			withTargetingTrackerClass(TargetingTrackerHttpCookie.class);
-		}
-		
-		/**
-		 * @see {@link VariantClient.Builder#build()}
-		 * @since 0.10
-		 */
-		@Override
-		public Builder withTargetingStabilityDays(int days) {
-			return (Builder) super.withTargetingStabilityDays(days);
-		}
-		
-		/**
-		 * @see {@link VariantClient.Builder#build()}
-		 * @since 0.10
-		 */
-		@Override
-		public Builder withTargetingTrackerClass(Class<? extends TargetingTracker> klass) {
-			return (Builder) super.withTargetingTrackerClass(klass);
-		}
-		
-		/**
-		 * @see {@link VariantClient.Builder#build()}
-		 * @since 0.10
-		 */
-		public Builder withSessionIdTrackerClass(Class<? extends SessionIdTracker> klass) {
-			return (Builder) super.withSessionIdTrackerClass(klass);
-		}
-
-		/**
-		 * @see {@link VariantClient.Builder#build()}
-		 * @since 0.10
-		 */
-		public ServletVariantClient build() {
-			
-			return new ServletClientImpl(super.build());
-		}
+	public ServletConnection connectTo(String uri) {
+		Connection bareConnection = bareClient.connectTo(uri);
+		return new ServletConnectionImpl(this, bareConnection);
 	}
-		
+
 }
