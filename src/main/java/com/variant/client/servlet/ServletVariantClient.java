@@ -30,7 +30,7 @@ public class ServletVariantClient implements VariantClient {
     */
    public static ServletVariantClient build() { 
       
-      VariantClient bareClient = new VariantClient.Builder()
+      VariantClient bareClient = VariantClient.builder()
     		  .withSessionIdTrackerClass(SessionIdTrackerHttpCookie.class)
     		  .withTargetingTrackerClass(TargetingTrackerHttpCookie.class)
     		  .build();
