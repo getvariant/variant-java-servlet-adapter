@@ -8,9 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import com.variant.client.servlet.ServletConnection;
 import com.variant.client.servlet.ServletSession;
 import com.variant.client.servlet.ServletStateRequest;
-import com.variant.core.schema.Schema;
-import com.variant.core.schema.State;
-import com.variant.core.util.Tuples.Tripple;
+import com.variant.share.schema.Schema;
+import com.variant.share.schema.State;
+import com.variant.share.util.Tuples.Tripple;
 
 public class ServletTargetingTest extends ServletClientTestWithServer {
 

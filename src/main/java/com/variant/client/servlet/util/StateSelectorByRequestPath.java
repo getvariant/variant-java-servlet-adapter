@@ -4,8 +4,8 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 
 import com.variant.client.servlet.ServletVariantException;
-import com.variant.core.schema.Schema;
-import com.variant.core.schema.State;
+import com.variant.share.schema.Schema;
+import com.variant.share.schema.State;
 
 import static com.variant.client.servlet.ServletVariantError.*;
 

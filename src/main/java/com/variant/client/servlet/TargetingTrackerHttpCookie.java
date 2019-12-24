@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import com.variant.client.TargetingTracker;
 import com.variant.client.servlet.util.VariantCookie;
 import com.variant.client.impl.TargetingTrackerString;
-import com.variant.core.util.TimeUtils;
+import com.variant.share.util.TimeUtils;
 
 /**
  * Concrete implementation of the Variant targeting tracker based on HTTP cookie. 

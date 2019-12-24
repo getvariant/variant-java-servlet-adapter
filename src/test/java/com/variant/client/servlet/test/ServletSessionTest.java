@@ -16,11 +16,11 @@ import com.variant.client.servlet.SessionIdTrackerHttpCookie;
 import com.variant.client.servlet.TargetingTrackerHttpCookie;
 import com.variant.client.servlet.mock.HttpServletResponseMock;
 import com.variant.client.StateRequest.Status;
-import com.variant.core.schema.Schema;
-import com.variant.core.schema.State;
-import com.variant.core.schema.Variation;
-import com.variant.core.util.CollectionsUtils;
-import com.variant.core.util.Tuples.Pair;
+import com.variant.share.schema.Schema;
+import com.variant.share.schema.State;
+import com.variant.share.schema.Variation;
+import com.variant.share.util.CollectionsUtils;
+import com.variant.share.util.Tuples.Pair;
 
 public class ServletSessionTest extends ServletClientTestWithServer {
 

@@ -21,8 +21,8 @@ import com.variant.client.servlet.TargetingTrackerHttpCookie;
 import com.variant.client.servlet.mock.HttpServletRequestMock;
 import com.variant.client.servlet.mock.HttpServletResponseMock;
 import com.variant.client.servlet.mock.HttpSessionMock;
-import com.variant.core.test.VariantBaseTest;
-import com.variant.core.util.Tuples.Tripple;
+import com.variant.share.test.VariantBaseTest;
+import com.variant.share.util.Tuples.Tripple;
 
 /**
  * Base class for all Core JUnit tests.

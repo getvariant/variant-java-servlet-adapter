@@ -13,16 +13,13 @@ import com.variant.client.servlet.ServletConnection;
 import com.variant.client.servlet.ServletSession;
 import com.variant.client.servlet.ServletStateRequest;
 import com.variant.client.servlet.ServletVariantException;
-import com.variant.core.schema.Schema;
-import com.variant.core.schema.State;
-import com.variant.core.schema.Variation;
-import com.variant.core.schema.Variation.Experience;
+import com.variant.share.schema.Schema;
+import com.variant.share.schema.State;
+import com.variant.share.schema.Variation;
+import com.variant.share.schema.Variation.Experience;
 
 /**
  * <p>The implementation of {@link ServletSession}.
- * Replaces bare client's {@link VariantCoreSession#targetForState(com.variant.core.xdm.State)} 
- * method with one, which returns the servlet-aware implementation of {@link VariantCoreStateRequest}. 
- * 
  * @author Igor Urisman
  * @since 1.0
  */

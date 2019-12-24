@@ -1,7 +1,7 @@
 package com.variant.client.servlet;
 
 import com.variant.client.Session;
-import com.variant.core.schema.State;
+import com.variant.share.schema.State;
 
 /**
  * <p>Servlet-aware wrapper around bare client's implementation of {@link Session}.

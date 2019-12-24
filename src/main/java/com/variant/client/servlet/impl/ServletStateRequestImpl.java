@@ -11,10 +11,10 @@ import com.variant.client.TraceEvent;
 import com.variant.client.servlet.ServletSession;
 import com.variant.client.servlet.ServletStateRequest;
 import com.variant.client.servlet.ServletVariantException;
-import com.variant.core.schema.State;
-import com.variant.core.schema.StateVariant;
-import com.variant.core.schema.Variation;
-import com.variant.core.schema.Variation.Experience;
+import com.variant.share.schema.State;
+import com.variant.share.schema.StateVariant;
+import com.variant.share.schema.Variation;
+import com.variant.share.schema.Variation.Experience;
 
 /**
  * <p>The implementation of {@link ServletStateRequest}.
