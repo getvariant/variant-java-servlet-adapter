@@ -12,7 +12,7 @@
 	<properties>
     	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>	
     	<tomcat.version>7.0.59</tomcat.version>
-        <jackson.version>2.9.8</jackson.version>
+        <jackson.version>2.10.1</jackson.version>
         <variant.version>0.10.3</variant.version>
     </properties>
 
@@ -47,14 +47,12 @@
       </dependency>
             
       <!-- Jackson JSON parser -->
-        <!-- the core, which includes Streaming API, shared low-level abstractions (but NOT data-binding) -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
             <version>${jackson.version}</version>
         </dependency> 
         
-        <!-- databinding; ObjectMapper, JsonNode and related classes are here -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
@@ -66,7 +64,7 @@
            <artifactId>jackson-annotations</artifactId>
            <version>${jackson.version}</version>
         </dependency>
-            
+ 
       <!-- Servlet -->
 		<dependency>
         	<groupId>org.apache.tomcat</groupId>
