@@ -1,21 +1,22 @@
 ![Variant Logo](http://www.getvariant.com/wp-content/uploads/2016/07/VariantLogoSquare-100.png)
 
 # Servlet Adapter for Variant Java Client
-### Release 0.10.0
+### Release 0.10.3
 
 ### [Documentation](https://www.getvariant.com/resources/docs/0-10/clients/variant-java-client/#section-5.1) | [Javadoc](https://getvariant.github.io/variant-java-servlet-adapter/)
 
 #### Requires: 
-* [Variant Java Client 0.10.0](https://www.getvariant.com/resources/docs/0-10/clients/variant-java-client/)
-* [Variant AIM Server 0.10](http://www.getvariant.com/resources/docs/0-10/application-iteration-server/user-guide/) 
+* [Variant Java Client 0.10.3](https://www.getvariant.com/resources/docs/0-10/clients/variant-java-client/)
+* [Variant AIM Server 0.10.3](http://www.getvariant.com/resources/docs/0-10/application-iteration-server/user-guide/) 
 * Java Servlet API 3.0 or later
 * Java 8 or later.
 
 ## 1. Introduction
 
-A Java host application communicates with an instance of [Variant AIM Server](http://www.getvariant.com/resources/docs/0-10/application-iteration-server/user-guide/) via the  [Variant Java Client](https://www.getvariant.com/resources/docs/0-10/clients/variant-java-client/), a general purpose Java client cliebrary, which makes no assumption about the host application's operational details, other than it runs on a JVM. This flexibility comes at the expense of some deferred dependencies, such as a mechanism for tracking Variant session ID between state request. These deferred dependencies are provided by stack-specific adapters, such as the Servlet Adapter discussed in this document. It is intened for use by those host applications, which run in servlet containers, such as Tomcat.
+A Java host application communicates with an instance of [Variant AIM Server](http://www.getvariant.com/resources/docs/0-10/application-iteration-server/user-guide/) via the  [Variant Java Client](https://www.getvariant.com/resources/docs/0-10/clients/variant-java-client/), which makes no assumption about the host application's operational details, other than it runs on a Java VM. This flexibility comes at the expense of some deferred dependencies, such as a mechanism for tracking Variant session ID between state request. These dependencies are expectd to be provided by the applicatoin programmer, familiar with the runtime operational details.
 
-The servlet adapter consists of two components:
+However, some of the most common applicatoin stacks are supportd via stack specific adapters. In particular, the Servlet Adapter assumes the host application to run in a servlet container, like Tomcat, discussed here. It consists of two components:
+
 * Wrapper client API, which wraps the general purpose classes in a functionally identical servlet-aware classes, whose only difference is that they rewrites all deferred environment-dependent method signatures with those that operate on the familiar servlet objects, like `HttpServletRequest` and `HttpServletResponse`;
 * Servlet-based implementation of the session ID tracker, utilizing HTTP cookies.
 
