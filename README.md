@@ -40,7 +40,7 @@ The pre-built servlet adapter JAR file and the dependent Variant Java client JAR
 </dependency>
 ```
 
-Note, that these libraries in turn have the following transitive dependencies:
+Note, that these libraries in turn have the following transitive dependencies, which also must be added to your `pom.xml` build file in the unlikely case that your appliction does not already use them.
 
 1. Apache [HTTP Client (4.5+)](https://hc.apache.org/httpcomponents-client-4.5.x/index.html) library. 
 2. [Simple Logging Facade for Java (1.7+)](https://www.slf4j.org/) library.
