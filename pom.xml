@@ -12,7 +12,7 @@
 	<properties>
     	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>	
     	<tomcat.version>7.0.59</tomcat.version>
-        <jackson.version>2.9.8</jackson.version>
+        <jackson.version>2.13.4.1</jackson.version>
         <variant.version>0.10.3</variant.version>
     </properties>
 
